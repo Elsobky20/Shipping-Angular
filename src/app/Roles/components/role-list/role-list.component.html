@@ -1,0 +1,32 @@
+<div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">Roles Table</h4>
+        <p class="card-description"> List of roles fetched from the server </p>
+        <table class="table table-striped">
+          <thead>
+            <tr>
+              <th> Role Name </th>
+              <th> Permissions Count </th>
+              <th> Deleted? </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let role of roles">
+              <td>{{ role.name }}</td>
+              <td>{{ role.rolePermissions.length }}</td>
+              <td>
+                <span class="badge" [ngClass]="{
+                  'bg-danger': role.isDeleted,
+                  'bg-success': !role.isDeleted
+                }">
+                  {{ role.isDeleted ? 'Deleted' : 'Active' }}
+                </span>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+  

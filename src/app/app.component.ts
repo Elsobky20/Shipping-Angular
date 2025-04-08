@@ -2,10 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { EmployeeFormComponent } from './employees/components/employee-form/employee-form.component';
+import { RoleListComponent } from "./Roles/components/role-list/role-list.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet ,CommonModule , EmployeeFormComponent],
+  imports: [RouterOutlet, CommonModule, EmployeeFormComponent, RoleListComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
