@@ -1,0 +1,15 @@
+export interface ICity {
+  id: number;
+  name: string;
+  governmentName: string;
+  isDeleted: boolean;
+  pickupShipping: number;
+  standardShipping: number;
+}
+
+export interface ICityResponseData {
+  totalCitiess: number;
+  page: number;
+  pageSize: number;
+  cities: ICity[];
+}
