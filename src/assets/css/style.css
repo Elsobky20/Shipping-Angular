@@ -21521,10 +21521,10 @@ code {
 .card-weather .card-body {
   background: #ffffff;
 }
-.card-weather .card-body:first-child {
+/* .card-weather .card-body:first-child {
   background: url("../../images/samples/weather.svg") no-repeat center;
   background-size: cover;
-}
+} */
 .card-weather .weather-date-location {
   padding: 0 0 38px;
 }
@@ -24933,18 +24933,18 @@ dl li {
 /*-------------------------------------------------------------------*/
 /* === Landing screens === */
 /* Auth */
-.auth .login-half-bg {
+/* .auth .login-half-bg {
   background: url("../../images/auth/login-bg.jpg");
   background-size: cover;
-}
-.auth .register-half-bg {
+} */
+/* .auth .register-half-bg {
   background: url("../../images/auth/register-bg.jpg");
   background-size: cover;
-}
-.auth.lock-full-bg {
+} */
+/* .auth.lock-full-bg {
   background: url("../../images/auth/lockscreen-bg.jpg");
   background-size: cover;
-}
+} */
 .auth .lock-profile-img {
   width: 90px;
   height: 90px;

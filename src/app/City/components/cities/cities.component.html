@@ -1,0 +1,35 @@
+<div class="content-wrapper">
+  <div class="row">
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">Basic Table</h4>
+          <table class="table table-striped text-center">
+            <thead>
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">Name</th>
+                <th scope="col">Governrate Name</th>
+                <th scope="col">Status</th>
+                <th scope="col">Pickup Shipping</th>
+                <th scope="col">Standard Shipping</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (city of cities; track city.id; let i = $index) {
+              <tr>
+                <th scope="row">{{ i + 1 }}</th>
+                <td>{{ city.name }}</td>
+                <td>{{ city.governmentName }}</td>
+                <td>{{ city.isDeleted }}</td>
+                <td>{{ city.pickupShipping }}</td>
+                <td>{{ city.standardShipping }}</td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
