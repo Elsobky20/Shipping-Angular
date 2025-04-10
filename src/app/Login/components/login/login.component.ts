@@ -20,17 +20,18 @@ export class LoginComponent {
   onLogin(form: NgForm) {
     if (form.valid) {
       // تمرير البريد الإلكتروني وكلمة المرور كمعاملين منفصلين
-      this.authService.login(this.email, this.password).subscribe(
-        (response) => {
+      this.authService.login(this.email, this.password).subscribe({
+       next: (response) => {
           console.log('Login successful');
           // إعادة التوجيه عند النجاح
           this.router.navigate(['/dashboard']);
         },
-        (error) => {
+       error: (error) => {
           this.errorMessage = 'Login failed. Please try again.';
           console.error('Login failed', error);
         }
-      );
+
+    });
     }
   }
   

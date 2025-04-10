@@ -13,7 +13,7 @@ export class AuthService {
   // دالة تسجيل الدخول
   login(email: string, password: string): Observable<any> {
     const body = { email, password };
-    return this.http.post(`${this.apiUrl}`, body); // تأكد من صحة المسار في الـ API
+    return this.http.post(`${this.apiUrl}`, body, { responseType: 'text' as 'json' }); // تأكد من صحة المسار في الـ API
   }
 
   // دالة لجلب التوكين من الـ localStorage
