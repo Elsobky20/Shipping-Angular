@@ -1,10 +1,16 @@
-export interface ICity {
+export interface ICityGetDTO {
   id: number;
   name: string;
   governmentName: string;
   isDeleted: boolean;
   pickupShipping: number;
   standardShipping: number
+}
+export interface ICityResponseData {
+  totalCitiess: number;
+  page: number;
+  pageSize: number;
+  cities: ICityGetDTO[]
 }
 export interface ICityCreateDTO {
   government_Id: number;
@@ -20,9 +26,4 @@ export interface ICityEditDTO {
   standardShipping: number
 }
 
-export interface ICityResponseData {
-  totalCitiess: number;
-  page: number;
-  pageSize: number;
-  cities: ICity[]
-}
+

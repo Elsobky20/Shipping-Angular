@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { CityService } from '../../services/city.service';
-import { ICity } from '../../Interfaces/icity-get';
+import { ICityGetDTO } from '../../Interfaces/icity-get';
 import { HttpReqService } from '../../../GeneralSrevices/http-req.service';
 
 @Component({
@@ -12,7 +12,7 @@ import { HttpReqService } from '../../../GeneralSrevices/http-req.service';
 export class CitiesComponent implements OnInit {
   constructor(private cityService:CityService, private httpReqervice:HttpReqService){}
 
-  cities!:ICity[];
+  cities!:ICityGetDTO[];
 
   ngOnInit(): void {
     this.httpReqervice.getAll('City','all').subscribe({
