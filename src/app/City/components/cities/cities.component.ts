@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CityService } from '../../services/city.service';
 import { ICity } from '../../Interfaces/icity-get';
+import { HttpReqService } from '../../../GeneralSrevices/http-req.service';
 
 @Component({
   selector: 'app-cities',
@@ -9,12 +10,12 @@ import { ICity } from '../../Interfaces/icity-get';
   styleUrl: './cities.component.css'
 })
 export class CitiesComponent implements OnInit {
-  constructor(private cityService:CityService){}
+  constructor(private cityService:CityService, private httpReqervice:HttpReqService){}
 
   cities!:ICity[];
 
   ngOnInit(): void {
-    this.cityService.getAllCities().subscribe({
+    this.httpReqervice.getAll('City','all').subscribe({
       next: (response) => {
         this.cities = response.data.cities;
       },
