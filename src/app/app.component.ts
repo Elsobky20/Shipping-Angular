@@ -5,21 +5,11 @@ import { EmployeeFormComponent } from './employees/components/employee-form/empl
 import { RoleListComponent } from "./Roles/components/role-list/role-list.component";
 import { LoginComponent } from './Login/components/login/login.component';
 import { CitiesComponent } from './City/components/cities/cities.component';
-
-
-@Component({
-  selector: 'app-root',
-
-  imports: [RouterOutlet, CommonModule, EmployeeFormComponent, RoleListComponent, LoginComponent, CitiesComponent],
-
-  imports: [RouterOutlet, CommonModule, EmployeeFormComponent, RoleListComponent,LoginComponent],
-
-import { CitiesComponent } from "./City/components/cities/cities.component";
-import { SideBarComponent } from "./Layout/side-bar/side-bar.component";
+import { SideBarComponent } from './Layout/side-bar/side-bar.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule, EmployeeFormComponent, RoleListComponent, CitiesComponent, SideBarComponent],
+  imports: [RouterOutlet, CommonModule, EmployeeFormComponent, RoleListComponent, CitiesComponent, SideBarComponent,LoginComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
