@@ -11,11 +11,11 @@ import { LoginComponent } from './Login/components/login/login.component';
   imports: [RouterOutlet, CommonModule, EmployeeFormComponent, RoleListComponent,LoginComponent],
 
 import { CitiesComponent } from "./City/components/cities/cities.component";
+import { SideBarComponent } from "./Layout/side-bar/side-bar.component";
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule, EmployeeFormComponent, RoleListComponent, CitiesComponent],
-
+  imports: [RouterOutlet, CommonModule, EmployeeFormComponent, RoleListComponent, CitiesComponent, SideBarComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
