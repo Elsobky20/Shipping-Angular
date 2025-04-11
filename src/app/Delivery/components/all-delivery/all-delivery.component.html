@@ -1,0 +1,112 @@
+<div class="content-wrapper container-fluid">
+  <div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body p-5 py-4">
+        <div class="row">
+          <h4 class="card-title fs-3" style="color: #9c57ff; font-weight: bold; letter-spacing: 1px">
+            Delivery List
+          </h4>
+        </div>
+        <div class="row mb-3 px-3">
+          <button type="button" class="btn btn-gradient-primary btn-fw col-sm-2" [routerLink]="['/deliveryForm']">
+            Add Delivery
+          </button>
+          <form class="d-flex align-items-center h-100 col-sm-2 ms-auto" style="background-image: linear-gradient(to right, rgb(217 139 255), #9c57ff);" action="#">
+            <div class="input-group">
+              <div class="input-group-prepend bg-transparent" style="background-color: rgb(217 139 255); display: flex; align-items: center;">
+                <i class="input-group-text border-0 mdi mdi-magnify" style="color: white; background-color: rgb(217 139 255); transform: translateX(-20px);"></i>
+              </div>
+              <input type="text" class="form-control bg-transparent border-0" style="color: white !important; padding-left: 5px; font-size: 16px;" placeholder="Search .." />
+            </div>
+          </form>
+        </div>
+        <div class="row col-sm-12 table-responsive table-bordered rounded mx-auto">
+          <table class="table text-center table-hover">
+            <thead>
+              <tr>
+                <th scope="col" style="background-color: #8080808a">#</th>
+                <th scope="col" style="background-color: #8080808a">Name</th>
+                <th scope="col" style="background-color: #8080808a">Phone</th>
+                <th scope="col" style="background-color: #8080808a">Email</th>
+                <th scope="col" style="background-color: #8080808a">Address</th>
+                <th scope="col" style="background-color: #8080808a">Branch</th>
+                <th scope="col" style="background-color: #8080808a">Governments</th>
+                <th scope="col" style="background-color: #8080808a">Discount Type</th>
+                <th scope="col" style="background-color: #8080808a">Company %</th>
+                <th scope="col" style="background-color: #8080808a">Status</th>
+                <th scope="col" style="background-color: #8080808a">Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let delivery of deliveries; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ delivery.name }}</td>
+                <td>{{ delivery.phone }}</td>
+                <td>{{ delivery.email }}</td>
+                <td>{{ delivery.address }}</td>
+                <td>{{ delivery.branchName }}</td>
+                <td>
+                  <ng-container *ngIf="delivery.governmentName?.length; else noGov">
+                    {{ delivery.governmentName?.join(', ') }}
+                  </ng-container>
+                  <ng-template #noGov>-</ng-template>
+                </td>
+                <td>{{ delivery.discountType }}</td>
+                <td>{{ delivery.companyPercentage }}%</td>
+                <td>
+                  <span class="badge" [ngClass]="delivery.isDeleted ? 'bg-danger' : 'bg-success'">
+                    {{ delivery.isDeleted ? 'Deleted' : 'Active' }}
+                  </span>
+                </td>
+                <td class="py-0">
+                  <i class="bi bi-pencil-square fs-4 text-info btn p-2" data-bs-toggle="tooltip" title="Edit" [routerLink]="[delivery.id, 'edit']"></i>
+                  <i class="bi bi-eye fs-4 text-warning btn p-2" data-bs-toggle="tooltip" title="Details" [routerLink]="[delivery.id]"></i>
+                  <i class="bi bi-trash3 fs-4 text-danger btn p-2" data-bs-toggle="tooltip" title="Delete" (click)="deleteDelivery(delivery.id)"></i>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="row mt-3 px-3" style="text-align: right">
+          <div class="col-sm-3 px-0">
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                <li class="page-item fw-bold">
+                  <a class="page-link" href="#" aria-label="Previous">
+                    <span style="color: #9c57ff !important" aria-hidden="true">&laquo;</span>
+                  </a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link fw-bold" style="color: #9c57ff !important" href="#">1</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link fw-bold" style="color: #9c57ff !important" href="#">2</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link fw-bold" style="color: #9c57ff !important" href="#">3</a>
+                </li>
+                <li class="page-item">
+                  <a class="page-link fw-bold" href="#" aria-label="Next">
+                    <span style="color: #9c57ff !important" aria-hidden="true">&raquo;</span>
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <div class="dropdown px-0 col-sm-3 ms-auto">
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" style="width: 120px !important">
+              {{ selectedValue }}
+            </button>
+            <ul class="dropdown-menu" style="width: 120px !important; min-width: 100px !important" aria-labelledby="dropdownMenuButton">
+              <li *ngFor="let val of values; let i = index">
+                <button class="dropdown-item" (click)="selectValue(val)">
+                  {{ val }}
+                </button>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
