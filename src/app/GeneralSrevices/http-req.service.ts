@@ -1,6 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import Swal from 'sweetalert2';
 import { ICityCreateDTO, ICityEditDTO } from '../City/Interfaces/icity-get';
 
 @Injectable({
@@ -53,8 +54,36 @@ export class HttpReqService {
   /* ===================== End Edit Method ===================================== */
 
   /* ===================== Start SoftDelete Method ============================= */
-  softDelete(endPoint:string, id:number):Observable<any> {
-    return this.http.delete<any>(`${this.baseUrl}/${endPoint}/${id}`);
+  confirmAndDelete(
+    endPoint: string,
+    id: number | string,
+  ): Observable<any> {
+    return new Observable((observer) => {
+      Swal.fire({
+        title: 'Are You Sure?',
+        text: "You can't back again!",
+        icon: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, Delete!',
+        cancelButtonText: 'Cancle'
+      }).then((result) => {
+        if (result.isConfirmed) {
+          this.http.delete(`${this.baseUrl}/${endPoint}/${id}`).subscribe({
+            next: () => {
+              Swal.fire('Deleted Successfully!', '', 'success');
+            },
+            error: (err) => {
+              Swal.fire('Failed!', 'Failed Deleting', 'error');
+              observer.error(err);
+            }
+          });
+        } else {
+          observer.complete();
+        }
+      });
+    });
   }
   /* ===================== End SoftDelete Method =============================== */
 }
