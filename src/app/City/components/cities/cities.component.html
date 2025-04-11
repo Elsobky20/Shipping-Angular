@@ -1,33 +1,229 @@
-<div class="content-wrapper">
-  <div class="row">
-    <div class="col-lg-12 grid-margin stretch-card">
-      <div class="card">
-        <div class="card-body">
-          <h4 class="card-title">Basic Table</h4>
+<div class="content-wrapper container-fluid">
+  <div class="col-lg-12 grid-margin stretch-card">
+    <div class="card">
+      <div class="card-body p-5 py-4">
+        <div class="row">
+          <h4
+            class="card-title fs-3"
+            style="color: #9c57ff; font-weight: bold; letter-spacing: 1px"
+          >
+            cities
+          </h4>
+        </div>
+        <div class="row mb-3 px-3">
+          <button
+            type="button"
+            class="btn btn-gradient-primary btn-fw col-sm-2"
+            [routerLink]="['/cityForm']"
+          >
+            Add City
+          </button>
+          <form
+            class="d-flex align-items-center h-100 col-sm-2 ms-auto"
+            style="
+              background-image: linear-gradient(
+                to right,
+                rgb(217 139 255),
+                #9c57ff
+              );
+            "
+            action="#"
+          >
+            <div class="input-group">
+              <div
+                class="input-group-prepend bg-transparent"
+                style="
+                  background-color: rgb(217 139 255);
+                  display: flex;
+                  align-items: center;
+                "
+              >
+                <i
+                  class="input-group-text border-0 mdi mdi-magnify"
+                  style="
+                    color: white;
+                    background-color: rgb(217 139 255);
+                    transform: translateX(-20px);
+                  "
+                ></i>
+              </div>
+              <input
+                type="text"
+                class="form-control bg-transparent border-0"
+                style="
+                  color: white !important;
+                  padding-left: 5px;
+                  font-size: 16px;
+                "
+                placeholder="Search .."
+              />
+            </div>
+          </form>
+        </div>
+        <div
+          class="row col-sm-12 table-responsive table-bordered rounded mx-auto"
+        >
           <table class="table text-center table-hover">
             <thead>
               <tr>
-                <th scope="col">#</th>
-                <th scope="col">Name</th>
-                <th scope="col">Governrate Name</th>
-                <th scope="col">Status</th>
-                <th scope="col">Pickup Shipping</th>
-                <th scope="col">Standard Shipping</th>
+                <th scope="col" style="background-color: #8080808a">#</th>
+                <th scope="col" style="background-color: #8080808a">Name</th>
+                <th scope="col" style="background-color: #8080808a">
+                  Governrate Name
+                </th>
+                <th scope="col" style="background-color: #8080808a">Status</th>
+                <th scope="col" style="background-color: #8080808a">
+                  Pickup Shipping
+                </th>
+                <th scope="col" style="background-color: #8080808a">
+                  Standard Shipping
+                </th>
+                <th scope="col" style="background-color: #8080808a">Action</th>
               </tr>
             </thead>
             <tbody>
               @for (city of cities; track city.id; let i = $index) {
               <tr>
-                <th scope="row">{{ i + 1 }}</th>
-                <td>{{ city.name }}</td>
-                <td>{{ city.governmentName }}</td>
-                <td>{{ city.isDeleted }}</td>
-                <td>{{ city.pickupShipping }}</td>
-                <td>{{ city.standardShipping }}</td>
+                <th scope="row" class="py-0">{{ i + 1 }}</th>
+                <td class="py-0">{{ city.name }}</td>
+                <td class="py-0">{{ city.governmentName }}</td>
+                @if(city.isDeleted){
+                <td class="d-flex justify-content-center py-0">
+                  <div class="form-check form-switch">
+                    <input
+                      class="form-check-input"
+                      style="
+                        transform: translateX(80%);
+                        background-color: rgb(203, 195, 195, 0.45);
+                        font-size: 20px;
+                      "
+                      type="checkbox"
+                      role="switch"
+                      id="switchCheckDisabled"
+                      value="{{ city.isDeleted }}"
+                      disabled
+                    />
+                  </div>
+                </td>
+                }@else {
+                <td class="d-flex justify-content-center py-0">
+                  <div class="form-check form-switch">
+                    <input
+                      class="form-check-input"
+                      style="
+                        transform: translateX(80%);
+                        background-color: green;
+                        font-size: 20px;
+                      "
+                      type="checkbox"
+                      role="switch"
+                      id="switchCheckCheckedDisabled"
+                      value="{{ city.isDeleted }}"
+                      checked
+                      disabled
+                    />
+                  </div>
+                </td>
+                }
+                <td class="py-0">
+                  {{ city.pickupShipping | currency }}
+                </td>
+                <td class="py-0">{{ city.standardShipping | currency }}</td>
+                <td class="py-0">
+                  <i
+                    class="bi bi-pencil-square fs-4 text-info btn p-2"
+                    data-bs-toggle="tooltip"
+                    title="Edit"
+                    [routerLink]="[city.id, 'edit']"
+                  ></i>
+                  <i
+                    class="bi bi-eye fs-4 text-warning btn p-2"
+                    data-bs-toggle="tooltip"
+                    title="Details"
+                    [routerLink]="[city.id]"
+                  ></i>
+                  <i
+                    class="bi bi-trash3 fs-4 text-danger btn p-2"
+                    data-bs-toggle="tooltip"
+                    title="Delete"
+                    (click)="deleteCity(city.id)"
+                  ></i>
+                </td>
               </tr>
               }
             </tbody>
           </table>
+        </div>
+        <div class="row mt-3 px-3" style="text-align: right">
+          <div class="col-sm-3 px-0">
+            <nav aria-label="Page navigation example">
+              <ul class="pagination">
+                <li class="page-item fw-bold">
+                  <a class="page-link" href="#" aria-label="Previous">
+                    <span style="color: #9c57ff !important" aria-hidden="true"
+                      >&laquo;</span
+                    >
+                  </a>
+                </li>
+                <li class="page-item">
+                  <a
+                    class="page-link fw-bold"
+                    style="color: #9c57ff !important"
+                    href="#"
+                    >1</a
+                  >
+                </li>
+                <li class="page-item">
+                  <a
+                    class="page-link fw-bold"
+                    style="color: #9c57ff !important"
+                    href="#"
+                    >2</a
+                  >
+                </li>
+                <li class="page-item">
+                  <a
+                    class="page-link fw-bold"
+                    style="color: #9c57ff !important"
+                    href="#"
+                    >3</a
+                  >
+                </li>
+                <li class="page-item">
+                  <a class="page-link fw-bold" href="#" aria-label="Next">
+                    <span style="color: #9c57ff !important" aria-hidden="true"
+                      >&raquo;</span
+                    >
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </div>
+          <div class="dropdown px-0 col-sm-3 ms-auto">
+            <button
+              class="btn btn-outline-primary dropdown-toggle"
+              type="button"
+              id="dropdownMenuButton"
+              data-bs-toggle="dropdown"
+              aria-expanded="false"
+              style="width: 120px !important"
+            >
+              {{ selectedValue }}
+            </button>
+            <ul
+              class="dropdown-menu"
+              style="width: 120px !important; min-width: 100px !important"
+              aria-labelledby="dropdownMenuButton"
+            >
+              @for (val of values; track $index) {
+              <li>
+                <button class="dropdown-item" (click)="selectValue(val)">
+                  {{ val }}
+                </button>
+              </li>
+              }
+            </ul>
+          </div>
         </div>
       </div>
     </div>
