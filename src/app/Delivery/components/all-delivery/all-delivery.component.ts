@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,ChangeDetectorRef} from '@angular/core';
 import { ShowDeliveryDto } from '../../Interfaces/delivery.model';
 import { DeliveryService } from '../../services/delivery.service';
 import { CommonModule } from '@angular/common';
@@ -12,7 +12,7 @@ import Swal from 'sweetalert2';
   imports: [CommonModule, RouterModule]
 })
 export class AllDeliveryComponent implements OnInit {
-  constructor(private cityService:DeliveryService, private httpReqervice:HttpReqService){}
+  constructor(private cityService:DeliveryService, private httpReqervice:HttpReqService,private cdr: ChangeDetectorRef){}
  
    deliveries!:ShowDeliveryDto[];
  
@@ -37,6 +37,7 @@ export class AllDeliveryComponent implements OnInit {
    
      deleteDelivery(id:number): void{
        const delivery = this.deliveries.find(c => c.id === id);
+      
        if (delivery?.isDeleted) {
          Swal.fire({
            title: "Can't delete Delivery.",
@@ -46,7 +47,7 @@ export class AllDeliveryComponent implements OnInit {
          });
          return;
        }
-       // تأكيد الحذف للمدينة النشطة
+       // تأكيد الحذف  
        this.httpReqervice.confirmAndDelete('Delivery', id).subscribe({
          next: (response) => {
            // عند نجاح الحذف
@@ -56,14 +57,15 @@ export class AllDeliveryComponent implements OnInit {
              icon: 'success',
              confirmButtonText: 'Ok'
            });
-           
            const index = this.deliveries.findIndex(c => c.id === id);
+          console.log(index);
            if (index !== -1) {
-             // 2. إنشاء نسخة جديدة من المصفوفة
-             this.deliveries = [...this.deliveries];
-             this.deliveries[index].isDeleted = true;
-             this.deliveries;
-           }
+            this.deliveries.splice(index, 1); // حذف العنصر من المصفوفة
+        
+        // إعادة تعيين المصفوفة لتحديث واجهة المستخدم
+        this.deliveries = [...this.deliveries];
+        this.cdr.detectChanges();  // تحديث الـ UI
+          }
          },
          error: (error) => {
            console.log(error);
