@@ -71,8 +71,11 @@ export class HttpReqService {
       }).then((result) => {
         if (result.isConfirmed) {
           this.http.delete(`${this.baseUrl}/${endPoint}/${id}`).subscribe({
-            next: () => {
+            next: (response) => {
+
               Swal.fire('Deleted Successfully!', '', 'success');
+              observer.next(response);  // إرسال استجابة النجاح
+              observer.complete();      // إكمال الـ Observable
             },
             error: (err) => {
               Swal.fire('Failed!', 'Failed Deleting', 'error');
