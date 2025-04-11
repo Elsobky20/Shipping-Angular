@@ -1,0 +1,57 @@
+<div class="content-wrapper">
+    <div class="page-header">
+      <h3 class="page-title">Delivery List</h3>
+    </div>
+  
+    <div class="row">
+      <div class="col-lg-12 grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title text-center mb-4">All Deliveries</h4>
+            <div class="table-responsive">
+              <table class="table table-hover table-bordered text-center align-middle">
+                <thead class="table-dark">
+                  <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Phone</th>
+                    <th>Email</th>
+                    <th>Address</th>
+                    <th>Branch</th>
+                    <th>Governments</th>
+                    <th>Discount Type</th>
+                    <th>Company %</th>
+                    <th>Status</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let delivery of deliveries; let i = index">
+                    <td>{{ i + 1 }}</td>
+                    <td>{{ delivery.name }}</td>
+                    <td>{{ delivery.phone }}</td>
+                    <td>{{ delivery.email }}</td>
+                    <td>{{ delivery.address }}</td>
+                    <td>{{ delivery.branchName }}</td>
+                    <td>
+                      <ng-container *ngIf="delivery.governmentName?.length; else noGov">
+                        {{ delivery.governmentName?.join(', ') }}
+                      </ng-container>
+                      <ng-template #noGov>-</ng-template>
+                    </td>
+                    <td>{{ delivery.discountType }}</td>
+                    <td>{{ delivery.companyPercentage }}%</td>
+                    <td>
+                      <span class="badge" [ngClass]="delivery.isDeleted ? 'bg-danger' : 'bg-success'">
+                        {{ delivery.isDeleted ? 'Deleted' : 'Active' }}
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
