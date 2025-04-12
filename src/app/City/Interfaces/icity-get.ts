@@ -18,6 +18,12 @@ export interface ICityCreateDTO {
   pickupShipping: number;
   standardShipping: number
 }
+export interface IPagination {
+  page: number;
+  pageSize: number;
+  totalCount: number;
+  totalPages: number;
+}
 export interface ICityEditDTO {
   government_Id: number;
   name: string;
