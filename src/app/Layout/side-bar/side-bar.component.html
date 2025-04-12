@@ -1,4 +1,5 @@
 <div class="container-scroller">
+  <!-- partial:partials/_navbar.html -->
   <nav
     class="navbar default-layout-navbar col-lg-12 col-12 p-0 fixed-top d-flex flex-row"
   >
@@ -233,7 +234,7 @@
     </div>
   </nav>
   <!-- partial -->
-  <div class="container-fluid page-body-wrapper">
+  <div class="container-fluid page-body-wrapper" id="mainSideBare">
     <!-- partial:partials/_sidebar.html -->
     <nav class="sidebar sidebar-offcanvas" id="sidebar">
       <ul class="nav">
@@ -264,6 +265,7 @@
             class="nav-link"
             data-bs-toggle="collapse"
             href="#ui-basic"
+            role="button"
             aria-expanded="false"
             aria-controls="ui-basic"
           >
@@ -421,5 +423,13 @@
         </li>
       </ul>
     </nav>
+    <!-- partial -->
+    <div class="main-panel">
+      <div class="content-wrapper">
+        <ng-content></ng-content>
+      </div>
+    </div>
+    <!-- main-panel ends -->
+    <!-- page-body-wrapper ends -->
   </div>
 </div>

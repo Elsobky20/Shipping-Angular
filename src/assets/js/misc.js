@@ -115,8 +115,21 @@ var lightColor = getComputedStyle(document.body).getPropertyValue('--light');
           document.msExitFullscreen();
         }
       }
-    }) 
+    })
 
-  
+
   });
 })(jQuery);
+
+// ul open and close in side bar
+document.querySelectorAll('[data-bs-toggle="collapse"]').forEach(link => {
+  link.addEventListener('click', function (e) {
+    const targetSelector = this.getAttribute('href');
+    const target = document.querySelector(targetSelector);
+
+    if (target && target.classList.contains('show')) {
+      bootstrap.Collapse.getInstance(target)?.hide();
+      e.preventDefault();
+    }
+  });
+});
