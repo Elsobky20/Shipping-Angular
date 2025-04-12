@@ -10,3 +10,14 @@ export interface ShowDeliveryDto {
   companyPercentage: number;
   isDeleted: boolean;
 }
+export interface DeliveryCreateDTO {
+  name: string;
+  email: string;
+  phone: string;
+  password: string;
+  address: string;
+  branchId: number;
+  governmentsId: number[];
+  discountType: string;
+  companyPercentage: number;
+}

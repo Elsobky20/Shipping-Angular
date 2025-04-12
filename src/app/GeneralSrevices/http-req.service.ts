@@ -42,8 +42,8 @@ export class HttpReqService {
   /* ===================== End GetById Method ================================== */
 
   /* ===================== Start Create Method ================================= */
-  create(endPoint:string, iCityCreateDTO:ICityCreateDTO):Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/${endPoint}`, iCityCreateDTO);
+  create(endPoint:any, Dto:object):Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/${endPoint}`, Dto);
   }
   /* ===================== End Create Method =================================== */
 
