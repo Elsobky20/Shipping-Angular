@@ -61,7 +61,7 @@ export class AllDeliveryComponent implements OnInit {
           console.log(index);
            if (index !== -1) {
             this.deliveries.splice(index, 1); // حذف العنصر من المصفوفة
-        
+         
         // إعادة تعيين المصفوفة لتحديث واجهة المستخدم
         this.deliveries = [...this.deliveries];
         this.cdr.detectChanges();  // تحديث الـ UI

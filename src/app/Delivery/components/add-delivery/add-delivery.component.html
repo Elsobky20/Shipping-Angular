@@ -1,0 +1,123 @@
+<div class="content-wrapper">
+    <div class="page-header">
+      <h3 class="page-title">Add New Delivery</h3>
+    </div>
+  
+    <div class="row">
+      <div class="col-lg-10 mx-auto grid-margin stretch-card">
+        <div class="card">
+          <div class="card-body">
+            <h4 class="card-title text-center mb-4">Add Delivery</h4>
+            <form [formGroup]="deliveryForm" (ngSubmit)="onSubmit()">
+              <div class="row">
+  
+                <!-- Name -->
+                <div class="col-md-6 mb-3">
+                  <label>Name</label>
+                  <input class="form-control" formControlName="name" />
+                  <small class="text-danger" *ngIf="isInvalid('name')">
+                    <span *ngIf="fc('name')?.errors?.['required']">Name is required.</span>
+                    <span *ngIf="fc('name')?.errors?.['minlength']">Min 3 characters.</span>
+                    <span *ngIf="fc('name')?.errors?.['maxlength']">Max 10 characters.</span>
+                  </small>
+                </div>
+  
+                <!-- Email -->
+                <div class="col-md-6 mb-3">
+                  <label>Email</label>
+                  <input class="form-control" formControlName="email" />
+                  <small class="text-danger" *ngIf="isInvalid('email')">
+                    <span *ngIf="fc('email')?.errors?.['required']">Email is required.</span>
+                    <span *ngIf="fc('email')?.errors?.['email']">Invalid email format.</span>
+                  </small>
+                </div>
+  
+                <!-- Phone -->
+                <div class="col-md-6 mb-3">
+                  <label>Phone</label>
+                  <input class="form-control" formControlName="phone" />
+                  <small class="text-danger" *ngIf="isInvalid('phone')">
+                    <span *ngIf="fc('phone')?.errors?.['required']">Phone is required.</span>
+                    <span *ngIf="fc('phone')?.errors?.['pattern']">Invalid Egyptian number.</span>
+                  </small>
+                </div>
+  
+                <!-- Password -->
+                <div class="col-md-6 mb-3">
+                  <label>Password</label>
+                  <input class="form-control" type="password" formControlName="password" />
+                  <small class="text-danger" *ngIf="isInvalid('password')">
+                    <span *ngIf="fc('password')?.errors?.['required']">Password is required.</span>
+                    <span *ngIf="fc('password')?.errors?.['minlength']">Min 6 characters.</span>
+                  </small>
+                </div>
+  
+                <!-- Address -->
+                <div class="col-md-6 mb-3">
+                  <label>Address</label>
+                  <input class="form-control" formControlName="address" />
+                  <small class="text-danger" *ngIf="isInvalid('address')">
+                    <span *ngIf="fc('address')?.errors?.['required']">Address is required.</span>
+                  </small>
+                </div>
+  
+                <!-- Branch -->
+                <div class="col-md-6 mb-3">
+                  <label>Branch</label>
+                  <select class="form-control" formControlName="branchId">
+                    <option value="">Select branch</option>
+                    <option *ngFor="let branch of branches" [value]="branch.id">{{ branch.name }}</option>
+                  </select>
+                  <small class="text-danger" *ngIf="isInvalid('branchId')">
+                    Branch is required.
+                  </small>
+                </div>
+  
+                <!-- Governments -->
+                <div class="col-md-6 mb-3">
+                  <label>Governments</label>
+                  <select multiple class="form-control" formControlName="governmentsId">
+                    <option *ngFor="let gov of governments" [value]="gov.id">{{ gov.name }}</option>
+                  </select>
+                  <small class="text-danger" *ngIf="isInvalid('governmentsId')">
+                    At least one government is required.
+                  </small>
+                </div>
+  
+                <!-- Discount Type -->
+                <div class="col-md-6 mb-3">
+                  <label>Discount Type</label>
+                  <select class="form-control" formControlName="discountType">
+                    <option value="">Select type</option>
+                    <option value="Percentage">Percentage</option>
+                    <option value="Fixed">Fixed</option>
+                  </select>
+                  <small class="text-danger" *ngIf="isInvalid('discountType')">
+                    Discount type is required.
+                  </small>
+                </div>
+  
+                <!-- Company % -->
+                <div class="col-md-6 mb-3">
+                  <label>Company Percentage</label>
+                  <input type="number" class="form-control" formControlName="companyPercentage" />
+                  <small class="text-danger" *ngIf="isInvalid('companyPercentage')">
+                    Company % is required.
+                  </small>
+                </div>
+  
+              </div>
+  
+              <!-- Submit Buttons -->
+              <div class="text-center mt-4">
+                <button class="btn btn-primary" type="submit">Add Delivery</button>
+                <button type="button" class="btn btn-secondary mx-2" (click)="deliveryForm.reset()">Reset</button>
+              </div>
+  
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
