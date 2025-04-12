@@ -7,11 +7,13 @@ import { LoginComponent } from './Login/components/login/login.component';
 import { SideBarComponent } from './Layout/side-bar/side-bar.component';
 import { CitiesComponent } from './City/components/cities/cities.component';
 import { AllDeliveryComponent } from "./Delivery/components/all-delivery/all-delivery.component";
-// import { AllDeliveryComponent } from "./Delivery/components/all-delivery/all-delivery.component";
+import { DashboardComponent } from "./Dashboard/dashboard.component";
+
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule, EmployeeFormComponent, RoleListComponent, CitiesComponent, SideBarComponent, LoginComponent, AllDeliveryComponent],
+  imports: [RouterOutlet, CommonModule, EmployeeFormComponent, RoleListComponent, CitiesComponent, SideBarComponent, LoginComponent, DashboardComponent, AllDeliveryComponent],
+
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
