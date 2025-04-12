@@ -1,0 +1,22 @@
+.dropdown-item {
+    color: rgba(0, 0, 0, 0.6) !important;
+  }
+  .dropdown-item:hover {
+    background-color: #f1f1f1;
+    color: rgba(0, 0, 0, 0.6) !important;
+  }
+  .dropdown-toggle:hover{
+    color: white !important;
+  }
+  .dropdown-toggle:focus {
+    color: white !important;
+  }
+  /* ----------------------------------------------- */
+  .container-fluid {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    height: 100vh !important;
+    max-height: 100vh !important
+  }
+  
+  
