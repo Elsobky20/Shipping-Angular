@@ -12,6 +12,7 @@ export interface ICityResponseData {
   pageSize: number;
   cities: ICityGetDTO[]
 }
+const newLocal = false;
 export interface ICityCreateDTO {
   government_Id: number;
   name: string;
