@@ -1,1 +1,63 @@
-<p>employee-list works!</p>
+<h2>Employees List</h2>
+
+<div>
+  <button (click)="addEmployee()" class="btn btn-primary">Add Employee</button>
+</div>
+
+<div>
+  <label>Search by Name:</label>
+  <input type="text" [(ngModel)]="searchTerm" (input)="searchTerm ? searchEmployees() : getAllEmployees()" placeholder="Enter name to search">
+</div>
+
+<div>
+  <label>Filter by Role:</label>
+  <input type="text" [(ngModel)]="roleName" (input)="roleName ? getEmployeesByRole() : getAllEmployees()" placeholder="Enter role to filter">
+</div>
+
+<table class="table">
+  <thead>
+    <tr>
+      <th>No</th>
+      <th>Name</th>
+      <th>Email</th>
+      <th>Phone</th>
+      <th>Address</th>
+      <th>Branch</th>
+      <th>Role</th>
+      <th>Status</th>
+      <th>Actions</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr *ngFor="let employee of employees; let i = index" [ngStyle]="{'opacity': employee.isDeleted ? 0.5 : 1}">
+      <td>{{ (pageIndex - 1) * pageSize + i + 1 }}</td>
+      <td>{{ employee.name }}</td>
+      <td>{{ employee.email }}</td>
+      <td>{{ employee.phone }}</td>
+      <td>{{ employee.address }}</td>
+      <td>{{ employee.branchName }}</td>
+      <td>{{ employee.role }}</td>
+      <td>
+        <button 
+          [style]="employee.isDeleted ? 'background-color: #dc3545; color: white; border: none; padding: 5px 10px; border-radius: 12px; cursor: default' : 'background-color: #28a745; color: white; border: none; padding: 5px 10px; border-radius: 12px; cursor: default'"
+          [style.box-shadow]="employee.isDeleted ? 'inset 2px 2px 5px rgba(0,0,0,0.3)' : '2px 2px 5px rgba(0,0,0,0.3)'">
+          {{ employee.isDeleted ? 'deleted' : 'active' }}
+        </button>
+      </td>
+      <td>
+        <button *ngIf="!employee.isDeleted" (click)="editEmployee(employee.id)" class="btn btn-warning">Edit</button>
+        <button *ngIf="!employee.isDeleted" (click)="deleteEmployee(employee.id)" class="btn btn-danger">Delete</button>
+      </td>
+    </tr>
+    <tr *ngIf="!(employees?.length)">
+      <td colspan="9">{{ errorMessage || 'No employees found.' }}</td>
+    </tr>
+  </tbody>
+</table>
+
+<div *ngIf="!searchTerm && !roleName && totalCount > 0">
+  <span>Showing {{ (pageIndex - 1) * pageSize + 1 }} to {{ pageIndex * pageSize > totalCount ? totalCount : pageIndex * pageSize }} of {{ totalCount }} employees</span>
+  <button (click)="previousPage()" [disabled]="pageIndex === 1">Previous</button>
+  <span>Page {{ pageIndex }} of {{ totalPages }}</span>
+  <button (click)="nextPage()" [disabled]="pageIndex === totalPages">Next</button>
+</div>
