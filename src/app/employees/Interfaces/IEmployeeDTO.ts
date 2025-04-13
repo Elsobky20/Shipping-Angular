@@ -6,8 +6,8 @@ export interface IEmployeeDTO {
   phone: string;
   address: string;
   branchName: string;
-  branchId: number; // أضفنا
+  branchId: number; 
   role: string;
-  roleId: string;  // أضفنا
+  roleId: string;  
   isDeleted: boolean;
 }

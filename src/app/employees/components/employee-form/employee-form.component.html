@@ -78,17 +78,19 @@
     </div>
     <div class="form-group">
       <label for="role">Role:</label>
-      <select 
-        id="role" 
-        class="form-control" 
-        [(ngModel)]="employee.role" 
-        name="role" 
-        required 
-        (blur)="validateField('role')"
-      >
-        <option value="" disabled>Select a role</option>
-        <option *ngFor="let role of roles" [value]="role.name">{{ role.name }}</option>
-      </select>
+ <!-- Role Field -->
+<div class="form-group">
+  <label for="role">Role</label>
+  
+  <select *ngIf="!isEditMode" [(ngModel)]="employee.role" name="role" (change)="validateField('role')" required>
+    <option value="" disabled>Select Role</option>
+    <option *ngFor="let role of roles" [value]="role.name">{{ role.name }}</option>
+  </select>
+
+  <input *ngIf="isEditMode" type="text" [value]="employee.role" readonly class="form-control readonly-field" />
+  
+  <div *ngIf="formErrors['role']" class="error">{{ formErrors['role'] }}</div>
+</div>
       <div *ngIf="formErrors['role']" class="text-danger">{{ formErrors['role'] }}</div>
     </div>
     <div class="form-group">

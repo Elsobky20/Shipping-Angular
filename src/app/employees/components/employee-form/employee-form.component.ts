@@ -41,20 +41,20 @@ export class EmployeeFormComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    // this.roleService.getAllRoles().subscribe({
-    //   next: (roles) => {
-    //     // فلترة الأدوار اللي بتبدأ بـ "employee" (case-insensitive) ومش محذوفة
-    //     this.roles = roles.filter(role => 
-    //       !role.isDeleted && 
-    //       role.name.toLowerCase().startsWith('employee')
-    //     );
-    //     console.log('Filtered roles:', this.roles);
-    //   },
-    //   error: (err) => {
-    //     console.error('Error fetching roles:', err);
-    //     this.errorMessage = 'Failed to load roles.';
-    //   }
-    // });
+    this.roleService.getAllRoles().subscribe({
+      next: (roles) => {
+        // فلترة الأدوار اللي بتبدأ بـ "employee" (case-insensitive) ومش محذوفة
+        this.roles = roles.filter(role => 
+          !role.isDeleted && 
+          role.name.toLowerCase().startsWith('employee')
+        );
+        console.log('Filtered roles:', this.roles);
+      },
+      error: (err) => {
+        console.error('Error fetching roles:', err);
+        this.errorMessage = 'Failed to load roles.';
+      }
+    });
 
     this.id = this.route.snapshot.paramMap.get('id') ? +this.route.snapshot.paramMap.get('id')! : null;
     if (this.id) {

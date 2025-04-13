@@ -1,0 +1,46 @@
+<div class="container">
+    <h2>{{ isEditMode ? 'Edit Shipping Type' : 'Add Shipping Type' }}</h2>
+    <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+    <form #shippingTypeForm="ngForm" (ngSubmit)="saveShippingType()">
+      <div class="form-group">
+        <label for="type">Type:</label>
+        <input
+          type="text"
+          id="type"
+          [(ngModel)]="shippingType.type"
+          name="type"
+          required
+          (blur)="validateField('Type')"
+          class="form-control"
+        />
+        <div *ngIf="formErrors['Type']" class="text-danger">{{ formErrors['Type'] }}</div>
+      </div>
+      <div class="form-group">
+        <label for="description">Description:</label>
+        <input
+          type="text"
+          id="description"
+          [(ngModel)]="shippingType.description"
+          name="description"
+          class="form-control"
+        />
+      </div>
+      <div class="form-group">
+        <label for="cost">Cost:</label>
+        <input
+          type="number"
+          id="cost"
+          [(ngModel)]="shippingType.cost"
+          name="cost"
+          required
+          (blur)="validateField('Cost')"
+          class="form-control"
+        />
+        <div *ngIf="formErrors['Cost']" class="text-danger">{{ formErrors['Cost'] }}</div>
+      </div>
+      <div class="form-actions">
+        <button type="submit" class="submit-btn">{{ isEditMode ? 'Update' : 'Add' }}</button>
+        <button type="button" (click)="cancel()" class="cancel-btn">Cancel</button>
+      </div>
+    </form>
+  </div>

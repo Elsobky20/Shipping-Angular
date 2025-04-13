@@ -1,7 +1,7 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
+import { IRoleDTO } from '../Interfaces/roles.model'; // أضف الـ import ده
 
 export interface RolePermissionDTO {
   permission_Id: string;
@@ -30,4 +30,11 @@ export class RoleService {
     let params = new HttpParams().set('includeDelted', includeDeleted);
     return this.http.get<AppRoleDTO[]>(`${this.apiUrl}`, { params });
 }
+
+getAllRoles(): Observable<IRoleDTO[]> {
+  return this.http.get<IRoleDTO[]>(this.apiUrl);
+}
+
+
+
 }
