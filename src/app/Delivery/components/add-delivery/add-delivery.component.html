@@ -1,123 +1,105 @@
-<div class="content-wrapper">
-    <div class="page-header">
-      <h3 class="page-title">Add New Delivery</h3>
-    </div>
-  
-    <div class="row">
-      <div class="col-lg-10 mx-auto grid-margin stretch-card">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title text-center mb-4">Add Delivery</h4>
-            <form [formGroup]="deliveryForm" (ngSubmit)="onSubmit()">
-              <div class="row">
-  
-                <!-- Name -->
-                <div class="col-md-6 mb-3">
-                  <label>Name</label>
-                  <input class="form-control" formControlName="name" />
-                  <small class="text-danger" *ngIf="isInvalid('name')">
-                    <span *ngIf="fc('name')?.errors?.['required']">Name is required.</span>
-                    <span *ngIf="fc('name')?.errors?.['minlength']">Min 3 characters.</span>
-                    <span *ngIf="fc('name')?.errors?.['maxlength']">Max 10 characters.</span>
-                  </small>
-                </div>
-  
-                <!-- Email -->
-                <div class="col-md-6 mb-3">
-                  <label>Email</label>
-                  <input class="form-control" formControlName="email" />
-                  <small class="text-danger" *ngIf="isInvalid('email')">
-                    <span *ngIf="fc('email')?.errors?.['required']">Email is required.</span>
-                    <span *ngIf="fc('email')?.errors?.['email']">Invalid email format.</span>
-                  </small>
-                </div>
-  
-                <!-- Phone -->
-                <div class="col-md-6 mb-3">
-                  <label>Phone</label>
-                  <input class="form-control" formControlName="phone" />
-                  <small class="text-danger" *ngIf="isInvalid('phone')">
-                    <span *ngIf="fc('phone')?.errors?.['required']">Phone is required.</span>
-                    <span *ngIf="fc('phone')?.errors?.['pattern']">Invalid Egyptian number.</span>
-                  </small>
-                </div>
-  
-                <!-- Password -->
-                <div class="col-md-6 mb-3">
-                  <label>Password</label>
-                  <input class="form-control" type="password" formControlName="password" />
-                  <small class="text-danger" *ngIf="isInvalid('password')">
-                    <span *ngIf="fc('password')?.errors?.['required']">Password is required.</span>
-                    <span *ngIf="fc('password')?.errors?.['minlength']">Min 6 characters.</span>
-                  </small>
-                </div>
-  
-                <!-- Address -->
-                <div class="col-md-6 mb-3">
-                  <label>Address</label>
-                  <input class="form-control" formControlName="address" />
-                  <small class="text-danger" *ngIf="isInvalid('address')">
-                    <span *ngIf="fc('address')?.errors?.['required']">Address is required.</span>
-                  </small>
-                </div>
-  
-                <!-- Branch -->
-                <div class="col-md-6 mb-3">
-                  <label>Branch</label>
-                  <select class="form-control" formControlName="branchId">
-                    <option value="">Select branch</option>
-                    <option *ngFor="let branch of branches" [value]="branch.id">{{ branch.name }}</option>
-                  </select>
-                  <small class="text-danger" *ngIf="isInvalid('branchId')">
-                    Branch is required.
-                  </small>
-                </div>
-  
+<div class="container my-5">
+  <div class="card shadow-lg p-4 rounded-4">
+    <h2 class="mb-4 text-center text-primary fw-bold">Add New Delivery</h2>
+
+    <form [formGroup]="deliveryForm" (ngSubmit)="onSubmit()" novalidate>
+      <div class="row">
+        <!-- Name -->
+        <div class="mb-3 col-md-6">
+          <label for="name" class="form-label">Name</label>
+          <input id="name" type="text" formControlName="name" class="form-control" [class.is-invalid]="isInvalid('name')" />
+          <div *ngIf="isInvalid('name')" class="invalid-feedback">
+            Name is required and must be 3-10 characters long.
+          </div>
+        </div>
+
+        <!-- Email -->
+        <div class="mb-3 col-md-6">
+          <label for="email" class="form-label">Email</label>
+          <input id="email" type="email" formControlName="email" class="form-control" [class.is-invalid]="isInvalid('email')" />
+          <div *ngIf="isInvalid('email')" class="invalid-feedback">
+            Please enter a valid email.
+          </div>
+        </div>
+
+        <!-- Phone -->
+        <div class="mb-3 col-md-6">
+          <label for="phone" class="form-label">Phone</label>
+          <input id="phone" type="text" formControlName="phone" class="form-control" [class.is-invalid]="isInvalid('phone')" />
+          <div *ngIf="isInvalid('phone')" class="invalid-feedback">
+            Please enter a valid Egyptian phone number.
+          </div>
+        </div>
+
+        <!-- Password -->
+        <div class="mb-3 col-md-6">
+          <label for="password" class="form-label">Password</label>
+          <input id="password" type="password" formControlName="password" class="form-control" [class.is-invalid]="isInvalid('password')" />
+          <div *ngIf="isInvalid('password')" class="invalid-feedback">
+            Password must be at least 6 characters.
+          </div>
+        </div>
+
+        <!-- Address -->
+        <div class="mb-3 col-md-6">
+          <label for="address" class="form-label">Address</label>
+          <input id="address" type="text" formControlName="address" class="form-control" [class.is-invalid]="isInvalid('address')" />
+          <div *ngIf="isInvalid('address')" class="invalid-feedback">
+            Address is required.
+          </div>
+        </div>
+
+        <!-- Branch -->
+        <div class="mb-3 col-md-6">
+          <label for="branchId" class="form-label">Branch</label>
+          <select id="branchId" formControlName="branchId" (change)="onBranchChange($event)" class="form-select" [class.is-invalid]="isInvalid('branchId')">
+            <option value="">Select Branch</option>
+            <option *ngFor="let branch of branches" [value]="branch.id">{{ branch.name }}</option>
+          </select>
+          <div *ngIf="isInvalid('branchId')" class="invalid-feedback">
+            Please select a branch.
+          </div>
+        </div>
+
+   
                 <!-- Governments -->
-                <div class="col-md-6 mb-3">
-                  <label>Governments</label>
-                  <select multiple class="form-control" formControlName="governmentsId">
+                <div class="mb-3 col-md-6">
+                  <label for="governmentsId" class="form-label">Governments</label>
+                  <select id="governmentsId" formControlName="governmentsId" class="form-select" multiple [class.is-invalid]="isInvalid('governmentsId')">
                     <option *ngFor="let gov of governments" [value]="gov.id">{{ gov.name }}</option>
                   </select>
-                  <small class="text-danger" *ngIf="isInvalid('governmentsId')">
-                    At least one government is required.
-                  </small>
+                  <div *ngIf="isInvalid('governmentsId')" class="invalid-feedback">
+                    Please select at least one government.
+                  </div>
                 </div>
-  
-                <!-- Discount Type -->
-                <div class="col-md-6 mb-3">
-                  <label>Discount Type</label>
-                  <select class="form-control" formControlName="discountType">
-                    <option value="">Select type</option>
-                    <option value="Percentage">Percentage</option>
-                    <option value="Fixed">Fixed</option>
-                  </select>
-                  <small class="text-danger" *ngIf="isInvalid('discountType')">
-                    Discount type is required.
-                  </small>
-                </div>
-  
-                <!-- Company % -->
-                <div class="col-md-6 mb-3">
-                  <label>Company Percentage</label>
-                  <input type="number" class="form-control" formControlName="companyPercentage" />
-                  <small class="text-danger" *ngIf="isInvalid('companyPercentage')">
-                    Company % is required.
-                  </small>
-                </div>
-  
-              </div>
-  
-              <!-- Submit Buttons -->
-              <div class="text-center mt-4">
-                <button class="btn btn-primary" type="submit">Add Delivery</button>
-                <button type="button" class="btn btn-secondary mx-2" (click)="deliveryForm.reset()">Reset</button>
-              </div>
-  
-            </form>
+
+        <!-- Company Percentage -->
+        <div class="mb-3 col-md-6">
+          <label for="companyPercentage" class="form-label">Company Percentage</label>
+          <input id="companyPercentage" type="number" formControlName="companyPercentage" class="form-control" [class.is-invalid]="isInvalid('companyPercentage')" />
+          <div *ngIf="isInvalid('companyPercentage')" class="invalid-feedback">
+            Company percentage is required.
           </div>
         </div>
       </div>
-    </div>
+
+           <!-- Discount Type -->
+        <div class="mb-3 col-md-6">
+          <label for="discountType" class="form-label">Discount Type</label>
+          <select id="discountType" formControlName="discountType" class="form-select" [class.is-invalid]="isInvalid('discountType')">
+            <option value="">Select Discount Type</option>
+            <option value="Fixed">Fixed</option>
+            <option value="Percentage">Percentage</option>
+          </select>
+          <div *ngIf="isInvalid('discountType')" class="invalid-feedback">
+            Please select a discount type.
+          </div>
+        </div>
+
+      <!-- Submit Button -->
+      <div class="d-grid mt-3">
+        <button type="submit" class="btn btn-primary py-2 fw-bold">Add Delivery</button>
+      </div>
+    </form>
   </div>
-  
+</div>
