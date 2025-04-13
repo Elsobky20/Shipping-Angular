@@ -6,7 +6,7 @@ import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
 import Swal from 'sweetalert2';
-import { catchError, debounceTime, distinctUntilChanged, EMPTY, observable, Observable, Subject, switchMap, takeUntil } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, EMPTY, Subject, switchMap, takeUntil } from 'rxjs';
 
 @Component({
   selector: 'app-cities',
@@ -154,8 +154,6 @@ export class CitiesComponent implements OnInit {
     this.loadAllCities(this.selectedPageSize, value);
     this.setupSearch(this.selectedPageSize, value);
   }
-
-
   /* ============================================ End Number Of Rows ========================================= */
 
   /* ============================================ Start Delete =============================================== */

@@ -18,7 +18,11 @@
             class="row col-sm-12 table-responsive table-bordered rounded mx-auto mt-3"
             style="max-height: 80%"
           >
-            <form class="forms-sample">
+            <form
+              [formGroup]="cityForm"
+              class="forms-sample"
+              (submit)="cityHandler()"
+            >
               <div class="form-group">
                 <label for="exampleInputName1">City Name</label>
                 <input
@@ -26,11 +30,16 @@
                   class="form-control"
                   id="exampleInputName1"
                   placeholder="Name"
+                  formControlName="city"
                 />
               </div>
               <div class="form-group">
                 <label for="exampleSelectGovernrate">Governrate Name</label>
-                <select class="form-select" id="exampleSelectGovernrate">
+                <select
+                  class="form-select"
+                  id="exampleSelectGovernrate"
+                  formControlName="governrate"
+                >
                   <option>Male</option>
                   <option>Female</option>
                 </select>
@@ -44,6 +53,7 @@
                   placeholder="Standard Shipping"
                   min="0"
                   step="5"
+                  formControlName="Standard"
                 />
               </div>
               <div>
@@ -55,19 +65,20 @@
                   placeholder="Pickup Shipping"
                   min="0"
                   step="5"
+                  formControlName="pickup"
                 />
               </div>
               <div class="row mt-3 px-3">
                 <button
                   type="submit"
                   class="btn btn-gradient-primary me-2 col-sm-2"
-                  style="letter-spacing: .8px"
+                  style="letter-spacing: 0.8px"
                 >
                   Submit
                 </button>
                 <button
                   class="btn btn-light col-sm-2"
-                  style="color: rgb(95, 95, 95); letter-spacing: .8px"
+                  style="color: rgb(95, 95, 95); letter-spacing: 0.8px"
                 >
                   Reset
                 </button>
