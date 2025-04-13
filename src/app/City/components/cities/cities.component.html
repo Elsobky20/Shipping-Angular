@@ -1,228 +1,259 @@
-<div class="content-wrapper container-fluid">
-  <div class="col-lg-12 grid-margin stretch-card">
-    <div class="card">
-      <div class="card-body p-5 py-4">
-        <div class="row">
-          <h4
-            class="card-title fs-3"
-            style="color: #9c57ff; font-weight: bold; letter-spacing: 1px"
-          >
-            cities
-          </h4>
-        </div>
-        <div class="row mb-3 px-3">
-          <button
-            type="button"
-            class="btn btn-gradient-primary btn-fw col-sm-2"
-            [routerLink]="['/cityForm']"
-          >
-            Add City
-          </button>
-          <form
-            class="d-flex align-items-center h-100 col-sm-2 ms-auto"
-            style="
-              background-image: linear-gradient(
-                to right,
-                rgb(217 139 255),
-                #9c57ff
-              );
-            "
-            action="#"
-          >
-            <div class="input-group">
-              <div
-                class="input-group-prepend bg-transparent"
-                style="
-                  background-color: rgb(217 139 255);
-                  display: flex;
-                  align-items: center;
-                "
-              >
-                <i
-                  class="input-group-text border-0 mdi mdi-magnify"
-                  style="
-                    color: white;
-                    background-color: rgb(217 139 255);
-                    transform: translateX(-20px);
-                  "
-                ></i>
-              </div>
-              <input
-                type="text"
-                class="form-control bg-transparent border-0"
-                style="
-                  color: white !important;
-                  padding-left: 5px;
-                  font-size: 16px;
-                "
-                placeholder="Search .."
-              />
-            </div>
-          </form>
-        </div>
+<div class="row">
+  <div class="content-wrapper container-fluid p-0">
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card" style="max-height: 100vh !important">
         <div
-          class="row col-sm-12 table-responsive table-bordered rounded mx-auto"
+          class="card-body p-5 py-3"
+          style="height: 80vh !important; max-height: 100vh !important"
         >
-          <table class="table text-center table-hover">
-            <thead>
-              <tr>
-                <th scope="col" style="background-color: #8080808a">#</th>
-                <th scope="col" style="background-color: #8080808a">Name</th>
-                <th scope="col" style="background-color: #8080808a">
-                  Governrate Name
-                </th>
-                <th scope="col" style="background-color: #8080808a">Status</th>
-                <th scope="col" style="background-color: #8080808a">
-                  Pickup Shipping
-                </th>
-                <th scope="col" style="background-color: #8080808a">
-                  Standard Shipping
-                </th>
-                <th scope="col" style="background-color: #8080808a">Action</th>
-              </tr>
-            </thead>
-            <tbody>
-              @for (city of cities; track city.id; let i = $index) {
-              <tr>
-                <th scope="row" class="py-0">{{ i + 1 }}</th>
-                <td class="py-0">{{ city.name }}</td>
-                <td class="py-0">{{ city.governmentName }}</td>
-                @if(city.isDeleted){
-                <td class="d-flex justify-content-center py-0">
-                  <div class="form-check form-switch">
-                    <input
-                      class="form-check-input"
-                      style="
-                        transform: translateX(80%);
-                        background-color: rgb(203, 195, 195, 0.45);
-                        font-size: 20px;
-                      "
-                      type="checkbox"
-                      role="switch"
-                      id="switchCheckDisabled"
-                      value="{{ city.isDeleted }}"
-                      disabled
-                    />
-                  </div>
-                </td>
-                }@else {
-                <td class="d-flex justify-content-center py-0">
-                  <div class="form-check form-switch">
-                    <input
-                      class="form-check-input"
-                      style="
-                        transform: translateX(80%);
-                        background-color: green;
-                        font-size: 20px;
-                      "
-                      type="checkbox"
-                      role="switch"
-                      id="switchCheckCheckedDisabled"
-                      value="{{ city.isDeleted }}"
-                      checked
-                      disabled
-                    />
-                  </div>
-                </td>
-                }
-                <td class="py-0">
-                  {{ city.pickupShipping | currency }}
-                </td>
-                <td class="py-0">{{ city.standardShipping | currency }}</td>
-                <td class="py-0">
-                  <i
-                    class="bi bi-pencil-square fs-4 text-info btn p-2"
-                    data-bs-toggle="tooltip"
-                    title="Edit"
-                    [routerLink]="[city.id, 'edit']"
-                  ></i>
-                  <i
-                    class="bi bi-eye fs-4 text-warning btn p-2"
-                    data-bs-toggle="tooltip"
-                    title="Details"
-                    [routerLink]="[city.id]"
-                  ></i>
-                  <i
-                    class="bi bi-trash3 fs-4 text-danger btn p-2"
-                    data-bs-toggle="tooltip"
-                    title="Delete"
-                    (click)="deleteCity(city.id)"
-                  ></i>
-                </td>
-              </tr>
-              }
-            </tbody>
-          </table>
-        </div>
-        <div class="row mt-3 px-3" style="text-align: right">
-          <div class="col-sm-3 px-0">
-            <nav aria-label="Page navigation example">
-              <ul class="pagination">
-                <li class="page-item fw-bold">
-                  <a class="page-link" href="#" aria-label="Previous">
-                    <span style="color: #9c57ff !important" aria-hidden="true"
-                      >&laquo;</span
-                    >
-                  </a>
-                </li>
-                <li class="page-item">
-                  <a
-                    class="page-link fw-bold"
-                    style="color: #9c57ff !important"
-                    href="#"
-                    >1</a
-                  >
-                </li>
-                <li class="page-item">
-                  <a
-                    class="page-link fw-bold"
-                    style="color: #9c57ff !important"
-                    href="#"
-                    >2</a
-                  >
-                </li>
-                <li class="page-item">
-                  <a
-                    class="page-link fw-bold"
-                    style="color: #9c57ff !important"
-                    href="#"
-                    >3</a
-                  >
-                </li>
-                <li class="page-item">
-                  <a class="page-link fw-bold" href="#" aria-label="Next">
-                    <span style="color: #9c57ff !important" aria-hidden="true"
-                      >&raquo;</span
-                    >
-                  </a>
-                </li>
-              </ul>
-            </nav>
+          <div class="row">
+            <h4
+              class="card-title fs-3"
+              style="color: #9c57ff; font-weight: bold; letter-spacing: 1px"
+            >
+              cities <span class="fs-5">[{{ ExistCitiesNumber }}]</span>
+            </h4>
           </div>
-          <div class="dropdown px-0 col-sm-3 ms-auto">
+          <div class="row mb-2 px-3">
             <button
-              class="btn btn-outline-primary dropdown-toggle"
               type="button"
-              id="dropdownMenuButton"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-              style="width: 120px !important"
+              class="btn btn-gradient-primary btn-fw col-sm-2"
+              [routerLink]="[0]"
             >
-              {{ selectedValue }}
+              Add City
             </button>
-            <ul
-              class="dropdown-menu"
-              style="width: 120px !important; min-width: 100px !important"
-              aria-labelledby="dropdownMenuButton"
+            <form
+              class="d-flex align-items-center h-100 col-sm-2 ms-auto"
+              style="
+                background-image: linear-gradient(
+                  to right,
+                  rgb(217 139 255),
+                  #9c57ff
+                );
+              "
+              action="#"
+              [formGroup]="searchForm"
             >
-              @for (val of values; track $index) {
-              <li>
-                <button class="dropdown-item" (click)="selectValue(val)">
-                  {{ val }}
-                </button>
-              </li>
-              }
-            </ul>
+              <div class="input-group">
+                <div
+                  class="input-group-prepend bg-transparent"
+                  style="
+                    background-color: rgb(217 139 255);
+                    display: flex;
+                    align-items: center;
+                  "
+                >
+                  <i
+                    class="input-group-text border-0 mdi mdi-magnify"
+                    style="
+                      color: white;
+                      background-color: rgb(217 139 255);
+                      transform: translateX(-20px);
+                    "
+                  ></i>
+                </div>
+                <input
+                  type="search"
+                  class="form-control bg-transparent border-0"
+                  style="
+                    color: white !important;
+                    padding-left: 5px;
+                    font-size: 16px;
+                  "
+                  placeholder="Search .."
+                  formControlName="search"
+                />
+              </div>
+            </form>
+          </div>
+          <div
+            class="row col-sm-12 table-responsive table-bordered rounded mx-auto"
+            style="max-height: 72%; overflow-y: auto"
+          >
+            <table class="table text-center table-hover">
+              <thead>
+                <tr id="tableHead">
+                  <th scope="col" style="background-color: #bdb8b8">#</th>
+                  <th scope="col" style="background-color: #bdb8b8">Name</th>
+                  <th scope="col" style="background-color: #bdb8b8">
+                    Governrate Name
+                  </th>
+                  <th scope="col" style="background-color: #bdb8b8">Status</th>
+                  <th scope="col" style="background-color: #bdb8b8">
+                    Pickup Shipping
+                  </th>
+                  <th scope="col" style="background-color: #bdb8b8">
+                    Standard Shipping
+                  </th>
+                  <th scope="col" style="background-color: #bdb8b8">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (city of cities; track city.id; let i = $index) {
+                <tr>
+                  <th scope="row" class="py-0">{{ i + 1 }}</th>
+                  <td class="py-0">{{ city.name }}</td>
+                  <td class="py-0">{{ city.governmentName }}</td>
+                  @if(city.isDeleted){
+                  <td class="d-flex justify-content-center py-0">
+                    <div class="form-check form-switch">
+                      <input
+                        class="form-check-input"
+                        style="
+                          transform: translateX(80%);
+                          background-color: rgb(203, 195, 195, 0.45);
+                          font-size: 20px;
+                        "
+                        type="checkbox"
+                        role="switch"
+                        id="switchCheckDisabled"
+                        value="{{ city.isDeleted }}"
+                        disabled
+                      />
+                    </div>
+                  </td>
+                  }@else {
+                  <td class="d-flex justify-content-center py-0">
+                    <div class="form-check form-switch">
+                      <input
+                        class="form-check-input"
+                        style="
+                          transform: translateX(80%);
+                          background-color: green;
+                          font-size: 20px;
+                        "
+                        type="checkbox"
+                        role="switch"
+                        id="switchCheckCheckedDisabled"
+                        value="{{ city.isDeleted }}"
+                        checked
+                        disabled
+                      />
+                    </div>
+                  </td>
+                  }
+                  <td class="py-0">
+                    {{ city.pickupShipping | currency }}
+                  </td>
+                  <td class="py-0">{{ city.standardShipping | currency }}</td>
+                  <td class="py-0">
+                    <i
+                      class="bi bi-pencil-square fs-4 text-info btn p-2"
+                      data-bs-toggle="tooltip"
+                      title="Edit"
+                      [routerLink]="[city.id]"
+                    ></i>
+                    <i
+                      class="bi bi-trash3 fs-4 text-danger btn p-2"
+                      data-bs-toggle="tooltip"
+                      title="Delete"
+                      (click)="deleteCity(city.id)"
+                    ></i>
+                  </td>
+                </tr>
+                }
+              </tbody>
+            </table>
+            @if(errorMessage?.trim()){
+            <div class="row mx-auto">
+              <div class="alert alert-danger col-sm-3 mx-auto my-2 text-center">
+                {{ errorMessage }}
+              </div>
+            </div>
+            }
+          </div>
+          <div class="row mt-2 px-3" style="text-align: right">
+            <div class="col-sm-3 px-0">
+              <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                  <li class="page-item fw-bold">
+                    <button
+                      class="page-link"
+                      aria-label="Previous"
+                      [disabled]="pageNumber < 1"
+                      (click)="updatePageNumber(pageNumber - 1)"
+                    >
+                      <span
+                        style="color: #9c57ff"
+                        aria-hidden="true"
+                        class="page-link-next"
+                        >&laquo;</span
+                      >
+                    </button>
+                  </li>
+                  <li class="page-item">
+                    <button
+                      class="page-link fw-bold"
+                      style="color: #9c57ff"
+                      (click)="updatePageNumber(1)"
+                    >
+                      1
+                    </button>
+                  </li>
+                  <li class="page-item">
+                    <button
+                      class="page-link fw-bold"
+                      style="color: #9c57ff"
+                      (click)="updatePageNumber(2)"
+                    >
+                      2
+                    </button>
+                  </li>
+                  <li class="page-item">
+                    <button
+                      class="page-link fw-bold"
+                      style="color: #9c57ff"
+                      (click)="updatePageNumber(3)"
+                    >
+                      3
+                    </button>
+                  </li>
+                  <li class="page-item">
+                    <button
+                      class="page-link fw-bold"
+                      aria-label="Next"
+                      [disabled]="pageNumber >= numberOfPages"
+                      (click)="updatePageNumber(pageNumber + 1)"
+                    >
+                      <span
+                        style="color: #9c57ff"
+                        aria-hidden="true"
+                        class="page-link-next"
+                        >&raquo;</span
+                      >
+                    </button>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div class="dropdown dropup px-0 col-sm-3 ms-auto">
+              <button
+                class="btn btn-outline-primary dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                style="width: 120px !important"
+              >
+                {{ selectedPageSize }}
+              </button>
+              <ul
+                class="dropdown-menu"
+                style="width: 120px !important; min-width: 100px !important"
+                aria-labelledby="dropdownMenuButton"
+              >
+                @for (val of values; track $index) {
+                <li>
+                  <button
+                    class="dropdown-item"
+                    (click)="updateSelectedValue(val)"
+                  >
+                    {{ val }}
+                  </button>
+                </li>
+                }
+              </ul>
+            </div>
           </div>
         </div>
       </div>

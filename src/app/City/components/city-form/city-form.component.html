@@ -1,1 +1,81 @@
-<p>city-form works!</p>
+<div class="row">
+  <div class="content-wrapper container-fluid p-0">
+    <div class="col-12 grid-margin stretch-card">
+      <div class="card" style="max-height: 100vh !important">
+        <div
+          class="card-body p-5 py-3"
+          style="height: 80vh !important; max-height: 100vh !important"
+        >
+          <div class="row mt-3">
+            <h4
+              class="card-title fs-3"
+              style="color: #9c57ff; font-weight: bold; letter-spacing: 1px"
+            >
+              Add New City
+            </h4>
+          </div>
+          <div
+            class="row col-sm-12 table-responsive table-bordered rounded mx-auto mt-3"
+            style="max-height: 80%"
+          >
+            <form class="forms-sample">
+              <div class="form-group">
+                <label for="exampleInputName1">City Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="exampleInputName1"
+                  placeholder="Name"
+                />
+              </div>
+              <div class="form-group">
+                <label for="exampleSelectGovernrate">Governrate Name</label>
+                <select class="form-select" id="exampleSelectGovernrate">
+                  <option>Male</option>
+                  <option>Female</option>
+                </select>
+              </div>
+              <div class="form-group">
+                <label for="exampleInputStandard">Standard Shipping Cost</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="exampleInputStandard"
+                  placeholder="Standard Shipping"
+                  min="0"
+                  step="5"
+                />
+              </div>
+              <div>
+                <label for="exampleInputPickup">Pickup Shipping Cost</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="exampleInputPickup"
+                  placeholder="Pickup Shipping"
+                  min="0"
+                  step="5"
+                />
+              </div>
+              <div class="row mt-3 px-3">
+                <button
+                  type="submit"
+                  class="btn btn-gradient-primary me-2 col-sm-2"
+                  style="letter-spacing: .8px"
+                >
+                  Submit
+                </button>
+                <button
+                  class="btn btn-light col-sm-2"
+                  style="color: rgb(95, 95, 95); letter-spacing: .8px"
+                >
+                  Reset
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
