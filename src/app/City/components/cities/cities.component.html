@@ -170,7 +170,7 @@
                     <button
                       class="page-link"
                       aria-label="Previous"
-                      [disabled]="pageNumber < 1"
+                      [disabled]="pageNumber <= 1"
                       (click)="updatePageNumber(pageNumber - 1)"
                     >
                       <span
