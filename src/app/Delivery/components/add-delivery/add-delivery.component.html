@@ -1,6 +1,8 @@
 <div class="container my-5">
   <div class="card shadow-lg p-4 rounded-4">
-    <h2 class="mb-4 text-center text-primary fw-bold">Add New Delivery</h2>
+    <h2 class="mb-4 text-center text-primary fw-bold">
+      {{ mode === 'add' ? 'Add New Delivery' : 'Edit Delivery' }}
+    </h2>
 
     <form [formGroup]="deliveryForm" (ngSubmit)="onSubmit()" novalidate>
       <div class="row">
@@ -98,7 +100,13 @@
 
       <!-- Submit Button -->
       <div class="d-grid mt-3">
-        <button type="submit" class="btn btn-primary py-2 fw-bold">Add Delivery</button>
+        <button 
+        type="submit" 
+        class="btn btn-primary w-100" 
+        [disabled]="loading">
+        {{ loading ? 'Please wait...' : (mode === 'add' ? 'Add Delivery' : 'Update Delivery') }}
+      </button>
+
       </div>
     </form>
   </div>
