@@ -1,10 +1,13 @@
 import { Routes } from '@angular/router';
-import { EmployeeListComponent } from './employees/components/employee-list/employee-list.component';
-import { EmployeeFormComponent } from './employees/components/employee-form/employee-form.component'; // لو عندك الكومبوننت دي
+import { DashboardComponent } from './Dashboard/dashboard.component';
+import { CitiesComponent } from './City/components/cities/cities.component';
+import { NotFoundComponent } from './NotFound/not-found.component';
+import { CityFormComponent } from './City/components/city-form/city-form.component';
 
 export const routes: Routes = [
-    { path: 'employees', component: EmployeeListComponent },
-    { path: 'employees/add', component: EmployeeFormComponent },
-    { path: 'employees/edit/:id', component: EmployeeFormComponent },
-    { path: '', redirectTo: '/employees', pathMatch: 'full' }
-  ];
+  {path: '', redirectTo: 'city', pathMatch: 'full'},
+  {path: 'dashboard', component: DashboardComponent},
+  {path: 'city', component: CitiesComponent},
+  {path: 'city/:id', component: CityFormComponent},
+  {path: '**', component: NotFoundComponent}
+];

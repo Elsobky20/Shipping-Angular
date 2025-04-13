@@ -1,0 +1,106 @@
+<div class="login-container">
+    <form #loginForm="ngForm" (ngSubmit)="onLogin(loginForm)" class="login-form">
+      <div class="logo-container">
+        <img src="assets/logo.svg" class="logo" alt="Logo">
+      </div>
+  
+      <h2>Welcome Back</h2>
+  
+      <!-- Email Field -->
+      <div class="form-group">
+        <label for="email">Email Address</label>
+        <div class="input-wrapper">
+          <ion-icon name="mail-outline" class="input-icon"></ion-icon>
+          <input 
+            type="email" 
+            id="email" 
+            name="email" 
+            [(ngModel)]="email"
+            placeholder="Enter your email"
+            required
+            [pattern]="emailPattern"
+            #emailInput="ngModel"
+            [class.invalid]="emailInput.invalid && (emailInput.dirty || emailInput.touched)"
+          >
+        </div>
+        @if (emailInput.invalid && (emailInput.dirty || emailInput.touched)) {
+          <div class="error-message">
+            <ion-icon name="alert-circle-outline"></ion-icon>
+            <span>
+              @if (emailInput.errors?.['required']) {
+                Email is required
+              }
+              @if (emailInput.errors?.['pattern']) {
+                Please enter a valid email address
+              }
+            </span>
+          </div>
+        }
+      </div>
+  
+      <!-- Password Field with Toggle -->
+      <div class="form-group">
+        <label for="password">Password</label>
+  <div class="input-wrapper">
+    <ion-icon name="lock-closed-outline" class="input-icon"></ion-icon>
+    <input 
+      [type]="showPassword ? 'text' : 'password'" 
+      id="password" 
+      name="password" 
+      [(ngModel)]="password"
+      placeholder="Enter your password"
+      required
+      minlength="6"
+      #passwordInput="ngModel"
+      [class.invalid]="passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)"
+    >
+    <ion-icon 
+      [name]="showPassword ? 'eye-off-outline' : 'eye-outline'" 
+      class="toggle-password"
+      (click)="togglePasswordVisibility()"
+    ></ion-icon>
+  </div>
+
+        @if (passwordInput.invalid && (passwordInput.dirty || passwordInput.touched)) {
+          <div class="error-message">
+            <ion-icon name="alert-circle-outline"></ion-icon>
+            <span>
+              @if (passwordInput.errors?.['required']) {
+                Password is required
+              }
+              @if (passwordInput.errors?.['minlength']) {
+                Password must be at least 6 characters
+              }
+            </span>
+          </div>
+        }
+      </div>
+  
+      <!-- Remember Me & Forgot Password -->
+      <div class="form-options">
+        <label class="remember-me">
+          <input type="checkbox" [(ngModel)]="rememberMe" name="rememberMe">
+          <span>Remember me</span>
+        </label>
+        <a class="forgot-password" (click)="navigateToForgotPassword()">Forgot password?</a>
+      </div>
+  
+      <!-- Submit Button -->
+      <button type="submit" class="login-btn" [disabled]="loginForm.invalid || isLoading">
+        @if (!isLoading) {
+          <span>Login</span>
+        }
+        @if (isLoading) {
+          <ion-icon name="refresh-outline" class="loading-icon"></ion-icon>
+        }
+      </button>
+  
+      <!-- Backend Error Message -->
+      @if (errorMessage) {
+        <div class="error-message backend-error">
+          <ion-icon name="alert-circle-outline"></ion-icon>
+          <span>{{ errorMessage }}</span>
+        </div>
+      }
+    </form>
+  </div>
