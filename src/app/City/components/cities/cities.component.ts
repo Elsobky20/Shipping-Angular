@@ -22,8 +22,11 @@ export class CitiesComponent implements OnInit {
   errorMessage: string | null = null;
   destroy$ = new Subject<void>();
   mySubscribe: any;
+  ExistCitiesNumber:number = 0;
   totalCitiesNumber:number = 0;
+  pageNumber:number = 1;
   selectedPageSize: number = 10;
+  numberOfPages!:number;
   values: number[] = [5, 10, 25, 50];
   constructor(private cityService:CityService, private httpReqService:HttpReqService){
     this.searchForm = new FormGroup({
@@ -33,38 +36,41 @@ export class CitiesComponent implements OnInit {
   /* ============================================ End Properties & Constructor ================================ */
   ngOnInit(): void {
     // جلب جميع المدن عند التهيئة
-    this.loadAllCities(this.selectedPageSize);
+    this.loadAllCities(this.selectedPageSize, this.pageNumber);
     // إعداد البحث التفاعلي
-    this.setupSearch();
+    this.setupSearch(this.selectedPageSize, this.pageNumber);
     // المدن الموجودة في الخدمة
     this.loadExistCities();
   }
 
-  loadAllCities(size:number): void {
+  loadAllCities(size:number, pageNum?:number): void {
     this.isLoading = true;
-    this.mySubscribe = this.httpReqService.getAll('city', 'all', {pageSize:size})
+    this.mySubscribe = this.httpReqService.getAll('city', 'all', {pageSize:size, page:pageNum})
     .pipe(takeUntil(this.destroy$))
     .subscribe({
       next: (response) => {
         this.handleSuccessResponse(response)
+        this.totalCitiesNumber = response.data.totalCitiess;
+        this.numberOfPages = this.totalCitiesNumber / this.selectedPageSize;
+        console.log(this.numberOfPages)
       },
       error: (error) => this.handleError(error)
     });
   }
 
-  loadExistCities(): void {
+  loadExistCities():void {
     this.isLoading = true;
     this.mySubscribe = this.httpReqService.getAll('city', 'exist')
     .pipe(takeUntil(this.destroy$))
     .subscribe({
       next: (response) => {
-        this.totalCitiesNumber = response.data.totalCitiess;
+        this.ExistCitiesNumber = response.data.totalCitiess;
       },
       error: (error) => this.handleError(error)
     });
   }
 
-  setupSearch(): void {
+  setupSearch(size:number, pageNum?:number): void {
     this.searchForm.get('search')?.valueChanges
       .pipe(
         debounceTime(300),
@@ -73,14 +79,14 @@ export class CitiesComponent implements OnInit {
           this.isLoading = true;
           this.errorMessage = null;
           if (query && query.trim()) {
-            return this.httpReqService.getAll('City', 'all', { searchTxt: query }).pipe(
+            return this.httpReqService.getAll('City', 'all', { searchTxt: query, pageSize: size, page: pageNum }).pipe(
               catchError(error => {
                 this.handleError(error);
                 return EMPTY; // أو return of([]) لإرجاع مصفوفة فارغة
               })
             );
           } else {
-            return this.httpReqService.getAll('City', 'all', {});
+            return this.httpReqService.getAll('City', 'all', {pageSize: size, page: pageNum});
           }
         }),
         takeUntil(this.destroy$)
@@ -141,7 +147,15 @@ export class CitiesComponent implements OnInit {
   updateSelectedValue(value: number) {
     this.selectedPageSize = value;
     this.loadAllCities(value);
+    this.setupSearch(value);
   }
+  updatePageNumber(value:number){
+    this.pageNumber = value;
+    this.loadAllCities(this.selectedPageSize, value);
+    this.setupSearch(this.selectedPageSize, value);
+  }
+
+
   /* ============================================ End Number Of Rows ========================================= */
 
   /* ============================================ Start Delete =============================================== */
@@ -173,6 +187,7 @@ export class CitiesComponent implements OnInit {
           this.cities = [...this.cities];
           this.cities[index].isDeleted = true;
           this.cities.sort((a, b) => a.governmentName.localeCompare(b.governmentName));
+          this.loadExistCities();
         }
       },
       error: (error) => {

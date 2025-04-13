@@ -10,7 +10,7 @@
             class="card-title fs-3"
             style="color: #9c57ff; font-weight: bold; letter-spacing: 1px"
           >
-            cities <span class="fs-5">[{{ totalCitiesNumber }}]</span>
+            cities <span class="fs-5">[{{ ExistCitiesNumber }}]</span>
           </h4>
         </div>
         <div class="row mb-2 px-3">
@@ -166,7 +166,12 @@
             <nav aria-label="Page navigation example">
               <ul class="pagination">
                 <li class="page-item fw-bold">
-                  <button class="page-link" aria-label="Previous">
+                  <button
+                    class="page-link"
+                    aria-label="Previous"
+                    [disabled]="pageNumber < 1"
+                    (click)="updatePageNumber(pageNumber - 1)"
+                  >
                     <span
                       style="color: #9c57ff"
                       aria-hidden="true"
@@ -176,22 +181,39 @@
                   </button>
                 </li>
                 <li class="page-item">
-                  <button class="page-link fw-bold" style="color: #9c57ff">
+                  <button
+                    class="page-link fw-bold"
+                    style="color: #9c57ff"
+                    (click)="updatePageNumber(1)"
+                  >
                     1
                   </button>
                 </li>
                 <li class="page-item">
-                  <button class="page-link fw-bold" style="color: #9c57ff">
+                  <button
+                    class="page-link fw-bold"
+                    style="color: #9c57ff"
+                    (click)="updatePageNumber(2)"
+                  >
                     2
                   </button>
                 </li>
                 <li class="page-item">
-                  <button class="page-link fw-bold" style="color: #9c57ff">
+                  <button
+                    class="page-link fw-bold"
+                    style="color: #9c57ff"
+                    (click)="updatePageNumber(3)"
+                  >
                     3
                   </button>
                 </li>
                 <li class="page-item">
-                  <button class="page-link fw-bold" aria-label="Next">
+                  <button
+                    class="page-link fw-bold"
+                    aria-label="Next"
+                    [disabled]="pageNumber >= numberOfPages"
+                    (click)="updatePageNumber(pageNumber + 1)"
+                  >
                     <span
                       style="color: #9c57ff"
                       aria-hidden="true"
