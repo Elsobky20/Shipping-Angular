@@ -11,24 +11,14 @@
           </h4>
         </div>
         <div class="row mb-3 px-3">
-          <button
-            type="button"
-            class="btn btn-gradient-primary btn-fw col-sm-2"
-            [routerLink]="['/deliveryForm']"
-          >
-            Add Delivery
-          </button>
-          <form
-            class="d-flex align-items-center h-100 col-sm-2 ms-auto"
-            style="
-              background-image: linear-gradient(
-                to right,
-                rgb(217 139 255),
-                #9c57ff
-              );
-            "
-            action="#"
-          >
+
+          <button type="button" class="btn btn-gradient-primary btn-fw col-sm-2" 
+          routerLink="/delivery/add">
+    Add Delivery
+  </button>
+          <form class="d-flex align-items-center h-100 col-sm-2 ms-auto" 
+                style="background-image: linear-gradient(to right, rgb(217 139 255), #9c57ff);" action="#">
+
             <div class="input-group">
               <div
                 class="input-group-prepend bg-transparent"
@@ -47,16 +37,11 @@
                   "
                 ></i>
               </div>
-              <input
-                type="text"
-                class="form-control bg-transparent border-0"
-                style="
-                  color: white !important;
-                  padding-left: 5px;
-                  font-size: 16px;
-                "
-                placeholder="Search .."
-              />
+
+              <input type="text" class="form-control bg-transparent border-0" 
+                     style="color: white !important; padding-left: 5px; font-size: 16px;" 
+                     placeholder="Search .." 
+                     [formControl]="searchControl" />
             </div>
           </form>
         </div>
@@ -86,18 +71,16 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let delivery of deliveries; let i = index">
-                <td>{{ i + 1 }}</td>
+              <tr *ngFor="let delivery of paginatedDeliveries; let i = index">
+                <td>{{ (currentPage - 1) * itemsPerPage + i + 1 }}</td>
                 <td>{{ delivery.name }}</td>
                 <td>{{ delivery.phone }}</td>
                 <td>{{ delivery.email }}</td>
                 <td>{{ delivery.address }}</td>
                 <td>{{ delivery.branchName }}</td>
                 <td>
-                  <ng-container
-                    *ngIf="delivery.governmentName?.length; else noGov"
-                  >
-                    {{ delivery.governmentName!.join(", ") }}
+                  <ng-container *ngIf="delivery.governmentName?.length; else noGov">
+                    {{ delivery.governmentName.join(', ') }}
                   </ng-container>
                   <ng-template #noGov>-</ng-template>
                 </td>
@@ -112,24 +95,16 @@
                   </span>
                 </td>
                 <td class="py-0">
-                  <i
-                    class="bi bi-pencil-square fs-4 text-info btn p-2"
-                    data-bs-toggle="tooltip"
-                    title="Edit"
-                    [routerLink]="[delivery.id, 'edit']"
-                  ></i>
-                  <i
-                    class="bi bi-eye fs-4 text-warning btn p-2"
-                    data-bs-toggle="tooltip"
-                    title="Details"
-                    [routerLink]="[delivery.id]"
-                  ></i>
-                  <i
-                    class="bi bi-trash3 fs-4 text-danger btn p-2"
-                    data-bs-toggle="tooltip"
-                    title="Delete"
-                    (click)="deleteDelivery(delivery.id)"
-                  ></i>
+
+                  <i class="bi bi-pencil-square fs-4 text-primary btn p-2" 
+                  data-bs-toggle="tooltip" title="Edit"
+                  (click)="editDelivery(delivery.id)"></i>
+                  <i class="bi bi-eye fs-4 text-warning btn p-2" 
+                     data-bs-toggle="tooltip" title="Details" 
+                     [routerLink]="[delivery.id]"></i>
+                  <i class="bi bi-trash3 fs-4 text-danger btn p-2" 
+                     data-bs-toggle="tooltip" title="Delete" 
+                     (click)="deleteDelivery(delivery.id)"></i>
                 </td>
               </tr>
             </tbody>
@@ -139,66 +114,39 @@
           <div class="col-sm-3 px-0">
             <nav aria-label="Page navigation example">
               <ul class="pagination">
-                <li class="page-item fw-bold">
-                  <a class="page-link" href="#" aria-label="Previous">
-                    <span style="color: #9c57ff !important" aria-hidden="true"
-                      >&laquo;</span
-                    >
+
+                <li class="page-item fw-bold" [class.disabled]="currentPage === 1">
+                  <a class="page-link" (click)="changePage(currentPage - 1)" aria-label="Previous">
+                    <span style="color: #9c57ff !important" aria-hidden="true">&laquo;</span>
                   </a>
                 </li>
-                <li class="page-item">
-                  <a
-                    class="page-link fw-bold"
-                    style="color: #9c57ff !important"
-                    href="#"
-                    >1</a
-                  >
+                <li class="page-item" *ngFor="let page of [].constructor(totalPages); let i = index"
+                    [class.active]="currentPage === i + 1">
+                  <a class="page-link fw-bold" style="color: #9c57ff !important" 
+                     (click)="changePage(i + 1)">{{ i + 1 }}</a>
                 </li>
-                <li class="page-item">
-                  <a
-                    class="page-link fw-bold"
-                    style="color: #9c57ff !important"
-                    href="#"
-                    >2</a
-                  >
-                </li>
-                <li class="page-item">
-                  <a
-                    class="page-link fw-bold"
-                    style="color: #9c57ff !important"
-                    href="#"
-                    >3</a
-                  >
-                </li>
-                <li class="page-item">
-                  <a class="page-link fw-bold" href="#" aria-label="Next">
-                    <span style="color: #9c57ff !important" aria-hidden="true"
-                      >&raquo;</span
-                    >
+                <li class="page-item fw-bold" [class.disabled]="currentPage === totalPages">
+                  <a class="page-link" (click)="changePage(currentPage + 1)" aria-label="Next">
+                    <span style="color: #9c57ff !important" aria-hidden="true">&raquo;</span>
+
                   </a>
                 </li>
               </ul>
             </nav>
           </div>
           <div class="dropdown px-0 col-sm-3 ms-auto">
-            <button
-              class="btn btn-outline-primary dropdown-toggle"
-              type="button"
-              id="dropdownMenuButton"
-              data-bs-toggle="dropdown"
-              aria-expanded="false"
-              style="width: 120px !important"
-            >
-              {{ selectedValue }}
+
+            <button class="btn btn-outline-primary dropdown-toggle" type="button" 
+                    id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" 
+                    style="width: 120px !important">
+              {{ itemsPerPage }}
             </button>
-            <ul
-              class="dropdown-menu"
-              style="width: 120px !important; min-width: 100px !important"
-              aria-labelledby="dropdownMenuButton"
-            >
-              <li *ngFor="let val of values; let i = index">
-                <button class="dropdown-item" (click)="selectValue(val)">
-                  {{ val }}
+            <ul class="dropdown-menu" style="width: 120px !important; min-width: 100px !important" 
+                aria-labelledby="dropdownMenuButton">
+              <li *ngFor="let size of pageSizes">
+                <button class="dropdown-item" (click)="changePageSize(size)">
+                  {{ size }}
+
                 </button>
               </li>
             </ul>
