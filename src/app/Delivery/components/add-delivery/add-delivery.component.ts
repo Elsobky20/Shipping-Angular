@@ -21,7 +21,7 @@ export class AddDeliveryComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.loadBranches();
-    this.loadGovernments();
+    // this.loadGovernments();
   }
 
   initForm(): void {
@@ -36,26 +36,36 @@ export class AddDeliveryComponent implements OnInit {
       discountType: ['', Validators.required],
       companyPercentage: ['', Validators.required]
     });
+    console.log(this.deliveryForm.value);
   }
 
   loadBranches(): void {
     this.http.getAll('Branch','all').subscribe(res => {
       this.branches = res.data.branches.sort((a: { name: string; }, b: { name: any; }) =>
         a.name.localeCompare(b.name));
-      console.log(this.branches);
+      
     });
   }
 
-  loadGovernments(): void {
-    this.http.getAll('Government','all').subscribe(res => {
-      this.governments = res.governments.sort((a: { name: string; }, b: { name: any; }) =>
-        a.name.localeCompare(b.name));
-    });
+  // دالة لتحميل المحافظات بناءً على branchId
+  onBranchChange(event: Event): void {
+    const target = event.target as HTMLSelectElement;
+    const selectedBranchId = Number(target.value);
+  
+    if (selectedBranchId) {
+      this.http.getById('Delivery/GovernmentByBranch', selectedBranchId).subscribe({
+        next: (data) => {
+          this.governments = data;
+        },
+        error: (err) => {
+          console.log('Error:', err?.message || err);
+        }
+      });
+    }
   }
-
+  
   onSubmit(): void {
-    if (this.deliveryForm.invalid)
-      {
+    if (this.deliveryForm.invalid) {
       swal.fire({
         icon: 'warning',
         title: 'Validation Error',
@@ -63,7 +73,9 @@ export class AddDeliveryComponent implements OnInit {
       });
       return;
     }
-
+  
+    console.log('Form values:', this.deliveryForm.value); // تأكد من أن القيم صحيحة
+  
     this.http.create('Delivery', this.deliveryForm.value).subscribe({
       next: res => {
         swal.fire({
@@ -85,6 +97,7 @@ export class AddDeliveryComponent implements OnInit {
       }
     });
   }
+  
 
   fc = (control: string) => this.deliveryForm.get(control);
   isInvalid = (control: string): boolean => {
