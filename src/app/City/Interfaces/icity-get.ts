@@ -12,18 +12,11 @@ export interface ICityResponseData {
   pageSize: number;
   cities: ICityGetDTO[]
 }
-const newLocal = false;
 export interface ICityCreateDTO {
   government_Id: number;
   name: string;
   pickupShipping: number;
   standardShipping: number
-}
-export interface IPagination {
-  page: number;
-  pageSize: number;
-  totalCount: number;
-  totalPages: number;
 }
 export interface ICityEditDTO {
   government_Id: number;

@@ -28,7 +28,7 @@ export class CitiesComponent implements OnInit {
   selectedPageSize: number = 10;
   numberOfPages!:number;
   values: number[] = [5, 10, 25, 50];
-  constructor(private cityService:CityService, private httpReqService:HttpReqService){
+  constructor(private httpReqService:HttpReqService){
     this.searchForm = new FormGroup({
       search: new FormControl('')
     });
