@@ -52,7 +52,6 @@ export class CitiesComponent implements OnInit {
         this.handleSuccessResponse(response)
         this.totalCitiesNumber = response.data.totalCitiess;
         this.numberOfPages = this.totalCitiesNumber / this.selectedPageSize;
-        console.log(this.numberOfPages)
       },
       error: (error) => this.handleError(error)
     });
