@@ -78,5 +78,4 @@ export class CityFormComponent implements OnInit {
       console.log('Errorrrrrrrrrr');
     }
   }
-
 }
