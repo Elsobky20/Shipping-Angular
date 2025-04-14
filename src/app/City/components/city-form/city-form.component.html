@@ -6,13 +6,27 @@
           class="card-body p-5 py-3"
           style="height: 80vh !important; max-height: 100vh !important"
         >
-          <div class="row mt-2">
+          <div class="row mt-2 d-flex justify-content-between mb-2">
             <h4
-              class="card-title fs-3"
+              class="card-title fs-3 col-sm-8"
               style="color: #9c57ff; font-weight: bold; letter-spacing: 1px"
             >
               {{ cityId == 0 ? "Add New City" : "Edit City" }}
             </h4>
+            <button
+              class="btn btn-light col-sm-1 px-0 d-flex align-items-center justify-content-center ms-auto me-2"
+              style="
+                color: #9c57ff;
+                letter-spacing: 0.8px;
+                height: 42px;
+                width: 42px;
+                border-radius: 50%;
+              "
+              title="Back to city"
+              [routerLink]="['/city']"
+            >
+              <i class="bi bi-skip-backward-circle fs-2"></i>
+            </button>
           </div>
           <div
             class="row col-sm-12 table-responsive table-bordered rounded mx-auto"
@@ -98,7 +112,9 @@
               </div>
               @if (cityId != 0) {
               <div class="form-group my-3 row justify-content-sm-start mt-3">
-                <label for="switchCheck" class="col-sm-2 me-3">ِAvailable</label>
+                <label for="switchCheck" class="col-sm-2 me-3"
+                  >ِAvailable</label
+                >
                 @if (getIsDeleted.value) {
                 <div class="form-check form-switch col-sm-1">
                   <input
@@ -136,7 +152,6 @@
                     width: 42px;
                     border-radius: 50%;
                   "
-                  (click)="cancelHandeler()"
                   [routerLink]="['/city']"
                 >
                   <i class="bi bi-skip-backward-circle fs-2"></i>

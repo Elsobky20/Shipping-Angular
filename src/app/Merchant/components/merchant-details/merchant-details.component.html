@@ -1,1 +1,168 @@
-
+<div class="row">
+  <div class="content-wrapper container-fluid p-0">
+    <div class="col-md-12 grid-margin stretch-card">
+      <div class="card" style="max-height: 100vh !important">
+        <div
+          class="card-body p-5 py-3"
+          style="
+            height: 80vh !important;
+            max-height: 100vh !important;
+            overflow: auto;
+          "
+        >
+          <div class="row d-flex justify-content-between mb-2">
+            <h4
+              class="card-title fs-3 col-sm-8"
+              style="color: #9c57ff; font-weight: bold; letter-spacing: 1px"
+            >
+              Merchant Details
+            </h4>
+            <button
+              class="btn btn-light col-sm-1 px-0 d-flex align-items-center justify-content-center mx-auto me-2"
+              style="
+                color: #9c57ff;
+                letter-spacing: 0.8px;
+                height: 42px;
+                width: 42px;
+                border-radius: 50%;
+              "
+              title="Back to merchant"
+              [routerLink]="['/merchant']"
+            >
+              <i class="bi bi-skip-backward-circle fs-2"></i>
+            </button>
+          </div>
+          <div class="row px-3">
+            <form
+              class="forms-sample d-flex justify-content-around flex-wrap"
+              [formGroup]="merchantForm"
+            >
+              <div class="form-group col-sm-5">
+                <label for="exampleInputMerchantname1">Merchant Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="exampleInputMerchantname1"
+                  placeholder="Merchant Name"
+                  readonly
+                  formControlName="name"
+                />
+              </div>
+              <div class="form-group col-sm-5">
+                <label for="exampleInputEmail1">Email Address</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="exampleInputEmail1"
+                  placeholder="Email"
+                  readonly
+                  formControlName="email"
+                />
+              </div>
+              <div class="form-group col-sm-5">
+                <label for="exampleInputGovernrate">Governrate</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="exampleInputGovernrate"
+                  placeholder="Governrate"
+                  readonly
+                  formControlName="government"
+                />
+              </div>
+              <div class="form-group col-sm-5">
+                <label for="exampleInputGovernrate">City</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="exampleInputCity"
+                  placeholder="City"
+                  readonly
+                  formControlName="city"
+                />
+              </div>
+              <div class="form-group col-sm-5">
+                <label for="exampleInputPhone">Phone</label>
+                <input
+                  type="tel"
+                  class="form-control"
+                  id="exampleInputPhone"
+                  placeholder="Phone"
+                  readonly
+                  formControlName="phone"
+                />
+              </div>
+              <div class="form-group col-sm-5">
+                <label for="exampleInputAddress">Address</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="exampleInputAddress"
+                  placeholder="Address"
+                  readonly
+                  formControlName="address"
+                />
+              </div>
+              <div class="form-group col-sm-5">
+                <label for="exampleInputStore">Store Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="exampleInputStore"
+                  placeholder="Store Name"
+                  readonly
+                  formControlName="storeName"
+                />
+              </div>
+              <div class="form-group col-sm-5">
+                <label for="exampleInputDate">Create Date</label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="exampleInputDate"
+                  placeholder="Create Date"
+                  readonly
+                  formControlName="createdDate"
+                />
+              </div>
+              <div class="form-group col-sm-5">
+                <label for="exampleInputPickup">Pickup Cost</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="exampleInputPickup"
+                  placeholder="Pickup Cost"
+                  readonly
+                  formControlName="pickupCost"
+                />
+              </div>
+              <div class="form-group col-sm-5">
+                <label for="exampleInputRejected"
+                  >Rejected Order Percentage</label
+                >
+                <input
+                  type="number"
+                  class="form-control"
+                  id="exampleInputRejected"
+                  placeholder="Rejected Order Percentage"
+                  readonly
+                  formControlName="rejectedOrderPercentage"
+                />
+              </div>
+              <div class="form-group col-sm-11 mx-auto">
+                <label for="exampleTextarea1">Branches</label>
+                <textarea
+                  class="form-control"
+                  id="exampleTextarea1"
+                  rows="1"
+                  readonly
+                  formControlName="branchsNames"
+                ></textarea>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

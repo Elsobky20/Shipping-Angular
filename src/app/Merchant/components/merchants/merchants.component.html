@@ -6,19 +6,33 @@
           class="card-body p-5 py-3"
           style="height: 80vh !important; max-height: 100vh !important"
         >
-          <div class="row">
+          <div class="row d-flex justify-content-between mb-2">
             <h4
-              class="card-title fs-3"
+              class="card-title fs-3 col-sm-8"
               style="color: #9c57ff; font-weight: bold; letter-spacing: 1px"
             >
               Merchants <span class="fs-5">[{{ ExistMerchantsNumber }}]</span>
             </h4>
+            <button
+              class="btn btn-light col-sm-1 px-0 d-flex align-items-center justify-content-center ms-auto me-2"
+              style="
+                color: #9c57ff;
+                letter-spacing: 0.8px;
+                height: 42px;
+                width: 42px;
+                border-radius: 50%;
+              "
+              title="Back to dashboard"
+              [routerLink]="['/dashboard']"
+            >
+              <i class="bi bi-skip-backward-circle fs-2"></i>
+            </button>
           </div>
           <div class="row mb-2 px-3">
             <button
               type="button"
               class="btn btn-gradient-primary btn-fw col-sm-2"
-              [routerLink]="[0]"
+              [routerLink]="[0, 'edit']"
             >
               Add Merchant
             </button>
@@ -138,6 +152,13 @@
                       class="bi bi-pencil-square fs-4 text-info btn p-2"
                       data-bs-toggle="tooltip"
                       title="Edit"
+                      [routerLink]="[merchant.id, 'edit']"
+                    ></i>
+                    <i
+                      class="bi bi-eye-fill fs-4 btn p-2"
+                      style="color: #b598de"
+                      data-bs-toggle="tooltip"
+                      title="Details"
                       [routerLink]="[merchant.id]"
                     ></i>
                     <i
