@@ -8,6 +8,14 @@
     font-family: Arial, sans-serif;
   }
   
+  .role-name {
+    color: #1976d2; 
+    font-weight: bold;
+    font-size: 18px;
+    padding: 4px 8px;
+    display: inline-block;
+  }
+  
   .form-title {
     text-align: center;
     font-size: 24px;

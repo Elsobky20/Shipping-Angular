@@ -37,7 +37,7 @@ export class RolePermissionListComponent implements OnInit {
   editRolePermission(rolePermission: RolePermissionDTO) {
     console.log('Editing Role Permission:', rolePermission);
   
-    if (rolePermission.role_Id && rolePermission.permission_Id) {  // استخدم role_Id و permission_Id هنا
+    if (rolePermission.role_Id && rolePermission.permission_Id) {  
       this.router.navigate([`/role-permissions/${rolePermission.role_Id}/${rolePermission.permission_Id}`]);
     } else {
       console.error('Invalid roleId or permissionId');

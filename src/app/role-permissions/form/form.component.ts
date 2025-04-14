@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, ReactiveFormsModule, FormArray } from '@angular
 import { RolePermissionService } from '../services/role-permission.service';
 import { CreateRolePermissionDTO, RolePermissionDTO, UpdateRolePermissionDTO } from '../models/models';
 import { ActivatedRoute, Router } from '@angular/router';
+
 @Component({
   selector: 'app-role-permission-form',
   standalone: true,
@@ -20,17 +21,19 @@ export class FormComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private rolePermissionService: RolePermissionService,
-    private route: ActivatedRoute  , private router: Router
+    private route: ActivatedRoute,
+    private router: Router
   ) {
     this.form = this.fb.group({
       roleId: [''],
       permissions: this.fb.array([]),
     });
   }
+
   ngOnInit(): void {
     this.route.paramMap.subscribe(params => {
       const roleId = params.get('roleId');
-      const permissionIdParam = params.get('permissionId');  
+      const permissionIdParam = params.get('permissionId');
   
       if (roleId && permissionIdParam) {
         const permissionId = +permissionIdParam;  
@@ -48,16 +51,28 @@ export class FormComponent implements OnInit {
       }
     });
   }
+
   get permissionsArray(): FormArray {
     return this.form.get('permissions') as FormArray;
   }
 
   loadPermissions() {
+    console.log("Fetching permissions for Role ID:", this.selectedRoleId, "and Permission ID:", this.selectedPermissionId);
     this.rolePermissionService.getById(this.selectedRoleId, this.selectedPermissionId).subscribe(
       (data: RolePermissionDTO) => {
-        console.log("Permissions data:", data);
-        this.permissions = [data]; 
-        this.buildFormArray(); 
+        console.log("Permissions data received:", data);
+        if (data) {
+
+          if (data.roleName && data.permissionName) {
+            console.log("Role Name and Permission Name are loaded correctly:", data.roleName, data.permissionName);
+          } else {
+            console.error("Role Name or Permission Name are missing in the response.");
+          }
+          this.permissions = [data];
+          this.buildFormArray();
+        } else {
+          console.error("No permissions data received");
+        }
       },
       error => {
         console.error("Error fetching role permission data:", error);
@@ -66,10 +81,14 @@ export class FormComponent implements OnInit {
   }
   
   buildFormArray() {
+    console.log("Building form array with permissions:", this.permissions);
     this.permissionsArray.clear();
     this.permissions.forEach(permission => {
+      console.log("Adding permission to form:", permission);
       this.permissionsArray.push(this.fb.group({
         permissionId: [permission.permission_Id],
+        roleName: [permission.roleName], 
+        permissionName: [permission.permissionName],  
         canView: [permission.canView],
         canEdit: [permission.canEdit],
         canAdd: [permission.canAdd],
@@ -77,7 +96,7 @@ export class FormComponent implements OnInit {
       }));
     });
   }
-
+  
   onSubmit() {
     const roleId = this.form.value.roleId;
     console.log('Submitting form for roleId:', roleId);
@@ -85,7 +104,7 @@ export class FormComponent implements OnInit {
   
     this.permissionsArray.value.forEach((perm: any, index: number) => {
       if (!perm.permissionId) {
-        console.error(` permissionId is missing for permission at index ${index}`);
+        console.error(`permissionId is missing for permission at index ${index}`);
         return;
       }
   
@@ -102,22 +121,20 @@ export class FormComponent implements OnInit {
   
       this.rolePermissionService.update(roleId, perm.permissionId, dto).subscribe({
         next: () => {
-          console.log(` Saved permissionId: ${perm.permissionId}`);
+          console.log(`Saved permissionId: ${perm.permissionId}`);
         },
         error: (err) => {
-          console.error(` Error saving permissionId ${perm.permissionId}:`, err);
+          console.error(`Error saving permissionId ${perm.permissionId}:`, err);
         }
       });
     });
   
-    alert('saved successfully');
+    alert('Saved successfully');
     this.router.navigate(['/role-permissions']);
   }
-  
-  
 
+  cancel(): void {
+    this.router.navigate(['/role-permissions']);
+  }
 
-
-
-
-}  
+}

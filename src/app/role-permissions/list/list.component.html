@@ -3,8 +3,8 @@
     <table class="table table-bordered">
       <thead>
         <tr>
-          <th>Role ID</th>
-          <th>Permission ID</th>
+          <th>Role </th>
+          <th>Permission </th>
           <th>Can View</th>
           <th>Can Edit</th>
           <th>Can Add</th>
@@ -14,8 +14,8 @@
       </thead>
       <tbody>
         <tr *ngFor="let rolePermission of rolePermissions">
-          <td>{{ rolePermission.role_Id }}</td>
-          <td>{{ rolePermission.permission_Id }}</td>
+          <td>{{ rolePermission.roleName }}</td>
+          <td>{{ rolePermission.permissionName }}</td>
           <td>{{ rolePermission.canView ? 'Yes' : 'No' }}</td>
           <td>{{ rolePermission.canEdit ? 'Yes' : 'No' }}</td>
           <td>{{ rolePermission.canAdd ? 'Yes' : 'No' }}</td>

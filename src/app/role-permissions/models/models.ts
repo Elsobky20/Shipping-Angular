@@ -10,6 +10,8 @@ export interface CreateRolePermissionDTO {
   export interface RolePermissionDTO {
     permission_Id: number;
     role_Id: string;
+    roleName: string;
+      permissionName: string;
     canView: boolean;
     canEdit: boolean;
     canDelete: boolean;
