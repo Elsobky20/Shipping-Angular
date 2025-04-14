@@ -63,6 +63,11 @@ export class AllDeliveryComponent implements OnInit {
       }
     });
   }
+  get activeDeliveriesCountInPage(): number {
+    const deliveriesInPage = this.paginatedDeliveries.filter(delivery => !delivery.isDeleted);
+    return deliveriesInPage.length;
+  }
+  
 
   filterDeliveries(): void {
     const searchTerm = this.searchControl.value?.toLowerCase() || '';

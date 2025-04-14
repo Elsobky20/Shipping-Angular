@@ -21,6 +21,7 @@ export const routes: Routes = [
   { path: 'deliveries', component: AllDeliveryComponent },
   { path: 'delivery/add', component: AddDeliveryComponent },
   { path: 'delivery/edit/:id', component: AddDeliveryComponent },
+  {path: 'delivery/details/:id', component: AddDeliveryComponent},
   {path: 'login', component: LoginComponent},
   {path: '**', component: NotFoundComponent}
 ];
