@@ -6,13 +6,27 @@
           class="card-body p-5 py-3"
           style="height: 80vh !important; max-height: 100vh !important"
         >
-          <div class="row">
+          <div class="row d-flex justify-content-between mb-2">
             <h4
-              class="card-title fs-3"
+              class="card-title fs-3 col-sm-8"
               style="color: #9c57ff; font-weight: bold; letter-spacing: 1px"
             >
               cities <span class="fs-5">[{{ ExistCitiesNumber }}]</span>
             </h4>
+            <button
+              class="btn btn-light col-sm-1 px-0 d-flex align-items-center justify-content-center ms-auto me-2"
+              style="
+                color: #9c57ff;
+                letter-spacing: 0.8px;
+                height: 42px;
+                width: 42px;
+                border-radius: 50%;
+              "
+              title="Back to dashboard"
+              [routerLink]="['/dashboard']"
+            >
+              <i class="bi bi-skip-backward-circle fs-2"></i>
+            </button>
           </div>
           <div class="row mb-2 px-3">
             <button
@@ -170,7 +184,7 @@
                     <button
                       class="page-link"
                       aria-label="Previous"
-                      [disabled]="pageNumber < 1"
+                      [disabled]="pageNumber <= 1"
                       (click)="updatePageNumber(pageNumber - 1)"
                     >
                       <span
