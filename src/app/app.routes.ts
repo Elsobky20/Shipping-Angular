@@ -7,6 +7,7 @@ import { AllDeliveryComponent } from './Delivery/components/all-delivery/all-del
 import { AddDeliveryComponent } from './Delivery/components/add-delivery/add-delivery.component';
 import { MerchantsComponent } from './Merchant/components/merchants/merchants.component';
 import { MerchantFormComponent } from './Merchant/components/merchant-form/merchant-form.component';
+import { MerchantDetailsComponent } from './Merchant/components/merchant-details/merchant-details.component';
 
 export const routes: Routes = [
   {path: '', redirectTo: 'merchant', pathMatch: 'full'},
@@ -14,7 +15,8 @@ export const routes: Routes = [
   {path: 'city', component: CitiesComponent},
   {path: 'city/:id', component: CityFormComponent},
   {path: 'merchant', component: MerchantsComponent},
-  {path: 'merchant/:id', component: MerchantFormComponent},
+  {path: 'merchant/:id', component: MerchantDetailsComponent},
+  {path: 'merchant/:id/edit', component: MerchantFormComponent},
   { path: 'deliveries', component: AllDeliveryComponent },
   { path: 'delivery/add', component: AddDeliveryComponent },
   { path: 'delivery/edit/:id', component: AddDeliveryComponent },

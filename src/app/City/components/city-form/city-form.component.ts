@@ -16,7 +16,7 @@ export class CityFormComponent implements OnInit {
   allGovernrates!: any[];
   theGovern!: any;
   checkCityDeleted!:boolean;
-  constructor(private cityService:CityService,
+  constructor(
     private httpReqService:HttpReqService,
     private activatedRoute: ActivatedRoute,
     private router: Router
@@ -48,7 +48,6 @@ export class CityFormComponent implements OnInit {
 
   ngOnInit(): void {
     // Step 1: Load Governrates
-    console.log(this.cityForm)
     this.httpReqService.getAll('Government', 'exist').subscribe({
       next: (response) => {
         this.allGovernrates = response.governments;
