@@ -1,0 +1,11 @@
+label {
+  color: gray;
+  font-size: 1.1rem;
+}
+input {
+  border: .8px solid rgba(0, 0, 0, 0.1) !important;
+}
+input:focus {
+  border: .8px solid rgba(26, 73, 245, 0.796) !important;
+}
+

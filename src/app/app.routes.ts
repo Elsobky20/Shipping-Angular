@@ -13,6 +13,12 @@ import { PermissionFormComponent } from './permissions/componnent/permissions-fo
 import { PermissionListComponent } from './permissions/componnent/permissions-list/permission-list.component';
 import { FormComponent } from './role-permissions/form/form.component';
 import { RolePermissionListComponent } from './role-permissions/list/list.component';
+import { AllDeliveryComponent } from './Delivery/components/all-delivery/all-delivery.component';
+import { AddDeliveryComponent } from './Delivery/components/add-delivery/add-delivery.component';
+import { LoginComponent } from './Login/components/login/login.component';
+import { MerchantsComponent } from './Merchant/components/merchants/merchants.component';
+import { MerchantFormComponent } from './Merchant/components/merchant-form/merchant-form.component';
+import { MerchantDetailsComponent } from './Merchant/components/merchant-details/merchant-details.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'employees', pathMatch: 'full' },
@@ -28,15 +34,18 @@ export const routes: Routes = [
   { path: 'Roles', component: RoleListComponent },
   { path: 'Roles/add', component: AddRoleComponent },
   { path: 'Roles/edit/:id', component: AddRoleComponent },
-
   { path: 'permissions/add', component: PermissionFormComponent },
   { path: 'permissions/edit/:id', component: PermissionFormComponent },
   { path: 'permissions', component: PermissionListComponent },
-
-
-    { path: 'role-permissions', component: RolePermissionListComponent },
+  { path: 'role-permissions', component: RolePermissionListComponent },
   { path: 'role-permissions/:roleId/:permissionId', component: FormComponent },
-
-
+  { path: 'merchant', component: MerchantsComponent },
+  { path: 'merchant/:id', component: MerchantDetailsComponent },
+  { path: 'merchant/:id/edit', component: MerchantFormComponent },
+  { path: 'deliveries', component: AllDeliveryComponent },
+  { path: 'delivery/add', component: AddDeliveryComponent },
+  { path: 'delivery/edit/:id', component: AddDeliveryComponent },
+  { path: 'delivery/details/:id', component: AddDeliveryComponent },
+  { path: 'login', component: LoginComponent },
   { path: '**', component: NotFoundComponent }
 ];

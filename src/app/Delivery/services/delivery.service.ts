@@ -11,12 +11,12 @@ import { APIResponse } from '../../AllModel/api-response';
 export class DeliveryService {
   constructor(private http:HttpClient) { }
 
-  baseURL:string = "http://localhost:5050/api/City/all";
-  getAllCities():Observable<APIResponse<ShowDeliveryDto>>{
+  baseURL:string = "http://localhost:5050/api/Delivery/all";
+  getAllDelivery():Observable<APIResponse<ShowDeliveryDto>>{
     return this.http.get<APIResponse<ShowDeliveryDto>>(this.baseURL);
   }
 
-  getCityById(id:number):Observable<APIResponse<ShowDeliveryDto>>{
+  getDeliveryById(id:number):Observable<APIResponse<ShowDeliveryDto>>{
     return this.http.get<APIResponse<ShowDeliveryDto>>(this.baseURL);
   }
 }

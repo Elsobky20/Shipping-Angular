@@ -1,123 +1,254 @@
-<div class="content-wrapper">
-    <div class="page-header">
-      <h3 class="page-title">Add New Delivery</h3>
-    </div>
-  
-    <div class="row">
-      <div class="col-lg-10 mx-auto grid-margin stretch-card">
-        <div class="card">
-          <div class="card-body">
-            <h4 class="card-title text-center mb-4">Add Delivery</h4>
-            <form [formGroup]="deliveryForm" (ngSubmit)="onSubmit()">
+<div class="row">
+  <div class="content-wrapper container-fluid p-0">
+    <div class="col-12 grid-margin stretch-card">
+      <div class="card" style="max-height: 100vh !important">
+        <div
+          class="card-body p-5 py-3"
+          style="height: 80vh !important; max-height: 100vh !important"
+        >
+          <div class="row mt-2 d-flex justify-content-between mb-2">
+            <h4
+              class="card-title fs-3 col-sm-8"
+              style="color: #9c57ff; font-weight: bold; letter-spacing: 1px"
+            >
+            {{ mode === 'details' ? "Delivery Details" : (mode === 'add' ? "Add New Delivery" : "Edit Delivery") }}
+
+            </h4>
+            <a
+              class="btn btn-light col-sm-1 px-0 d-flex align-items-center justify-content-center ms-auto me-2"
+              style="
+                color: #9c57ff;
+                letter-spacing: 0.8px;
+                height: 42px;
+                width: 42px;
+                border-radius: 50%;
+              "
+              title="Back to deliveries"
+              href="/deliveries"
+            >
+              <i class="bi bi-skip-backward-circle fs-2"></i>
+            </a>
+          </div>
+          <div
+            class="row col-sm-12 table-responsive table-bordered rounded mx-auto"
+            style="max-height: 85%"
+          >
+            <form
+              [formGroup]="deliveryForm"
+              class="forms-sample"
+              (submit)="onSubmit()"
+              autocomplete="off"
+            >
               <div class="row">
-  
                 <!-- Name -->
-                <div class="col-md-6 mb-3">
-                  <label>Name</label>
-                  <input class="form-control" formControlName="name" />
-                  <small class="text-danger" *ngIf="isInvalid('name')">
-                    <span *ngIf="fc('name')?.errors?.['required']">Name is required.</span>
-                    <span *ngIf="fc('name')?.errors?.['minlength']">Min 3 characters.</span>
-                    <span *ngIf="fc('name')?.errors?.['maxlength']">Max 10 characters.</span>
-                  </small>
+                <div class="col-md-6">
+                  <div class="form-group my-3">
+                    <label for="name">Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="name"
+                      placeholder="Name"
+                      formControlName="name"
+                      autocomplete="off"
+                      [disabled]="mode === 'details'"
+                    />
+                    <div *ngIf="isInvalid('name')" class="form-text text-danger">
+                      Name is required and must be 3-10 characters long.
+                    </div>
+                  </div>
                 </div>
-  
+                
                 <!-- Email -->
-                <div class="col-md-6 mb-3">
-                  <label>Email</label>
-                  <input class="form-control" formControlName="email" />
-                  <small class="text-danger" *ngIf="isInvalid('email')">
-                    <span *ngIf="fc('email')?.errors?.['required']">Email is required.</span>
-                    <span *ngIf="fc('email')?.errors?.['email']">Invalid email format.</span>
-                  </small>
+                <div class="col-md-6">
+                  <div class="form-group my-3">
+                    <label for="email">Email</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="email"
+                      placeholder="Email"
+                      formControlName="email"
+                      autocomplete="new-email"
+                      [disabled]="mode === 'details'"
+                    />
+                    <div *ngIf="isInvalid('email')" class="form-text text-danger">
+                      Please enter a valid email.
+                    </div>
+                  </div>
                 </div>
-  
+                
                 <!-- Phone -->
-                <div class="col-md-6 mb-3">
-                  <label>Phone</label>
-                  <input class="form-control" formControlName="phone" />
-                  <small class="text-danger" *ngIf="isInvalid('phone')">
-                    <span *ngIf="fc('phone')?.errors?.['required']">Phone is required.</span>
-                    <span *ngIf="fc('phone')?.errors?.['pattern']">Invalid Egyptian number.</span>
-                  </small>
+                <div class="col-md-6">
+                  <div class="form-group my-3">
+                    <label for="phone">Phone</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="phone"
+                      placeholder="Phone"
+                      formControlName="phone"
+                      autocomplete="off"
+                      [disabled]="mode === 'details'"
+                    />
+                    <div *ngIf="isInvalid('phone')" class="form-text text-danger">
+                      Please enter a valid Egyptian phone number.
+                    </div>
+                  </div>
                 </div>
-  
+                
                 <!-- Password -->
-                <div class="col-md-6 mb-3">
-                  <label>Password</label>
-                  <input class="form-control" type="password" formControlName="password" />
-                  <small class="text-danger" *ngIf="isInvalid('password')">
-                    <span *ngIf="fc('password')?.errors?.['required']">Password is required.</span>
-                    <span *ngIf="fc('password')?.errors?.['minlength']">Min 6 characters.</span>
-                  </small>
+                <div *ngIf="mode !== 'details'" class="col-md-6">
+                  <div class="form-group my-3">
+                    <label for="password">Password</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="password"
+                      placeholder="Password"
+                      formControlName="password"
+                      autocomplete="new-password"
+                    />
+                    <div *ngIf="isInvalid('password')" class="form-text text-danger">
+                      Password must be at least 6 characters.
+                    </div>
+                  </div>
                 </div>
-  
+                
+                
                 <!-- Address -->
-                <div class="col-md-6 mb-3">
-                  <label>Address</label>
-                  <input class="form-control" formControlName="address" />
-                  <small class="text-danger" *ngIf="isInvalid('address')">
-                    <span *ngIf="fc('address')?.errors?.['required']">Address is required.</span>
-                  </small>
+                <div class="col-md-6">
+                  <div class="form-group my-3">
+                    <label for="address">Address</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="address"
+                      placeholder="Address"
+                      formControlName="address"
+                      autocomplete="off"
+                      [disabled]="mode === 'details'"
+                    />
+                    <div *ngIf="isInvalid('address')" class="form-text text-danger">
+                      Address is required.
+                    </div>
+                  </div>
                 </div>
-  
+                
                 <!-- Branch -->
-                <div class="col-md-6 mb-3">
-                  <label>Branch</label>
-                  <select class="form-control" formControlName="branchId">
-                    <option value="">Select branch</option>
-                    <option *ngFor="let branch of branches" [value]="branch.id">{{ branch.name }}</option>
-                  </select>
-                  <small class="text-danger" *ngIf="isInvalid('branchId')">
-                    Branch is required.
-                  </small>
+                <div class="col-md-6">
+                  <div class="form-group my-3">
+                    <label for="branchId">Branch</label>
+                    <div *ngIf="mode === 'details'; else editableSelect">
+                      <p  class="form-control ng-untouched ng-pristine sel">{{ deliveryForm.value.branchId }}</p> 
+                    </div>
+                    
+                    <ng-template #editableSelect>
+                      <select class="form-select" id="branchId" formControlName="branchId">
+                        <option *ngFor="let branch of branches" [value]="branch.id">{{ branch.name }}</option>
+                      </select>
+                    </ng-template>
+                
+                    <div *ngIf="isInvalid('branchId')" class="form-text text-danger">
+                      Please select a branch.
+                    </div>
+                  </div>
                 </div>
-  
+                
+                
                 <!-- Governments -->
-                <div class="col-md-6 mb-3">
-                  <label>Governments</label>
-                  <select multiple class="form-control" formControlName="governmentsId">
-                    <option *ngFor="let gov of governments" [value]="gov.id">{{ gov.name }}</option>
-                  </select>
-                  <small class="text-danger" *ngIf="isInvalid('governmentsId')">
-                    At least one government is required.
-                  </small>
+                <div class="col-md-6">
+                  <div class="form-group my-3">
+                    <label for="governmentsId">Governments</label>
+                    <div *ngIf="mode === 'details'; else multiSelect">
+                      <p  class="form-control ng-untouched ng-pristine sel">
+                        {{ deliveryForm.value.governmentsId.join(', ') }}  <!-- عرض الحكومات -->
+                      </p>
+                    </div>
+                    
+                    <ng-template #multiSelect>
+                      <select
+                        class="form-select"
+                        id="governmentsId"
+                        formControlName="governmentsId"
+                        multiple
+                      >
+                        <option *ngFor="let gov of governments" [value]="gov.id">{{ gov.name }}</option>
+                      </select>
+                    </ng-template>
+                    
+                    <div *ngIf="isInvalid('governmentsId')" class="form-text text-danger">
+                      Please select at least one government.
+                    </div>
+                  </div>
                 </div>
-  
+                
                 <!-- Discount Type -->
-                <div class="col-md-6 mb-3">
-                  <label>Discount Type</label>
-                  <select class="form-control" formControlName="discountType">
-                    <option value="">Select type</option>
-                    <option value="Percentage">Percentage</option>
-                    <option value="Fixed">Fixed</option>
-                  </select>
-                  <small class="text-danger" *ngIf="isInvalid('discountType')">
-                    Discount type is required.
-                  </small>
+                <div class="col-md-6">
+                  <div class="form-group my-3">
+                    <label for="discountType">Discount Type</label>
+                    <select
+                      class="form-select"
+                      id="discountType"
+                      formControlName="discountType"
+                      autocomplete="off"
+                    >
+                      <option value="">Select Discount Type ..</option>
+                      <option value="Fixed">Fixed</option>
+                      <option value="Percentage">Percentage</option>
+                    </select>
+                    <div *ngIf="isInvalid('discountType')" class="form-text text-danger">
+                      Please select a discount type.
+                    </div>
+                  </div>
                 </div>
-  
-                <!-- Company % -->
-                <div class="col-md-6 mb-3">
-                  <label>Company Percentage</label>
-                  <input type="number" class="form-control" formControlName="companyPercentage" />
-                  <small class="text-danger" *ngIf="isInvalid('companyPercentage')">
-                    Company % is required.
-                  </small>
+                
+                <!-- Company Percentage -->
+                <div class="col-md-6">
+                  <div class="form-group my-3">
+                    <label for="companyPercentage">Company Percentage</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="companyPercentage"
+                      placeholder="Company Percentage"
+                      min="0"
+                      step="1"
+                      formControlName="companyPercentage"
+                      autocomplete="off"
+                      [disabled]="mode === 'details'"
+                    />
+                    <div *ngIf="isInvalid('companyPercentage')" class="form-text text-danger">
+                      Company percentage is required.
+                    </div>
+                  </div>
                 </div>
-  
               </div>
-  
-              <!-- Submit Buttons -->
-              <div class="text-center mt-4">
-                <button class="btn btn-primary" type="submit">Add Delivery</button>
-                <button type="button" class="btn btn-secondary mx-2" (click)="deliveryForm.reset()">Reset</button>
+              
+              <div class="row mt-3 px-3">
+                <button
+                *ngIf="mode !== 'details'"  
+                type="submit"
+                class="btn btn-gradient-primary me-2 col-sm-3 px-0"
+                style="letter-spacing: 0.8px"
+                [disabled]="loading"
+              >
+                {{ loading ? 'Please wait...' : (mode === 'add' ? 'Add New Delivery' : 'Update Delivery') }}
+              </button>
+              
+                <a
+                *ngIf="mode !== 'details'"
+                  class="btn btn-light col-sm-3 px-0 d-flex align-items-center justify-content-center"
+                  style="color: rgb(95, 95, 95); letter-spacing: 0.8px"
+                  href="/deliveries"
+                >
+                  Cancel
+                </a>
               </div>
-  
             </form>
           </div>
         </div>
       </div>
     </div>
   </div>
-  
+</div>
