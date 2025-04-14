@@ -34,8 +34,11 @@ export class AuthService {
     if (decoded['email']) {
       localStorage.setItem('userEmail', decoded['email']);
     }
-    if (decoded['roles']) {
-      localStorage.setItem('userRoles', JSON.stringify(decoded['roles']));
+    if (decoded['role']) {
+      localStorage.setItem('userRoles', decoded['role']);
+    }
+    if (decoded['nameid']) {
+      localStorage.setItem('userId', decoded['nameid']);
     }
   }
   // Decode JWT token
@@ -64,7 +67,7 @@ export class AuthService {
   // Check if user has specific role
   hasRole(requiredRole: string): boolean {
     const decoded = this.getDecodedToken();
-    if (!decoded || !decoded['roles']) return false;
+    if (!decoded || !decoded['role']) return false;
     
     const roles = decoded['roles'];
     if (Array.isArray(roles)) {
