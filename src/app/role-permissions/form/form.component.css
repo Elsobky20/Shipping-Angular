@@ -1,0 +1,81 @@
+.role-permission-form-container {
+    max-width: 800px;
+    margin: 40px auto;
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+    font-family: Arial, sans-serif;
+  }
+  
+  .form-title {
+    text-align: center;
+    font-size: 24px;
+    font-weight: bold;
+    color: #333;
+    margin-bottom: 25px;
+  }
+  
+  .role-form .form-group {
+    margin-bottom: 20px;
+  }
+  
+  .role-form label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #444;
+  }
+  
+  .role-form input[type="text"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+    font-size: 16px;
+  }
+  
+  .permissions-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+  }
+  
+  .permissions-table th,
+  .permissions-table td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+  }
+  
+  .permissions-table th {
+    background-color: #f0f0f0;
+    font-weight: bold;
+    color: #555;
+  }
+  
+  .permissions-table tr:hover {
+    background-color: #f9f9f9;
+  }
+  
+  .submit-btn-container {
+    text-align: center;
+    margin-top: 25px;
+  }
+  
+  .submit-btn-container button {
+    background-color: #007bff;
+    color: white;
+    padding: 10px 30px;
+    border: none;
+    border-radius: 6px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .submit-btn-container button:hover {
+    background-color: #0056b3;
+  }
+  

@@ -11,7 +11,8 @@ import { RoleListComponent } from '../app/Roles/components/role-list/role-list.c
 import { AddRoleComponent } from '../app/Roles/components/add-role/add-role.component';
 import { PermissionFormComponent } from './permissions/componnent/permissions-form/permission-form.component';
 import { PermissionListComponent } from './permissions/componnent/permissions-list/permission-list.component';
-
+import { FormComponent } from './role-permissions/form/form.component';
+import { RolePermissionListComponent } from './role-permissions/list/list.component';
 
 export const routes: Routes = [
   { path: '', redirectTo: 'employees', pathMatch: 'full' },
@@ -31,6 +32,10 @@ export const routes: Routes = [
   { path: 'permissions/add', component: PermissionFormComponent },
   { path: 'permissions/edit/:id', component: PermissionFormComponent },
   { path: 'permissions', component: PermissionListComponent },
+
+
+    { path: 'role-permissions', component: RolePermissionListComponent },
+  { path: 'role-permissions/:roleId/:permissionId', component: FormComponent },
 
 
   { path: '**', component: NotFoundComponent }
