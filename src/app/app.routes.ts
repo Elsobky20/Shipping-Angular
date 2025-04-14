@@ -5,7 +5,7 @@ import { NotFoundComponent } from './NotFound/not-found.component';
 import { CityFormComponent } from './City/components/city-form/city-form.component';
 import { AllDeliveryComponent } from './Delivery/components/all-delivery/all-delivery.component';
 import { AddDeliveryComponent } from './Delivery/components/add-delivery/add-delivery.component';
-
+import { LoginComponent } from './Login/components/login/login.component';
 export const routes: Routes = [
   {path: '', redirectTo: 'city', pathMatch: 'full'},
   {path: 'dashboard', component: DashboardComponent},
@@ -14,5 +14,6 @@ export const routes: Routes = [
   { path: 'deliveries', component: AllDeliveryComponent },
   { path: 'delivery/add', component: AddDeliveryComponent },
   { path: 'delivery/edit/:id', component: AddDeliveryComponent },
+  {path: 'login', component: LoginComponent},
   {path: '**', component: NotFoundComponent}
 ];
