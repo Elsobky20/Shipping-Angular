@@ -14,7 +14,6 @@ import { IRoleDTO } from '../../../Roles/Interfaces/roles.model';
   styleUrls: ['./employee-form.component.css'],
   standalone: true,
   imports: [FormsModule, CommonModule],
-  providers: [RoleService]
 })
 export class EmployeeFormComponent implements OnInit {
   employee: ICreateEmployeeDTO = {
