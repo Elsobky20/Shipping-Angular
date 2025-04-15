@@ -42,11 +42,13 @@ import { AddDeliveryComponent } from './Delivery/components/add-delivery/add-del
 
 // Branch
 import { BranchesComponent } from './Branch/components/branches/branches.component';
-import { BranchFormComponent } from './Branch/components/branch-form/branch-form.component';
 
 // Setting
 import { SettingComponent } from './Setting/components/setting/setting.component';
 import { SettingFormComponent } from './Setting/components/setting-form/setting-form/setting-form.component';
+
+import { BranchFormComponent } from './Branch/components/branch-form/branch-form.component';
+import { ProfileComponent } from './Profile/components/profile/profile.component';
 
 export const routes: Routes = [
 
@@ -96,18 +98,29 @@ export const routes: Routes = [
   { path: 'deliveries', component: AllDeliveryComponent },
   { path: 'delivery/add', component: AddDeliveryComponent },
   { path: 'delivery/edit/:id', component: AddDeliveryComponent },
+  {path: 'delivery/details/:id', component: AddDeliveryComponent},
+  {path: 'login', component: LoginComponent},
+  {path: 'employee', component: EmployeeListComponent},
+  {path: 'employee/add', component: EmployeeFormComponent},
+  {path:'role',component:RoleListComponent},
+  {path:'role/add',component:AddRoleComponent},
+  {path :'branch' , component: BranchesComponent},
+  {path:'branch/add' , component:BranchFormComponent},
+  {path:'branch/:id',component:BranchFormComponent},
+  {path :'setting' , component: SettingComponent},
+  {path:'setting/add' , component:SettingFormComponent},
+  {path:'seting/edit/:id',component:SettingFormComponent},
+  {path:'profile',component:ProfileComponent},
+  {path: '**', component: NotFoundComponent},
   { path: 'delivery/details/:id', component: AddDeliveryComponent },
-
   // Branch
   { path: 'branch', component: BranchesComponent },
   { path: 'branch/add', component: BranchFormComponent },
   { path: 'branch/:id', component: BranchFormComponent },
-
   // Setting
   { path: 'setting', component: SettingComponent },
   { path: 'setting/add', component: SettingFormComponent },
   { path: 'seting/edit/:id', component: SettingFormComponent }, // تم الإبقاء على "seting" زي ما هو
-
   // Not Found
   { path: '**', component: NotFoundComponent }
 ];

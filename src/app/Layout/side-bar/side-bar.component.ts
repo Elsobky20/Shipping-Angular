@@ -27,10 +27,17 @@ toggleSidebar() {
   }
   getUserName(): string 
   {
-    return localStorage.getItem('name') || 'User';
+    if (typeof window !== 'undefined' && localStorage.getItem('name')) {
+      return localStorage.getItem('name') || 'User';
+    }
+    return 'User';
   }
   getRolUser(): string {
-    return localStorage.getItem('userRoles') || 'User';
+    if (typeof window !== 'undefined' && localStorage.getItem('userRoles')) {
+      return localStorage.getItem('userRoles') || 'User';
+      
+    }
+    return 'Role';
   }
   logout() {
     this.authService.logout();
