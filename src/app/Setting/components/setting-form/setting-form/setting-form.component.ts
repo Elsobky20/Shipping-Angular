@@ -73,7 +73,7 @@ export class SettingFormComponent implements OnInit {
     }
 
     const settingData = this.settingForm.value;
-
+console.log(settingData);
     if (this.isEdit && this.settingId) {
       // Update existing setting
       this.http.editById('Setting', this.settingId, settingData).subscribe({

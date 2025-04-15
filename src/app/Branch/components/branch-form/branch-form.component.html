@@ -1,337 +1,99 @@
-<div class="container my-5">
-    <div class="card shadow-lg p-4 rounded-4">
-      <h2 class="mb-4 text-center text-primary fw-bold">{{ isEdit ? 'Edit Branch' : 'Add New Branch' }}</h2>
-
-<!-- Back Button -->
-  <div class="d-flex justify-content-end mb-3">
-   <button
-    class="btn btn-light px-0 d-flex align-items-center justify-content-center"
-    style="
-      color: #9c57ff;
-      letter-spacing: 0.8px;
-      height: 42px;
-      width: 42px;
-      border-radius: 50%;
-    "
-    title="Back to branches"
-    [routerLink]="['/branch']"
-    >
-    <i class="bi bi-skip-backward-circle fs-2"></i>
-  </button>
-  </div>
-
-      <form [formGroup]="branchForm" (ngSubmit)="onSubmit()" novalidate>
-        <div class="row">
-         <!-- Branch Name--> 
-          <div class="mb-3 col-md-12">
-            <label for="name" class="form-label">Branch Name</label>
-            <input id="name" type="text" formControlName="name" class="form-control" [class.is-invalid]="isInvalid('name')" />
-            <div *ngIf="isInvalid('name')" class="invalid-feedback">
-              Branch name is required.
-            </div>
-          </div>
-  
-         <!--Mobile-->  
-          <div class="mb-3 col-md-12">
-            <label for="mobile" class="form-label">Mobile</label>
-            <input id="mobile" type="text" formControlName="mobile" class="form-control" [class.is-invalid]="isInvalid('mobile')" />
-            <div *ngIf="isInvalid('mobile')" class="invalid-feedback">
-              Mobile is required.
-            </div>
-          </div>
-  
-          <!-- Address  -->   
-          <div class="mb-3 col-md-12">
-            <label for="location" class="form-label">Location</label>
-            <input id="location" type="text" formControlName="location" class="form-control" [class.is-invalid]="isInvalid('location')" />
-            <div *ngIf="isInvalid('location')" class="invalid-feedback">
-              Location is required.
-            </div>
-          </div>
-        </div>
-  
-       <!--   Submit Button -->
-        <div class="d-grid mt-3">
-          <button type="submit" class="btn btn-primary py-2 fw-bold">{{ isEdit ? 'Update Branch' : 'Add Branch' }}</button>
-        </div>
-      </form>
-    </div>
-  </div>
-
-
-
-
-
-<!-- <div class="row">
+<div class="row">
   <div class="content-wrapper container-fluid p-0">
     <div class="col-12 grid-margin stretch-card">
       <div class="card" style="max-height: 100vh !important">
-        <div
-          class="card-body p-5 py-3"
-          style="height: 80vh !important; max-height: 100vh !important"
-        >
+        <div class="card-body p-5 py-3" style="height: 80vh !important; max-height: 100vh !important">
           <div class="row mt-2 d-flex justify-content-between mb-2">
             <h4
               class="card-title fs-3 col-sm-8"
               style="color: #9c57ff; font-weight: bold; letter-spacing: 1px"
             >
-              {{ branchId == 0 ? "Add New Branch" : "Edit Branch" }}
+              {{ isEdit ? "Edit Branch" : "Add New Branch" }}
             </h4>
-            <button
+            <a
               class="btn btn-light col-sm-1 px-0 d-flex align-items-center justify-content-center ms-auto me-2"
-              style="color: #9c57ff; letter-spacing: 0.8px; height: 42px; width: 42px; border-radius: 50%"
-              title="Back to Branch"
+              style="color: #9c57ff; letter-spacing: 0.8px; height: 42px; width: 42px; border-radius: 50%;"
+              title="Back to branches"
               [routerLink]="['/branch']"
             >
               <i class="bi bi-skip-backward-circle fs-2"></i>
-            </button>
+            </a>
           </div>
-
           <div class="row col-sm-12 table-responsive table-bordered rounded mx-auto" style="max-height: 85%">
-            <form [formGroup]="branchForm" class="forms-sample" (submit)="branchHandler()">
-              <div class="form-group my-3">
-                <label for="branchName">Branch Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="branchName"
-                  placeholder="Name"
-                  formControlName="name"
-                />
-                @if(getName.touched){
-                  @if (getName.hasError('required')) {
-                    <div class="form-text text-danger">Branch Name is required</div>
-                  }
-                  @if (getName.hasError('minlength')) {
-                    <div class="form-text text-danger">Branch Name length must be greater than 3</div>
-                  }
-                }
-              </div>
+            <form [formGroup]="branchForm" (ngSubmit)="onSubmit()" novalidate>
+              <div class="row">
+                <!-- Branch Name -->
+                <div class="col-md-6">
+                  <div class="form-group my-3">
+                    <label for="name">Branch Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="name"
+                      formControlName="name"
+                      placeholder="Enter branch name"
+                      autocomplete="off"
+                    />
+                    <div *ngIf="isInvalid('name')" class="form-text text-danger">
+                      Branch name is required.
+                    </div>
+                  </div>
+                </div>
 
-              <div class="form-group my-3">
-                <label for="branchMobile">Mobile Number</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="branchMobile"
-                  placeholder="Enter Mobile Number"
-                  formControlName="mobile"
-                />
-                @if(getMobile.touched){
-                  @if (getMobile.hasError('required')) {
-                    <div class="form-text text-danger">Mobile Number is required</div>
-                  }
-                  @if (getMobile.hasError('pattern')) {
-                    <div class="form-text text-danger">Invalid Egyptian Mobile Number</div>
-                  }
-                }
-              </div>
+                <!-- Mobile -->
+                <div class="col-md-6">
+                  <div class="form-group my-3">
+                    <label for="mobile">Mobile</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="mobile"
+                      formControlName="mobile"
+                      placeholder="Enter mobile number"
+                      autocomplete="off"
+                    />
+                    <div *ngIf="isInvalid('mobile')" class="form-text text-danger">
+                      Mobile is required.
+                    </div>
+                  </div>
+                </div>
 
-              <div class="form-group my-3">
-                <label for="branchLocation">Location</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  id="branchLocation"
-                  placeholder="Enter Branch Location"
-                  formControlName="location"
-                />
-                @if(getLocation.touched){
-                  @if (getLocation.hasError('required')) {
-                    <div class="form-text text-danger">Location is required</div>
-                  }
-                }
-              </div>
-
-              @if(branchId != 0){
-              <div class="form-group my-3 row justify-content-sm-start mt-3">
-                <label for="switchCheck" class="col-sm-2 me-3">Available</label>
-                <div class="form-check form-switch col-sm-1">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    role="switch"
-                    id="switchCheck"
-                    style="transform: translate(20%, -95%); font-size: 20px"
-                    formControlName="isDeleted"
-                  />
+                <!-- Location -->
+                <div class="col-md-6">
+                  <div class="form-group my-3">
+                    <label for="location">Location</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="location"
+                      formControlName="location"
+                      placeholder="Enter branch location"
+                      autocomplete="off"
+                    />
+                    <div *ngIf="isInvalid('location')" class="form-text text-danger">
+                      Location is required.
+                    </div>
+                  </div>
                 </div>
               </div>
-              }
 
               <div class="row mt-3 px-3">
-                @if(branchId == 0){
-                <button
-                  class="btn btn-light col-sm-1 px-0 d-flex align-items-center justify-content-center me-1"
-                  style="color: #9c57ff; letter-spacing: 0.8px; height: 42px; width: 42px; border-radius: 50%"
-                  [routerLink]="['/branch']"
-                >
-                  <i class="bi bi-skip-backward-circle fs-2"></i>
-                </button>
-                }
                 <button
                   type="submit"
                   class="btn btn-gradient-primary me-2 col-sm-3 px-0"
                   style="letter-spacing: 0.8px"
+                  [disabled]="branchForm.invalid"
                 >
-                  {{ branchId == 0 ? "Add New Branch" : "Edit Branch" }}
+                  {{ isEdit ? 'Update Branch' : 'Add Branch' }}
                 </button>
-                <button
-                  class="btn btn-light col-sm-3 px-0"
+
+                <a
+                  class="btn btn-light col-sm-3 px-0 d-flex align-items-center justify-content-center"
                   style="color: rgb(95, 95, 95); letter-spacing: 0.8px"
-                  (click)="cancelHandler()"
-                >
-                  {{ branchId == 0 ? "Reset" : "Cancel" }}
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</div> -->
-
-
-
-<!-- <div class="row">
-  <div class="content-wrapper container-fluid p-0">
-    <div class="col-12 grid-margin stretch-card">
-      <div class="card" style="max-height: 100vh !important">
-        <div
-          class="card-body p-5 py-3"
-          style="height: 80vh !important; max-height: 100vh !important"
-        >
-          <div class="row mt-2 d-flex justify-content-between mb-2">
-            <h4
-              class="card-title fs-3 col-sm-8"
-              style="color: #9c57ff; font-weight: bold; letter-spacing: 1px"
-            >
-              {{ isEditMode ? 'Edit Branch' : 'Add New Branch' }}
-            </h4>
-            <button
-              class="btn btn-light col-sm-1 px-0 d-flex align-items-center justify-content-center ms-auto me-2"
-              style="
-                color: #9c57ff;
-                letter-spacing: 0.8px;
-                height: 42px;
-                width: 42px;
-                border-radius: 50%;
-              "
-              title="Back to Branches"
-              [routerLink]="['/branch']"
-            >
-              <i class="bi bi-skip-backward-circle fs-2"></i>
-            </button>
-          </div>
-
-          <div
-            class="row col-sm-12 table-responsive table-bordered rounded mx-auto"
-            style="max-height: 85%"
-          >
-            <form [formGroup]="form" (ngSubmit)="onSubmit()">
-              <div class="form-group my-3">
-                <label>Branch Name</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  formControlName="name"
-                  placeholder="Enter Branch Name"
-                />
-                @if(form.get('name')?.touched){
-                  @if(form.get('name')?.hasError('required')){
-                    <div class="form-text text-danger">
-                      Branch Name is required
-                    </div>
-                  }
-                }
-              </div>
-
-              <div class="form-group my-3">
-                <label>Mobile Number</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  formControlName="mobile"
-                  placeholder="Enter Mobile Number"
-                />
-                @if(form.get('mobile')?.touched){
-                  @if(form.get('mobile')?.hasError('required')){
-                    <div class="form-text text-danger">
-                      Mobile Number is required
-                    </div>
-                  }
-                  @if(form.get('mobile')?.hasError('pattern')){
-                    <div class="form-text text-danger">
-                      Invalid Egyptian Mobile Number
-                    </div>
-                  }
-                }
-              </div>
-
-              <div class="form-group my-3">
-                <label>Location</label>
-                <input
-                  type="text"
-                  class="form-control"
-                  formControlName="location"
-                  placeholder="Enter Branch Location"
-                />
-                @if(form.get('location')?.touched){
-                  @if(form.get('location')?.hasError('required')){
-                    <div class="form-text text-danger">
-                      Location is required
-                    </div>
-                  }
-                }
-              </div>
-
-              @if(isEditMode){
-              <div class="form-group my-3 row justify-content-sm-start mt-3">
-                <label for="switchCheck" class="col-sm-2 me-3">Available</label>
-                <div class="form-check form-switch col-sm-1">
-                  <input
-                    class="form-check-input"
-                    type="checkbox"
-                    role="switch"
-                    id="switchCheck"
-                    style="transform: translate(20%, -95%); font-size: 20px"
-                    formControlName="isDeleted"
-                  />
-                </div>
-              </div>
-              }
-
-              <div class="row mt-3 px-3">
-                @if(!isEditMode){
-                <button
-                  class="btn btn-light col-sm-1 px-0 d-flex align-items-center justify-content-center me-1"
-                  style="
-                    color: #9c57ff;
-                    letter-spacing: 0.8px;
-                    height: 42px;
-                    width: 42px;
-                    border-radius: 50%;
-                  "
                   [routerLink]="['/branch']"
                 >
-                  <i class="bi bi-skip-backward-circle fs-2"></i>
-                </button>
-                }
-                <button
-                  type="submit"
-                  class="btn btn-gradient-primary me-2 col-sm-3 px-0"
-                  style="letter-spacing: 0.8px"
-                >
-                  {{ isEditMode ? 'Edit Branch' : 'Add New Branch' }}
-                </button>
-                <button
-                  class="btn btn-light col-sm-3 px-0"
-                  style="color: rgb(95, 95, 95); letter-spacing: 0.8px"
-                  (click)="form.reset()"
-                >
-                  {{ isEditMode ? 'Cancel' : 'Reset' }}
-                </button>
+                  Cancel
+                </a>
               </div>
             </form>
           </div>
@@ -340,49 +102,3 @@
     </div>
   </div>
 </div>
-
- -->
-
-
-<!-- <div class="container my-5">
-    <div class="card shadow-lg p-4 rounded-4">
-      <h2 class="mb-4 text-center text-primary fw-bold">Add New Branch</h2>
-  
-      <form [formGroup]="branchForm" (ngSubmit)="onSubmit()" novalidate>
-        <div class="row">
-          Branch Name
-          <div class="mb-3 col-md-12">
-            <label for="name" class="form-label">Branch Name</label>
-            <input id="name" type="text" formControlName="name" class="form-control" [class.is-invalid]="isInvalid('name')" />
-            <div *ngIf="isInvalid('name')" class="invalid-feedback">
-              Branch name is required.
-            </div>
-          </div>
-  
-           Mobile 
-          <div class="mb-3 col-md-12">
-            <label for="mobile" class="form-label">Mobile</label>
-            <input id="mobile" type="text" formControlName="mobile" class="form-control" [class.is-invalid]="isInvalid('mobile')" />
-            <div *ngIf="isInvalid('mobile')" class="invalid-feedback">
-              Mobile is required.
-            </div>
-          </div>
-  
-           Address
-          <div class="mb-3 col-md-12">
-            <label for="location" class="form-label">Location</label>
-            <input id="location" type="text" formControlName="location" class="form-control" [class.is-invalid]="isInvalid('location')" />
-            <div *ngIf="isInvalid('location')" class="invalid-feedback">
-              Location is required.
-            </div>
-          </div>
-        </div>
-  
-         Submit Button 
-        <div class="d-grid mt-3">
-          <button type="submit" class="btn btn-primary py-2 fw-bold">Add Branch</button>
-        </div>
-      </form>
-    </div>
-  </div>
--->
