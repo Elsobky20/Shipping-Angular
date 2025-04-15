@@ -21,7 +21,7 @@ export class EmployeeListComponent implements OnInit {
   pageSize: number = 10;
   totalCount: number = 0;
   totalPages: number = 0;
-  includeDeleted: boolean = true; // متغيّر جديد للتحكم في GetAll/GetAllExist
+  includeDeleted: boolean = true; 
 
   constructor(private employeeService: EmployeeService, private router: Router) {}
 
@@ -30,7 +30,13 @@ export class EmployeeListComponent implements OnInit {
     this.roleName = '';
     this.getAllEmployees();
   }
-
+  toggleDeleted(): void {
+    this.includeDeleted = !this.includeDeleted;
+   console.log(`${this.includeDeleted}  changedeeeeeeeee`)
+   
+    this.getAllEmployees();
+  }
+  
   getAllEmployees(): void {
     this.errorMessage = '';
     if (this.searchTerm || this.roleName) {
@@ -39,9 +45,12 @@ export class EmployeeListComponent implements OnInit {
       this.totalPages = 0;
       return;
     }
+    console.log(`${this.includeDeleted} 2 changedeeeeeeeee`)
 
     this.employeeService.getAllEmployees(this.includeDeleted, this.pageIndex, this.pageSize).subscribe(
       (data) => {
+        console.log(`${this.includeDeleted}  changedeeeeeeeee`)
+
         this.employees = data.items || [];
         this.totalCount = data.totalCount || 0;
         this.pageIndex = data.pageIndex || 1;

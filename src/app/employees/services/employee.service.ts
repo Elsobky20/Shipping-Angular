@@ -16,6 +16,9 @@ export class EmployeeService {
 
   // Get all employees
   getAllEmployees(includeDeleted: boolean = true, pageIndex: number = 1, pageSize: number = 10): Observable<IGenericPagination<IEmployeeDTO>> {
+   
+    console.log (`${includeDeleted}  from serv`)
+   
     const params = new HttpParams()
       .set('includeDeleted', includeDeleted.toString())
       .set('pageIndex', pageIndex.toString())

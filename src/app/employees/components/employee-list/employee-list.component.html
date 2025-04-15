@@ -4,29 +4,42 @@
   <button (click)="addEmployee()" class="btn btn-gradient-primary btn-fw">Add Employee</button>
 </div>
 
-<div class="mb-3">
-  <label class="form-label">Search by Name:</label>
-  <input
-    type="text"
-    class="form-control"
-    [(ngModel)]="searchTerm"
-    (input)="searchTerm ? searchEmployees() : getAllEmployees()"
-    placeholder="Enter name to search"
-    style="border: 1px solid #9c57ff; color: #333;"
-  />
+<div class="row" style="margin-bottom: 2rem;">
+  <div class="col-md-6 mb-4" style="padding-right: 10px;">
+    <label class="form-label" style="font-weight: bold; color: #222;">Search by Name:</label>
+    <input
+      type="text"
+      class="form-control"
+      [(ngModel)]="searchTerm"
+      (input)="searchTerm ? searchEmployees() : getAllEmployees()"
+      placeholder="Enter name to search"
+      style="border: 1px solid #9c57ff; color: #333; border-radius: 5px; max-width: 100%; font-size: 0.9rem;"
+    />
+    <style>
+      input::placeholder { color: #555; }
+    </style>
+  </div>
+  <div class="col-md-6 mb-4" style="padding-left: 10px;">
+    <label class="form-label" style="font-weight: bold; color: #222;">Filter by Role:</label>
+    <input
+      type="text"
+      class="form-control"
+      [(ngModel)]="roleName"
+      (input)="roleName ? getEmployeesByRole() : getAllEmployees()"
+      placeholder="Enter role to filter"
+      style="border: 1px solid #9c57ff; color: #333; border-radius: 5px; max-width: 100%; font-size: 0.9rem;"
+    />
+    <style>
+      input::placeholder { color: #555; }
+    </style>
+  </div>
 </div>
-
-<div class="mb-3">
-  <label class="form-label">Filter by Role:</label>
-  <input
-    type="text"
-    class="form-control"
-    [(ngModel)]="roleName"
-    (input)="roleName ? getEmployeesByRole() : getAllEmployees()"
-    placeholder="Enter role to filter"
-    style="border: 1px solid #9c57ff; color: #333;"
-  />
-</div>
+<button
+  class="btn"
+  [ngClass]="includeDeleted ? 'btn-secondary' : 'btn-outline-secondary'"
+  (click)="toggleDeleted()">
+  {{ includeDeleted ? ' Active Only':' All (Including Deleted)'  }}
+</button>
 
 <div class="table-responsive rounded border" style="box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
   <table class="table text-center table-hover">
