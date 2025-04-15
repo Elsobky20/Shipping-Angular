@@ -11,7 +11,7 @@
               class="card-title fs-3 col-sm-8"
               style="color: #9c57ff; font-weight: bold; letter-spacing: 1px"
             >
-              cities <span class="fs-5">[{{ ExistCitiesNumber }}]</span>
+              Deliveries <span class="fs-5">[{{ activeDeliveriesCountInPage || 0 }}]</span>
             </h4>
             <button
               class="btn btn-light col-sm-1 px-0 d-flex align-items-center justify-content-center ms-auto me-2"
@@ -23,7 +23,7 @@
                 border-radius: 50%;
               "
               title="Back to dashboard"
-              [routerLink]="['/dashboard']"
+              routerLink="/dashboard"
             >
               <i class="bi bi-skip-backward-circle fs-2"></i>
             </button>
@@ -32,9 +32,9 @@
             <button
               type="button"
               class="btn btn-gradient-primary btn-fw col-sm-2"
-              [routerLink]="[0]"
+              routerLink="/delivery/add"
             >
-              Add City
+              Add Delivery
             </button>
             <form
               class="d-flex align-items-center h-100 col-sm-2 ms-auto"
@@ -46,7 +46,6 @@
                 );
               "
               action="#"
-              [formGroup]="searchForm"
             >
               <div class="input-group">
                 <div
@@ -75,7 +74,7 @@
                     font-size: 16px;
                   "
                   placeholder="Search .."
-                  formControlName="search"
+                  [formControl]="searchControl"
                 />
               </div>
             </form>
@@ -89,103 +88,68 @@
                 <tr id="tableHead">
                   <th scope="col" style="background-color: #bdb8b8">#</th>
                   <th scope="col" style="background-color: #bdb8b8">Name</th>
-                  <th scope="col" style="background-color: #bdb8b8">
-                    Governrate Name
-                  </th>
+                  <th scope="col" style="background-color: #bdb8b8">Phone</th>
+                  <th scope="col" style="background-color: #bdb8b8">Email</th>
                   <th scope="col" style="background-color: #bdb8b8">Status</th>
-                  <th scope="col" style="background-color: #bdb8b8">
-                    Pickup Shipping
-                  </th>
-                  <th scope="col" style="background-color: #bdb8b8">
-                    Standard Shipping
-                  </th>
                   <th scope="col" style="background-color: #bdb8b8">Action</th>
                 </tr>
               </thead>
               <tbody>
-                @for (city of cities; track city.id; let i = $index) {
-                <tr>
-                  <th scope="row" class="py-0">{{ i + 1 }}</th>
-                  <td class="py-0">{{ city.name }}</td>
-                  <td class="py-0">{{ city.governmentName }}</td>
-                  @if(city.isDeleted){
+                <tr *ngFor="let delivery of paginatedDeliveries; let i = index">
+                  <th scope="row" class="py-0">{{ (currentPage - 1) * itemsPerPage + i + 1 }}</th>
+                  <td class="py-0">{{ delivery.name }}</td>
+                  <td class="py-0">{{ delivery.phone }}</td>
+                  <td class="py-0">{{ delivery.email }}</td>
                   <td class="d-flex justify-content-center py-0">
                     <div class="form-check form-switch">
                       <input
                         class="form-check-input"
-                        style="
-                          transform: translateX(80%);
-                          background-color: rgb(203, 195, 195, 0.45);
-                          font-size: 20px;
-                        "
+                        [ngStyle]="{
+                          transform: 'translateX(80%)',
+                          backgroundColor: delivery.isDeleted ? 'rgba(203, 195, 195, 0.45)' : 'green',
+                          fontSize: '20px'
+                        }"
                         type="checkbox"
                         role="switch"
-                        id="switchCheckDisabled"
-                        value="{{ city.isDeleted }}"
+                        [checked]="!delivery.isDeleted"
                         disabled
                       />
                     </div>
                   </td>
-                  }@else {
-                  <td class="d-flex justify-content-center py-0">
-                    <div class="form-check form-switch">
-                      <input
-                        class="form-check-input"
-                        style="
-                          transform: translateX(80%);
-                          background-color: green;
-                          font-size: 20px;
-                        "
-                        type="checkbox"
-                        role="switch"
-                        id="switchCheckCheckedDisabled"
-                        value="{{ city.isDeleted }}"
-                        checked
-                        disabled
-                      />
-                    </div>
-                  </td>
-                  }
-                  <td class="py-0">
-                    {{ city.pickupShipping | currency }}
-                  </td>
-                  <td class="py-0">{{ city.standardShipping | currency }}</td>
                   <td class="py-0">
                     <i
                       class="bi bi-pencil-square fs-4 text-info btn p-2"
                       data-bs-toggle="tooltip"
                       title="Edit"
-                      [routerLink]="[city.id]"
+                      (click)="editDelivery(delivery.id)"
+                    ></i>
+                    <i
+                      class="bi bi-eye fs-4 text-warning btn p-2"
+                      data-bs-toggle="tooltip"
+                      title="Details"
+                      [routerLink]="['/delivery/details', delivery.id]"
                     ></i>
                     <i
                       class="bi bi-trash3 fs-4 text-danger btn p-2"
                       data-bs-toggle="tooltip"
                       title="Delete"
-                      (click)="deleteCity(city.id)"
+                      (click)="deleteDelivery(delivery.id)"
                     ></i>
                   </td>
                 </tr>
-                }
               </tbody>
             </table>
-            @if(errorMessage?.trim()){
-            <div class="row mx-auto">
-              <div class="alert alert-danger col-sm-3 mx-auto my-2 text-center">
-                {{ errorMessage }}
-              </div>
-            </div>
-            }
           </div>
           <div class="row mt-2 px-3" style="text-align: right">
             <div class="col-sm-3 px-0">
               <nav aria-label="Page navigation example">
                 <ul class="pagination">
-                  <li class="page-item fw-bold">
+                  <li class="page-item fw-bold" [class.disabled]="currentPage === 1">
                     <button
                       class="page-link"
                       aria-label="Previous"
-                      [disabled]="pageNumber <= 1"
-                      (click)="updatePageNumber(pageNumber - 1)"
+                      [disabled]="currentPage <= 1"
+                      (click)="changePage(currentPage - 1)"
                     >
                       <span
                         style="color: #9c57ff"
@@ -195,39 +159,25 @@
                       >
                     </button>
                   </li>
-                  <li class="page-item">
+                  <li 
+                    class="page-item" 
+                    *ngFor="let page of [].constructor(totalPages > 3 ? 3 : totalPages); let i = index"
+                    [class.active]="currentPage === i + 1"
+                  >
                     <button
                       class="page-link fw-bold"
                       style="color: #9c57ff"
-                      (click)="updatePageNumber(1)"
+                      (click)="changePage(i + 1)"
                     >
-                      1
+                      {{ i + 1 }}
                     </button>
                   </li>
-                  <li class="page-item">
+                  <li class="page-item fw-bold" [class.disabled]="currentPage === totalPages">
                     <button
-                      class="page-link fw-bold"
-                      style="color: #9c57ff"
-                      (click)="updatePageNumber(2)"
-                    >
-                      2
-                    </button>
-                  </li>
-                  <li class="page-item">
-                    <button
-                      class="page-link fw-bold"
-                      style="color: #9c57ff"
-                      (click)="updatePageNumber(3)"
-                    >
-                      3
-                    </button>
-                  </li>
-                  <li class="page-item">
-                    <button
-                      class="page-link fw-bold"
+                      class="page-link"
                       aria-label="Next"
-                      [disabled]="pageNumber >= numberOfPages"
-                      (click)="updatePageNumber(pageNumber + 1)"
+                      [disabled]="currentPage >= totalPages"
+                      (click)="changePage(currentPage + 1)"
                     >
                       <span
                         style="color: #9c57ff"
@@ -249,23 +199,21 @@
                 aria-expanded="false"
                 style="width: 120px !important"
               >
-                {{ selectedPageSize }}
+                {{ itemsPerPage }}
               </button>
               <ul
                 class="dropdown-menu"
                 style="width: 120px !important; min-width: 100px !important"
                 aria-labelledby="dropdownMenuButton"
               >
-                @for (val of values; track $index) {
-                <li>
+                <li *ngFor="let size of pageSizes">
                   <button
                     class="dropdown-item"
-                    (click)="updateSelectedValue(val)"
+                    (click)="changePageSize(size)"
                   >
-                    {{ val }}
+                    {{ size }}
                   </button>
                 </li>
-                }
               </ul>
             </div>
           </div>

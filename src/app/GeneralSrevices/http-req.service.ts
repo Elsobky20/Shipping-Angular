@@ -42,14 +42,14 @@ export class HttpReqService {
   /* ===================== End GetById Method ================================== */
 
   /* ===================== Start Create Method ================================= */
-  create(endPoint:string, iCityCreateDTO:ICityCreateDTO):Observable<any> {
-    return this.http.post<any>(`${this.baseUrl}/${endPoint}`, iCityCreateDTO);
+  create(endPoint:any, Dto:object):Observable<any> {
+    return this.http.post<any>(`${this.baseUrl}/${endPoint}`, Dto);
   }
   /* ===================== End Create Method =================================== */
 
   /* ===================== Start Edit Method =================================== */
-  editById(endPoint:string, id:number, iCityEditDTO:ICityEditDTO):Observable<any> {
-    return this.http.put<any>(`${this.baseUrl}/${endPoint}/${id}`, iCityEditDTO);
+  editById(endPoint:string, id:number, Dto:object):Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/${endPoint}/${id}`, Dto);
   }
   /* ===================== End Edit Method ===================================== */
 
@@ -71,8 +71,11 @@ export class HttpReqService {
       }).then((result) => {
         if (result.isConfirmed) {
           this.http.delete(`${this.baseUrl}/${endPoint}/${id}`).subscribe({
-            next: () => {
+            next: (response) => {
+
               Swal.fire('Deleted Successfully!', '', 'success');
+              observer.next(response);  // إرسال استجابة النجاح
+              observer.complete();      // إكمال الـ Observable
             },
             error: (err) => {
               Swal.fire('Failed!', 'Failed Deleting', 'error');
