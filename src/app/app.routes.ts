@@ -20,6 +20,7 @@ import { MerchantsComponent } from './Merchant/components/merchants/merchants.co
 import { MerchantFormComponent } from './Merchant/components/merchant-form/merchant-form.component';
 import { MerchantDetailsComponent } from './Merchant/components/merchant-details/merchant-details.component';
 
+
 export 
 
 const routes: Routes = [
@@ -49,5 +50,22 @@ const routes: Routes = [
   { path: 'delivery/edit/:id', component: AddDeliveryComponent },
   { path: 'delivery/details/:id', component: AddDeliveryComponent },
   { path: 'login', component: LoginComponent },
-  { path: '**', component: NotFoundComponent }
+
+  {path: '', redirectTo: 'login', pathMatch: 'full'},
+  {path: 'dashboard', component: DashboardComponent},
+  {path: 'city', component: CitiesComponent},
+  {path: 'city/:id', component: CityFormComponent},
+  {path: 'merchant', component: MerchantsComponent},
+  {path: 'merchant/:id', component: MerchantDetailsComponent},
+  {path: 'merchant/:id/edit', component: MerchantFormComponent},
+  { path: 'deliveries', component: AllDeliveryComponent },
+  { path: 'delivery/add', component: AddDeliveryComponent },
+  { path: 'delivery/edit/:id', component: AddDeliveryComponent },
+  {path: 'delivery/details/:id', component: AddDeliveryComponent},
+  {path: 'login', component: LoginComponent},
+  {path: 'employee', component: EmployeeListComponent},
+  {path: 'employee/add', component: EmployeeFormComponent},
+  {path:'role',component:RoleListComponent},
+  {path:'role/add',component:AddRoleComponent},
+  {path: '**', component: NotFoundComponent}
 ];
