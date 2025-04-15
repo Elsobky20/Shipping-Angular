@@ -62,7 +62,7 @@ export class EmployeeFormComponent implements OnInit {
     });
 
     // Fetch branches
-    this.branchService.getAllBranches().subscribe({
+    this.branchService.getAllBranchesEmp().subscribe({
       next: (branches) => {
         this.branches = branches;
         console.log('Filtered branches:', this.branches);

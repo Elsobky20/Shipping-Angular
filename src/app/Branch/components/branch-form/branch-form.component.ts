@@ -6,8 +6,7 @@ import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms'; 
 import { RouterModule, Router, ActivatedRoute, RouterLink } from '@angular/router';
 import { BranchService } from '../../services/branch.service';
-import { IBranchCreateDTO} from '../../Interfaces/ibranch-get';
-
+import { IBranchCreateDTO } from '../../Interfaces/ibranch-get';
 
 @Component({
   selector: 'app-branch-form',
@@ -20,8 +19,9 @@ export class BranchFormComponent implements OnInit {
   branchForm!: FormGroup;
   isEdit: boolean = false;
   branchId: number | null = null;
-  mode:'add'|'edit'='add';
-  loading= false;
+  mode: 'add' | 'edit' = 'add';
+  loading = false;
+
   constructor(
     private fb: FormBuilder,
     private http: HttpReqService,
@@ -91,45 +91,8 @@ export class BranchFormComponent implements OnInit {
       return;
     }
 
-     this.loading=true
+    this.loading = true;
     const branchData = this.branchForm.value;
-
-    const request = this.mode === 'add' 
-      ? this.http.create('Branch', branchData)
-      : this.http.editById('Branch', this.branchId!, branchData);
-console.log(branchData);
-    request.subscribe({
-      next: (res) => {
-        Swal.fire({
-          icon: 'success',
-          title: 'Success!',
-          text: res?.message || `Branch ${this.mode === 'add' ? 'added' : 'updated'} successfully!`,
-          confirmButtonText: 'OK'
-        }).then(() => {
-          this.router.navigate(['/branch']);
-        });
-      },
-      error: (err) => {
-        console.error('Error:', err);
-        const errorMessage = err?.error?.message || 
-          `Something went wrong while ${this.mode === 'add' ? 'adding' : 'updating'} delivery.`;
-        
-        Swal.fire({
-          icon: 'error',
-          title: 'Failed!',
-          text: errorMessage,
-          confirmButtonText: 'OK'
-        });
-        this.loading = false;
-      },
-      complete: () => {
-        this.loading = false;
-      }
-    });
-    this.http.create('Branch',this.branchForm.value).subscribe
-
-    console.log(this.branchForm.value)
-
 
     try {
       // Check if branch name, mobile, and location combination already exists
@@ -209,7 +172,7 @@ console.log(branchData);
               confirmButtonText: 'OK'
             });
           }
-      });
+        });
       }
     } catch (err) {
       console.error(err);
@@ -218,14 +181,18 @@ console.log(branchData);
         title: 'Error',
         text: 'There was an issue validating the data.',
       });
+    } finally {
+      this.loading = false;
     }
   }
 
-  fc = (control: string) => this.branchForm.get(control);
-  isInvalid = (control: string): boolean => {
-    const controlInstance = this.fc(control);
-    return controlInstance ? controlInstance.invalid && (controlInstance.touched || controlInstance.dirty) : false;
-  };
+  // Move these functions above 'onSubmit'
+  isInvalid(control: string): boolean {
+    const c = this.branchForm.get(control);
+    return c ? c.invalid && (c.dirty || c.touched) : false;
+  }
+
+  fc(control: string) {
+    return this.branchForm.get(control);
+  }
 }
-  
-  
