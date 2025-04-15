@@ -22,7 +22,7 @@ export class BranchService {
   //   return this.http.post<boolean>(`${this.baseURL}/check-existence`, branchData);
   // }
   checkBranchExistence(branchData: IBranchCreateDTO): Observable<{ exists: boolean, type: string }> {
-    return this.http.post<{ exists: boolean, type: string }>(`${this.baseURL}/check-existence`, branchData);
+    return this.http.post<{ exists: boolean, type: string }>(`${this.baseURL}`, branchData);
   }
   
 }

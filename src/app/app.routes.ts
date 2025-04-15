@@ -38,6 +38,7 @@ export const routes: Routes = [
   {path:'role/add',component:AddRoleComponent},
   {path :'branch' , component: BranchesComponent},
   {path:'branch/add' , component:BranchFormComponent},
+  {path:'branch/:id',component:BranchFormComponent},
   {path :'setting' , component: SettingComponent},
   {path:'setting/add' , component:SettingFormComponent},
   {path:'seting/edit/:id',component:SettingFormComponent},

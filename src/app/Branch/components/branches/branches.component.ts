@@ -4,7 +4,7 @@ import { IBranchDTO } from '../../Interfaces/ibranch-get';
 import { HttpReqService } from '../../../GeneralSrevices/http-req.service';
 import { CommonModule } from '@angular/common';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { RouterLink,Router } from '@angular/router';
 import Swal from 'sweetalert2';
 import { catchError, debounceTime, distinctUntilChanged, EMPTY, observable, Observable, Subject, switchMap, takeUntil } from 'rxjs';
 
@@ -30,7 +30,7 @@ pageNumber:number = 1;
 selectedPageSize: number = 10;
 numberOfPages!:number;
 values: number[] = [5, 10, 25, 50];
-constructor(private branchService:BranchService, private httpReqService:HttpReqService){
+constructor(private branchService:BranchService, private httpReqService:HttpReqService,private router:Router){
   this.searchForm = new FormGroup({
     search: new FormControl('')
   });
@@ -145,6 +145,9 @@ ngOnDestroy(): void {
   if (this.mySubscribe) {
     this.mySubscribe.unsubscribe();
   }
+}
+editbranch(id: number): void {
+  this.router.navigate(['/branch', id]); // الانتقال لصفحة التعديل
 }
 /* ============================================ Start Number Of Rows ======================================= */
 updateSelectedValue(value: number) {
