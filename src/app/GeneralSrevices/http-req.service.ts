@@ -36,7 +36,7 @@ export class HttpReqService {
   /* ===================== End GetAll Method By Pagination ===================== */
 
   /* ===================== Start GetById Method ================================ */
-  getById(endPoint:string, id:number):Observable<any> {
+  getById(endPoint:string, id:any):Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/${endPoint}/${id}`);
   }
   /* ===================== End GetById Method ================================== */

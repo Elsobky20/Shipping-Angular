@@ -1,0 +1,36 @@
+ <div class="container my-5">
+    <div class="card shadow-lg p-4 rounded-4">
+      <h2 class="mb-4 text-center text-primary fw-bold">  {{ isEdit ? 'Edit Setting' : 'Add New Setting' }}</h2>
+  
+      <form [formGroup]="settingForm" (ngSubmit)="onSubmit()" novalidate>
+        <div class="row">
+        <!--   Shipping To Village Cost -->
+          <div class="mb-3 col-md-6">
+            <label for="shippingToVillageCost" class="form-label">Shipping To Village Cost</label>
+            <input id="shippingToVillageCost" type="number" formControlName="shippingToVillageCost" class="form-control" [class.is-invalid]="isInvalid('shippingToVillageCost')" />
+            <div *ngIf="isInvalid('shippingToVillageCost')" class="invalid-feedback">
+              Shipping cost is required.
+            </div>
+          </div>
+  
+       <!--    Delivery Auto Accept -->
+          <div class="mb-3 col-md-6">
+            <label for="deliveryAutoAccept" class="form-label">Delivery Auto Accept</label>
+            <select id="deliveryAutoAccept" formControlName="deliveryAutoAccept" class="form-select" [class.is-invalid]="isInvalid('deliveryAutoAccept')">
+              <option value="">Select Auto Accept Option</option>
+              <option [ngValue]="true">Yes</option>
+              <option [ngValue]="false">No</option>
+            </select>
+            <div *ngIf="isInvalid('deliveryAutoAccept')" class="invalid-feedback">
+              Please select whether the delivery should auto accept.
+            </div>
+          </div>
+        </div>
+  
+       <!--  Submit Button -->
+        <div class="d-grid mt-3">
+          <button type="submit" class="btn btn-primary py-2 fw-bold">{{ isEdit ? 'Update Setting' : 'Add Setting' }}</button>
+        </div>
+      </form>
+    </div>
+  </div> 
