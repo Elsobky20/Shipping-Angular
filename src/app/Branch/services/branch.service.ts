@@ -12,14 +12,14 @@ import { IBranchCreateDTO, IBranchResponseData } from '../Interfaces/ibranch-get
   providedIn: 'root',
 })
 export class BranchService {
-  private apiUrl = 'http://localhost:5050/api/Branch/all';
+  private apiUrl = 'http://localhost:5050/api/Branch';
   constructor(private http: HttpClient) {}
 
   getAllBranchesEmp(): Observable<IBranchDTO[]> {
     
     
     
-    return this.http.get<any>(this.apiUrl).pipe(
+    return this.http.get<any>(`${this.apiUrl}/all`).pipe(
       map(response => response.data.branches.filter((branch: IBranchDTO) => !branch.isDeleted))
     );
   }
@@ -31,7 +31,7 @@ export class BranchService {
   }
 
   getBranchById(id:number):Observable<APIResponse<IBranchResponseData>>{
-    return this.http.get<APIResponse<IBranchResponseData>>(this.apiUrl);
+    return this.http.get<APIResponse<IBranchResponseData>>(`${this.apiUrl}/${id}`);
   }
   // checkBranchExistence(branchData: IBranchCreateDTO): Observable<boolean> {
   //   return this.http.post<boolean>(`${this.baseURL}/check-existence`, branchData);
