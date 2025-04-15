@@ -9,11 +9,12 @@ import { CitiesComponent } from './City/components/cities/cities.component';
 import { AllDeliveryComponent } from "./Delivery/components/all-delivery/all-delivery.component";
 import { AddDeliveryComponent } from "./Delivery/components/add-delivery/add-delivery.component";
 import { DashboardComponent } from "./Dashboard/dashboard.component";
+import { WieghPriceFormComponent } from "./WeightPricing/components/wiegh-price-form/wiegh-price-form.component";
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule, EmployeeFormComponent, RoleListComponent, CitiesComponent, SideBarComponent, LoginComponent, DashboardComponent, AllDeliveryComponent, AddDeliveryComponent],
+  imports: [RouterOutlet, CommonModule, EmployeeFormComponent, RoleListComponent, CitiesComponent, SideBarComponent, LoginComponent, DashboardComponent, AllDeliveryComponent, AddDeliveryComponent, WieghPriceFormComponent],
 
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
