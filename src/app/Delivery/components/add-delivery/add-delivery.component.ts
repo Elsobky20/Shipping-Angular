@@ -116,6 +116,7 @@ export class AddDeliveryComponent implements OnInit {
         console.error(err);
       }
     });
+    
   }
 
   onBranchChange(event: Event): void {
@@ -126,9 +127,10 @@ export class AddDeliveryComponent implements OnInit {
       this.http.getById('Delivery/GovernmentByBranch', selectedBranchId).subscribe({
         next: (data) => {
           this.governments = data;
+          console.log('Governments:', this.governments);
         },
         error: (err) => {
-          console.error('Error:', err?.message || err);
+          console.log('Error:', err?.message || err);
         }
       });
     }

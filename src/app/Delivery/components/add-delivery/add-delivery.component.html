@@ -144,7 +144,7 @@
                     </div>
                     
                     <ng-template #editableSelect>
-                      <select class="form-select" id="branchId" formControlName="branchId">
+                      <select class="form-select" id="branchId" formControlName="branchId"  (change)="onBranchChange($event)">
                         <option *ngFor="let branch of branches" [value]="branch.id">{{ branch.name }}</option>
                       </select>
                     </ng-template>
@@ -167,12 +167,8 @@
                     </div>
                     
                     <ng-template #multiSelect>
-                      <select
-                        class="form-select"
-                        id="governmentsId"
-                        formControlName="governmentsId"
-                        multiple
-                      >
+                      <select id="governmentsId" formControlName="governmentsId" 
+                      class="form-select" multiple [class.is-invalid]="isInvalid('governmentsId')" >
                         <option *ngFor="let gov of governments" [value]="gov.id">{{ gov.name }}</option>
                       </select>
                     </ng-template>
