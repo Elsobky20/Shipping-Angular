@@ -32,9 +32,15 @@ export class EmployeeListComponent implements OnInit {
   }
   toggleDeleted(): void {
     this.includeDeleted = !this.includeDeleted;
-   console.log(`${this.includeDeleted}  changedeeeeeeeee`)
-   
-    this.getAllEmployees();
+    console.log(`${this.includeDeleted} changedeeeeeeeee`);
+  
+    if (this.searchTerm) {
+      this.searchEmployees();
+    } else if (this.roleName) {
+      this.getEmployeesByRole();
+    } else {
+      this.getAllEmployees();
+    }
   }
   
   getAllEmployees(): void {
