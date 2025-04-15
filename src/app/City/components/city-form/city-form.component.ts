@@ -76,9 +76,7 @@ export class CityFormComponent implements OnInit {
               this.theGovern = this.allGovernrates.find(c => c.name === response.data.governmentName);
               this.getGovernrate.setValue(this.theGovern.id || '');
 
-              // this.checkCityDeleted = response.data.isDeleted;
               this.getIsDeleted.setValue(!response.data.isDeleted);
-              console.log(!this.getIsDeleted.value)
             },
             error: () => {},
           });

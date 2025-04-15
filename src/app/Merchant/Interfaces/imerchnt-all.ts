@@ -29,6 +29,10 @@ export interface IMerchantResponseData {
   cities: IMerchntGetInTableDTO[]
 }
 
+export interface AllBranches {
+  id: number;
+  name: string;
+}
 // export interface ICityCreateDTO {
 //   government_Id: number;
 //   name: string;

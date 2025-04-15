@@ -1,0 +1,112 @@
+[
+  {
+    "id": 1,
+    "name": "Cairo",
+    "cities": [
+      "Nasr City",
+      "Heliopolis",
+      "Maadi",
+      "Helwan",
+      "Shubra"
+    ]
+  },
+  {
+    "id": 2,
+    "name": "Giza",
+    "cities": [
+      "Dokki",
+      "Agouza",
+      "Haram",
+      "Warraq",
+      "6th of October"
+    ]
+  },
+  {
+    "id": 3,
+    "name": "Alexandria",
+    "cities": [
+      "Sidi Beshr",
+      "Asafra",
+      "Moharam Bek",
+      "Montaza",
+      "Smouha"
+    ]
+  },
+  {
+    "id": 4,
+    "name": "Sharqia",
+    "cities": [
+      "Zagazig",
+      "Belbeis",
+      "10th of Ramadan",
+      "Faqous",
+      "Abu Hammad"
+    ]
+  },
+  {
+    "id": 5,
+    "name": "Dakahlia",
+    "cities": [
+      "Mansoura",
+      "Meet Ghamr",
+      "Talkha",
+      "Senbellawein",
+      "Sherbin"
+    ]
+  },
+  {
+    "id": 6,
+    "name": "Beheira",
+    "cities": [
+      "Damanhur",
+      "Kafr El-Dawwar",
+      "Itay El Barud",
+      "Rashid",
+      "Abu Homs"
+    ]
+  },
+  {
+    "id": 7,
+    "name": "Qalyubia",
+    "cities": [
+      "Banha",
+      "Shubra El-Kheima",
+      "Tukh",
+      "Qaha",
+      "Qalyub"
+    ]
+  },
+  {
+    "id": 8,
+    "name": "Monufia",
+    "cities": [
+      "Shebin El-Kom",
+      "Menouf",
+      "Sers El-Layan",
+      "Ashmoun",
+      "El Bagour"
+    ]
+  },
+  {
+    "id": 9,
+    "name": "Assiut",
+    "cities": [
+      "Assiut",
+      "Dairut",
+      "Abu Tig",
+      "Manfalut",
+      "El Fath"
+    ]
+  },
+  {
+    "id": 10,
+    "name": "Sohag",
+    "cities": [
+      "Sohag",
+      "Tahta",
+      "Girga",
+      "Akhmim",
+      "El Maragha"
+    ]
+  }
+]

@@ -1,0 +1,268 @@
+<div class="row">
+  <div class="content-wrapper container-fluid p-0">
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card" style="max-height: 100vh !important">
+        <div
+          class="card-body p-5 py-3"
+          style="height: 80vh !important; max-height: 100vh !important"
+        >
+          <div class="row d-flex justify-content-between mb-0">
+            <h4
+              class="card-title fs-3 col-sm-8"
+              style="color: #9c57ff; font-weight: bold; letter-spacing: 1px"
+            >
+              Orders <span class="fs-5">[{{ totalOrdersNumber }}]</span>
+            </h4>
+            <button
+              class="btn btn-light col-sm-1 px-0 d-flex align-items-center justify-content-center ms-auto me-2"
+              style="
+                color: #9c57ff;
+                letter-spacing: 0.8px;
+                height: 42px;
+                width: 42px;
+                border-radius: 50%;
+              "
+              title="Back to dashboard"
+              [routerLink]="['/dashboard']"
+            >
+              <i class="bi bi-skip-backward-circle fs-2"></i>
+            </button>
+          </div>
+          <div class="row mb-1 px-3" style="margin: 0 -10px">
+            <button
+              type="button"
+              class="btn btn-gradient-primary btn-fw col-sm-2"
+              [routerLink]="[0]"
+            >
+              Add Order
+            </button>
+            <form
+              class="d-flex align-items-center h-100 col-sm-2 ms-auto"
+              style="
+                background-image: linear-gradient(
+                  to right,
+                  rgb(217 139 255),
+                  #9c57ff
+                );
+              "
+              [formGroup]="searchForm"
+              action="#"
+            >
+              <div class="input-group">
+                <div
+                  class="input-group-prepend bg-transparent"
+                  style="
+                    background-color: rgb(217 139 255);
+                    display: flex;
+                    align-items: center;
+                  "
+                >
+                  <i
+                    class="input-group-text border-0 mdi mdi-magnify"
+                    style="
+                      color: white;
+                      background-color: rgb(217 139 255);
+                      transform: translateX(-20px);
+                    "
+                  ></i>
+                </div>
+                <input
+                  type="search"
+                  class="form-control bg-transparent border-0"
+                  style="
+                    color: white !important;
+                    padding-left: 5px;
+                    font-size: 16px;
+                  "
+                  placeholder="Search .."
+                  formControlName="search"
+                />
+              </div>
+            </form>
+          </div>
+          <div class="row mb-1 justify-content-center">
+            <button
+              *ngFor="let status of statuses"
+              (click)="onStatusChange(status)"
+              [ngClass]="{
+                'btn btn-inverse-info btn-fw col-sm-1 p-1 statusButtons': true,
+                active: selectedStatus === status
+              }"
+              style="margin: 3px"
+            >
+              {{ statusLabels[status] }}
+            </button>
+          </div>
+          <div
+            class="row col-sm-12 table-responsive table-bordered rounded mx-auto"
+            style="overflow-y: auto; max-height: 63%"
+          >
+            <table class="table text-center table-hover">
+              <thead>
+                <tr id="tableHead">
+                  <th scope="col" style="background-color: #bdb8b8">#</th>
+                  <th scope="col" style="background-color: #bdb8b8">
+                    Serial Number
+                  </th>
+                  <th scope="col" style="background-color: #bdb8b8">Date</th>
+                  <th scope="col" style="background-color: #bdb8b8">
+                    Client Data
+                  </th>
+                  <th scope="col" style="background-color: #bdb8b8">
+                    Governrate
+                  </th>
+                  <th scope="col" style="background-color: #bdb8b8">City</th>
+                  <th scope="col" style="background-color: #bdb8b8">
+                    Shipping Cost
+                  </th>
+                  <th scope="col" style="background-color: #bdb8b8">
+                    State Change
+                  </th>
+                  <th scope="col" style="background-color: #bdb8b8">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (order of orders; track order.id; let i = $index) {
+                <tr>
+                  <th scope="row" class="py-0">{{ i + 1 }}</th>
+                  <td class="py-0">{{ order.serialNumber }}</td>
+                  <td class="py-0">{{ order.createdDate }}</td>
+                  <td class="py-0">
+                    {{ order.clientData }}
+                  </td>
+                  <td class="py-0">{{ order.governrate }}</td>
+                  <td class="py-0">{{ order.city }}</td>
+                  <td class="py-0">{{ order.orderCost | currency }}</td>
+                  <td class="py-0">
+                    <button
+                      type="button"
+                      title="Status"
+                      class="btn btn-gradient-danger p-2"
+                    >
+                      Change
+                    </button>
+                  </td>
+                  <td class="py-0">
+                    <i
+                      class="bi bi-pencil-square fs-4 text-info btn p-2"
+                      data-bs-toggle="tooltip"
+                      title="Edit"
+                      [routerLink]="[order.id]"
+                    ></i>
+                    <i
+                      class="bi bi-trash3 fs-4 text-danger btn p-2"
+                      data-bs-toggle="tooltip"
+                      title="Delete"
+                      (click)="deleteCity(order.id)"
+                    ></i>
+                  </td>
+                </tr>
+                }
+              </tbody>
+            </table>
+            @if(errorMessage?.trim()){
+            <div class="row mx-auto">
+              <div class="alert alert-danger col-sm-3 mx-auto my-2 text-center">
+                {{ errorMessage }}
+              </div>
+            </div>
+            }
+          </div>
+          <div class="row mt-2 px-3" style="text-align: right">
+            <div class="col-sm-3 px-0">
+              <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                  <li class="page-item fw-bold">
+                    <button
+                      class="page-link"
+                      aria-label="Previous"
+                      [disabled]="pageNumber <= 1"
+                      (click)="updatePageNumber(pageNumber - 1)"
+                    >
+                      <span
+                        style="color: #9c57ff"
+                        aria-hidden="true"
+                        class="page-link-next"
+                        >&laquo;</span
+                      >
+                    </button>
+                  </li>
+                  <li class="page-item">
+                    <button
+                      class="page-link fw-bold"
+                      style="color: #9c57ff"
+                      (click)="updatePageNumber(1)"
+                    >
+                      1
+                    </button>
+                  </li>
+                  <li class="page-item">
+                    <button
+                      class="page-link fw-bold"
+                      style="color: #9c57ff"
+                      (click)="updatePageNumber(2)"
+                    >
+                      2
+                    </button>
+                  </li>
+                  <li class="page-item">
+                    <button
+                      class="page-link fw-bold"
+                      style="color: #9c57ff"
+                      (click)="updatePageNumber(3)"
+                    >
+                      3
+                    </button>
+                  </li>
+                  <li class="page-item">
+                    <button
+                      class="page-link fw-bold"
+                      aria-label="Next"
+                      [disabled]="pageNumber >= numberOfPages"
+                      (click)="updatePageNumber(pageNumber + 1)"
+                    >
+                      <span
+                        style="color: #9c57ff"
+                        aria-hidden="true"
+                        class="page-link-next"
+                        >&raquo;</span
+                      >
+                    </button>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div class="dropdown dropup px-0 col-sm-3 ms-auto">
+              <button
+                class="btn btn-outline-primary dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                style="width: 120px !important"
+              >
+                {{ selectedPageSize }}
+              </button>
+              <ul
+                class="dropdown-menu"
+                style="width: 120px !important; min-width: 100px !important"
+                aria-labelledby="dropdownMenuButton"
+              >
+                @for (val of values; track $index) {
+                <li>
+                  <button
+                    class="dropdown-item"
+                    (click)="updateSelectedValue(val)"
+                  >
+                    {{ val }}
+                  </button>
+                </li>
+                }
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
