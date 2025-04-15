@@ -1,5 +1,6 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
+import { ApplicationConfig } from '@angular/core';
 import { provideRouter } from '@angular/router';
+
 import { addIcons } from 'ionicons';
 
 import { routes } from './app.routes';
@@ -13,6 +14,8 @@ import {
   alertCircleOutline,
   refreshOutline
 } from 'ionicons/icons';
+import { provideZoneChangeDetection } from '@angular/core';
+
 
 addIcons({
   'mail-outline': mailOutline,

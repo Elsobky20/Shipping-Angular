@@ -1,0 +1,39 @@
+<div class="role-permission-form-container">
+  <h2 class="form-title">Link Permissions with {{ permissionsArray.at(0).value.roleName }} Role</h2>
+
+  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="role-form">
+    
+    <div class="form-group">
+      <span>Role: {{ permissionsArray.at(0).value.roleName }}</span>
+    </div>
+
+    <div formArrayName="permissions">
+      <table class="permissions-table">
+        <thead>
+          <tr>
+            <th>Permission </th>
+            <th>Can View</th>
+            <th>Can Edit</th>
+            <th>Can Add</th>
+            <th>Can Delete</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let perm of permissionsArray.controls; let i = index" [formGroupName]="i">
+            <td>{{ perm.value.permissionName }}</td>
+            <td><input type="checkbox" formControlName="canView"></td>
+            <td><input type="checkbox" formControlName="canEdit"></td>
+            <td><input type="checkbox" formControlName="canAdd"></td>
+            <td><input type="checkbox" formControlName="canDelete"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="submit-btn-container">
+      <button type="submit"> Save</button>
+      <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
+
+    </div>
+  </form>
+</div>
