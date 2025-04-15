@@ -7,13 +7,17 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RoleService } from '../../../Roles/services/role.service';
 import { IRoleDTO } from '../../../Roles/Interfaces/roles.model';
+import { BranchService } from '../../../Branch/services/branch.service';
+import { IBranchDTO } from '../../../Branch/Interfaces/model';
+import { HttpClientModule } from '@angular/common/http';
+
 
 @Component({
   selector: 'app-employee-form',
   templateUrl: './employee-form.component.html',
   styleUrls: ['./employee-form.component.css'],
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule, HttpClientModule],
 })
 export class EmployeeFormComponent implements OnInit {
   employee: ICreateEmployeeDTO = {
@@ -27,6 +31,7 @@ export class EmployeeFormComponent implements OnInit {
     branchId: 0,
   };
   roles: IRoleDTO[] = [];
+  branches: IBranchDTO[] = [];
   id: number | null = null;
   isEditMode: boolean = false;
   errorMessage: string = '';
@@ -36,13 +41,14 @@ export class EmployeeFormComponent implements OnInit {
     private employeeService: EmployeeService,
     private route: ActivatedRoute,
     private router: Router,
-    private roleService: RoleService
+    private roleService: RoleService,
+    private branchService: BranchService
   ) {}
 
   ngOnInit(): void {
+    // Fetch roles
     this.roleService.getAllRoles().subscribe({
       next: (roles) => {
-        // فلترة الأدوار اللي بتبدأ بـ "employee" (case-insensitive) ومش محذوفة
         this.roles = roles.filter(role => 
           !role.isDeleted && 
           role.name.toLowerCase().startsWith('employee')
@@ -55,6 +61,19 @@ export class EmployeeFormComponent implements OnInit {
       }
     });
 
+    // Fetch branches
+    this.branchService.getAllBranches().subscribe({
+      next: (branches) => {
+        this.branches = branches;
+        console.log('Filtered branches:', this.branches);
+      },
+      error: (err) => {
+        console.error('Error fetching branches:', err);
+        this.errorMessage = 'Failed to load branches.';
+      }
+    });
+
+    // Load employee data if in edit mode
     this.id = this.route.snapshot.paramMap.get('id') ? +this.route.snapshot.paramMap.get('id')! : null;
     if (this.id) {
       this.isEditMode = true;
@@ -115,7 +134,7 @@ export class EmployeeFormComponent implements OnInit {
     }
 
     if (field === 'branchId' && (!this.employee.branchId || this.employee.branchId <= 0)) {
-      this.formErrors['branchId'] = 'Branch ID must be a positive number.';
+      this.formErrors['branchId'] = 'Please select a branch.';
     }
 
     if (field === 'role' && !this.employee.role) {
@@ -164,7 +183,7 @@ export class EmployeeFormComponent implements OnInit {
     }
 
     if (!this.employee.branchId || this.employee.branchId <= 0) {
-      this.formErrors['branchId'] = 'Branch ID must be a positive number.';
+      this.formErrors['branchId'] = 'Please select a branch.';
       isValid = false;
     }
 
@@ -199,18 +218,18 @@ export class EmployeeFormComponent implements OnInit {
           this.errorMessage = 'Failed to update employee.';
         }
       });
-    }  else {
+    } else {
       this.employeeService.createEmployee(this.employee).subscribe({
-          next: () => {
-              this.router.navigate(['/employees']);
-          },
-          error: (error) => {
-              console.error('Error creating employee:', error);
-              const errorMsg = error.error?.Error || error.error?.Message || 'Failed to create employee.';
-              this.errorMessage = errorMsg;
-          }
+        next: () => {
+          this.router.navigate(['/employees']);
+        },
+        error: (error) => {
+          console.error('Error creating employee:', error);
+          const errorMsg = error.error?.Error || error.error?.Message || 'Failed to create employee.';
+          this.errorMessage = errorMsg;
+        }
       });
-  }
+    }
   }
 
   cancel(): void {

@@ -78,32 +78,26 @@
     </div>
     <div class="form-group">
       <label for="role">Role:</label>
- <!-- Role Field -->
-<div class="form-group">
-  <label for="role">Role</label>
-  
-  <select *ngIf="!isEditMode" [(ngModel)]="employee.role" name="role" (change)="validateField('role')" required>
-    <option value="" disabled>Select Role</option>
-    <option *ngFor="let role of roles" [value]="role.name">{{ role.name }}</option>
-  </select>
-
-  <input *ngIf="isEditMode" type="text" [value]="employee.role" readonly class="form-control readonly-field" />
-  
-  <div *ngIf="formErrors['role']" class="error">{{ formErrors['role'] }}</div>
-</div>
+      <select *ngIf="!isEditMode" [(ngModel)]="employee.role" name="role" (change)="validateField('role')" required class="form-control">
+        <option value="" disabled>Select Role</option>
+        <option *ngFor="let role of roles" [value]="role.name">{{ role.name }}</option>
+      </select>
+      <input *ngIf="isEditMode" type="text" [value]="employee.role" readonly class="form-control readonly-field" />
       <div *ngIf="formErrors['role']" class="text-danger">{{ formErrors['role'] }}</div>
     </div>
     <div class="form-group">
-      <label for="branchId">Branch ID:</label>
-      <input 
-        type="number" 
+      <label for="branchId">Branch:</label>
+      <select 
         id="branchId" 
         class="form-control" 
         [(ngModel)]="employee.branchId" 
         name="branchId" 
         required 
-        (blur)="validateField('branchId')"
-      />
+        (change)="validateField('branchId')"
+      >
+        <option value="" disabled>Select Branch</option>
+        <option *ngFor="let branch of branches" [value]="branch.id">{{ branch.name }}</option>
+      </select>
       <div *ngIf="formErrors['branchId']" class="text-danger">{{ formErrors['branchId'] }}</div>
     </div>
     <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Update' : 'Add' }}</button>

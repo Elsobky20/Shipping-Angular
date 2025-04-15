@@ -20,7 +20,9 @@ import { MerchantsComponent } from './Merchant/components/merchants/merchants.co
 import { MerchantFormComponent } from './Merchant/components/merchant-form/merchant-form.component';
 import { MerchantDetailsComponent } from './Merchant/components/merchant-details/merchant-details.component';
 
-export const routes: Routes = [
+export 
+
+const routes: Routes = [
   { path: '', redirectTo: 'employees', pathMatch: 'full' },
   { path: 'dashboard', component: DashboardComponent },
   { path: 'city', component: CitiesComponent },
