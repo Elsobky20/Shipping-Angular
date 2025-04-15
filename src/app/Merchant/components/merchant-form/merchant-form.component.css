@@ -1,0 +1,13 @@
+label {
+  color: gray;
+  font-size: 1.1rem;
+}
+/* ----------------------------------------------- */
+#tableHead {
+  margin-top: 0;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+  overflow: hidden;
+}
+/* ----------------------------------------------- */
