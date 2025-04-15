@@ -329,6 +329,30 @@
             </ul>
           </div>
         </li>
+
+
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            (click)="toggleDropdown('order')"
+            [attr.aria-expanded]="isDropdownOpen('order')"
+          >
+            <span class="menu-title">Order</span>
+            <i class="menu-arrow" [ngClass]="{ 'rotate-arrow': isDropdownOpen('order') }"></i>
+            <i class="mdi mdi-store menu-icon"></i>
+          </a>
+        
+          <div *ngIf="isDropdownOpen('order')">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/order']">All Order</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/order/add']">Add Order</a>
+              </li>
+            </ul>
+          </div>
+        </li>
         <li class="nav-item">
           <a
           class="nav-link"
