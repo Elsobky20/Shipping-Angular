@@ -14,7 +14,7 @@ import { Router, ActivatedRoute } from '@angular/router';
   imports: [CommonModule, ReactiveFormsModule, FormsModule]
 })
 export class AddDeliveryComponent implements OnInit {
-  mode: 'add' | 'edit' = 'add';
+  mode: 'add' | 'edit' | 'details' = 'add';
   deliveryId?: number;
   deliveryForm!: FormGroup;
   branches: any[] = [];
@@ -31,15 +31,38 @@ export class AddDeliveryComponent implements OnInit {
   ngOnInit(): void {
     this.initForm();
     this.loadBranches();
-
+  
     this.route.params.subscribe(params => {
-      if (params['id']) {
-        this.mode = 'edit';
-        this.deliveryId = +params['id'];
+      const id = params['id'];
+      if (id) {
+        this.deliveryId = +id;
+  
+        // لو الرابط فيه كلمة "details" هنخلي المود details
+        if (this.router.url.includes('details')) {
+          this.mode = 'details';
+        } else {
+          this.mode = 'edit';
+        }
+  
         this.loadDeliveryData(this.deliveryId);
+  
+        // لو details اعملي disable لكل الفيلدات بعد تحميل البيانات
+        if (this.mode === 'details') {
+          this.deliveryForm.disable();
+        }
       }
     });
   }
+  
+
+  getGovernmentsNames(ids: number[]): string[] {
+    return this.governments
+      .filter(g => ids.includes(g.id))
+      .map(g => g.name);
+  }
+
+
+  
 
   initForm(): void {
     this.deliveryForm = this.fb.group({
@@ -59,7 +82,18 @@ export class AddDeliveryComponent implements OnInit {
     this.loading = true;
     this.http.getById('Delivery', id).subscribe({
       next: (delivery) => {
-        this.deliveryForm.patchValue(delivery);
+        console.log(delivery);
+        // تعيين البيانات بناءً على الاستجابة من الـ API
+        this.deliveryForm.patchValue({
+          name: delivery.name,
+          email: delivery.email,
+          phone: delivery.phone,
+          address: delivery.address,
+          branchId: delivery.branchName,  // تعيين اسم الفرع
+          governmentsId: delivery.governmentName,  // تعيين الأسماء بدلاً من المعرفات
+          discountType: delivery.discountType,
+          companyPercentage: delivery.companyPercentage
+        });
         this.loading = false;
       },
       error: (err) => {
@@ -69,6 +103,8 @@ export class AddDeliveryComponent implements OnInit {
       }
     });
   }
+  
+  
 
   loadBranches(): void {
     this.http.getAll('Branch', 'all').subscribe({
@@ -80,6 +116,7 @@ export class AddDeliveryComponent implements OnInit {
         console.error(err);
       }
     });
+    
   }
 
   onBranchChange(event: Event): void {
@@ -90,12 +127,18 @@ export class AddDeliveryComponent implements OnInit {
       this.http.getById('Delivery/GovernmentByBranch', selectedBranchId).subscribe({
         next: (data) => {
           this.governments = data;
+          console.log('Governments:', this.governments);
         },
         error: (err) => {
-          console.error('Error:', err?.message || err);
+          console.log('Error:', err?.message || err);
         }
       });
     }
+  }
+
+  getBranchName(id: number): string {
+    const branch = this.branches.find(b => b.id === id);
+    return branch ? branch.name : '';
   }
 
   onSubmit(): void {
