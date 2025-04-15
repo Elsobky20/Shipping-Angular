@@ -1,106 +1,275 @@
-<div class="container">
-  <h2>{{ isEditMode ? 'Edit Employee' : 'Add Employee' }}</h2>
-  <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
-  <form #employeeForm="ngForm" (ngSubmit)="saveEmployee()">
-    <div class="form-group">
-      <label for="name">Name:</label>
-      <input 
-        type="text" 
-        id="name" 
-        class="form-control" 
-        [(ngModel)]="employee.name" 
-        name="name" 
-        required 
-        (blur)="validateField('name')"
-      />
-      <div *ngIf="formErrors['name']" class="text-danger">{{ formErrors['name'] }}</div>
+<div class="row">
+  <div class="content-wrapper container-fluid p-0">
+    <div class="col-12 grid-margin stretch-card">
+      <div class="card" style="max-height: 100vh !important">
+        <div
+          class="card-body p-5 py-3"
+          style="height: 80vh !important; max-height: 100vh !important"
+        >
+          <div class="row mt-2 d-flex justify-content-between mb-2">
+            <h4
+              class="card-title fs-3 col-sm-8"
+              style="color: #9c57ff; font-weight: bold; letter-spacing: 1px"
+            >
+              {{ isEditMode ? 'Edit Employee' : 'Add New Employee' }}
+            </h4>
+            <a
+              class="btn btn-light col-sm-1 px-0 d-flex align-items-center justify-content-center ms-auto me-2"
+              style="
+                color: #9c57ff;
+                letter-spacing: 0.8px;
+                height: 42px;
+                width: 42px;
+                border-radius: 50%;
+              "
+              title="Back to employees"
+              (click)="cancel()"
+            >
+              <i class="bi bi-skip-backward-circle fs-2"></i>
+            </a>
+          </div>
+          
+          <div *ngIf="errorMessage" class="alert alert-danger">{{ errorMessage }}</div>
+          
+          <div
+            class="row col-sm-12 table-responsive table-bordered rounded mx-auto"
+            style="max-height: 85%"
+          >
+            <form #employeeForm="ngForm" (ngSubmit)="saveEmployee()" class="forms-sample" autocomplete="off">
+              <div class="row">
+                <!-- Name -->
+                <div class="col-md-6">
+                  <div class="form-group my-3">
+                    <label for="name">Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="name"
+                      placeholder="Name"
+                      [(ngModel)]="employee.name"
+                      name="name"
+                      required
+                      (blur)="validateField('name')"
+                      autocomplete="off"
+                    />
+                    <div *ngIf="formErrors['name']" class="form-text text-danger">
+                      {{ formErrors['name'] }}
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Email -->
+                <div class="col-md-6">
+                  <div class="form-group my-3">
+                    <label for="email">Email</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="email"
+                      placeholder="Email"
+                      [(ngModel)]="employee.email"
+                      name="email"
+                      required
+                      (blur)="validateField('email')"
+                      autocomplete="new-email"
+                    />
+                    <div *ngIf="formErrors['email']" class="form-text text-danger">
+                      {{ formErrors['email'] }}
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Password -->
+                <div class="col-md-6" *ngIf="!isEditMode">
+                  <div class="form-group my-3">
+                    <label for="password">Password</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="password"
+                      placeholder="Password"
+                      [(ngModel)]="employee.password"
+                      name="password"
+                      required
+                      (blur)="validateField('password')"
+                      autocomplete="new-password"
+                    />
+                    <div *ngIf="formErrors['password']" class="form-text text-danger">
+                      {{ formErrors['password'] }}
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Confirm Password -->
+                <div class="col-md-6" *ngIf="!isEditMode">
+                  <div class="form-group my-3">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="confirmPassword"
+                      placeholder="Confirm Password"
+                      [(ngModel)]="employee.confirmPassword"
+                      name="confirmPassword"
+                      required
+                      (blur)="validateField('confirmPassword')"
+                      autocomplete="new-password"
+                    />
+                    <div *ngIf="formErrors['confirmPassword']" class="form-text text-danger">
+                      {{ formErrors['confirmPassword'] }}
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Phone -->
+                <div class="col-md-6">
+                  <div class="form-group my-3">
+                    <label for="phone">Phone</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="phone"
+                      placeholder="Phone"
+                      [(ngModel)]="employee.phone"
+                      name="phone"
+                      (blur)="validateField('phone')"
+                      autocomplete="off"
+                    />
+                    <div *ngIf="formErrors['phone']" class="form-text text-danger">
+                      {{ formErrors['phone'] }}
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Address -->
+                <div class="col-md-6">
+                  <div class="form-group my-3">
+                    <label for="address">Address</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="address"
+                      placeholder="Address"
+                      [(ngModel)]="employee.address"
+                      name="address"
+                      autocomplete="off"
+                    />
+                  </div>
+                </div>
+                
+                <!-- Role -->
+                <div class="col-md-6">
+                  <div class="form-group my-3">
+                    <label for="role">Role</label>
+                    <select 
+                      *ngIf="!isEditMode" 
+                      class="form-select" 
+                      id="role"
+                      [(ngModel)]="employee.role" 
+                      name="role" 
+                      required
+                      (change)="validateField('role')"
+                    >
+                      <option value="" disabled>Select Role</option>
+                      <option *ngFor="let role of roles" [value]="role.name">{{ role.name }}</option>
+                    </select>
+                    <input 
+                      *ngIf="isEditMode" 
+                      type="text" 
+                      [value]="employee.role" 
+                      readonly 
+                      class="form-control" 
+                      style="background-color: #f8f9fa;"
+                    />
+                    <div *ngIf="formErrors['role']" class="form-text text-danger">
+                      {{ formErrors['role'] }}
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Branch -->
+                <div class="col-md-6">
+                  <div class="form-group my-3">
+                    <label for="branchId">Branch</label>
+                    <select
+                      class="form-select"
+                      id="branchId"
+                      [(ngModel)]="employee.branchId"
+                      name="branchId"
+                      required
+                      (change)="validateField('branchId')"
+                    >
+                      <option value="" disabled>Select Branch</option>
+                      <option *ngFor="let branch of branches" [value]="branch.id">{{ branch.name }}</option>
+                    </select>
+                    <div *ngIf="formErrors['branchId']" class="form-text text-danger">
+                      {{ formErrors['branchId'] }}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="row mt-3 px-3">
+                <button
+                  type="submit"
+                  class="btn btn-gradient-primary me-2 col-sm-3 px-0"
+                  style="letter-spacing: 0.8px"
+                >
+                  {{ isEditMode ? 'Update Employee' : 'Add New Employee' }}
+                </button>
+                
+                <button
+                  type="button"
+                  class="btn btn-light col-sm-3 px-0 d-flex align-items-center justify-content-center"
+                  style="color: rgb(95, 95, 95); letter-spacing: 0.8px"
+                  (click)="cancel()"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
-    <div class="form-group">
-      <label for="email">Email:</label>
-      <input 
-        type="email" 
-        id="email" 
-        class="form-control" 
-        [(ngModel)]="employee.email" 
-        name="email" 
-        required 
-        (blur)="validateField('email')"
-      />
-      <div *ngIf="formErrors['email']" class="text-danger">{{ formErrors['email'] }}</div>
-    </div>
-    <div class="form-group" *ngIf="!isEditMode">
-      <label for="password">Password:</label>
-      <input 
-        type="password" 
-        id="password" 
-        class="form-control" 
-        [(ngModel)]="employee.password" 
-        name="password" 
-        required 
-        (blur)="validateField('password')"
-      />
-      <div *ngIf="formErrors['password']" class="text-danger">{{ formErrors['password'] }}</div>
-    </div>
-    <div class="form-group" *ngIf="!isEditMode">
-      <label for="confirmPassword">Confirm Password:</label>
-      <input 
-        type="password" 
-        id="confirmPassword" 
-        class="form-control" 
-        [(ngModel)]="employee.confirmPassword" 
-        name="confirmPassword" 
-        required 
-        (blur)="validateField('confirmPassword')"
-      />
-      <div *ngIf="formErrors['confirmPassword']" class="text-danger">{{ formErrors['confirmPassword'] }}</div>
-    </div>
-    <div class="form-group">
-      <label for="phone">Phone:</label>
-      <input 
-        type="text" 
-        id="phone" 
-        class="form-control" 
-        [(ngModel)]="employee.phone" 
-        name="phone" 
-        (blur)="validateField('phone')"
-      />
-      <div *ngIf="formErrors['phone']" class="text-danger">{{ formErrors['phone'] }}</div>
-    </div>
-    <div class="form-group">
-      <label for="address">Address:</label>
-      <input 
-        type="text" 
-        id="address" 
-        class="form-control" 
-        [(ngModel)]="employee.address" 
-        name="address"
-      />
-    </div>
-    <div class="form-group">
-      <label for="role">Role:</label>
-      <select *ngIf="!isEditMode" [(ngModel)]="employee.role" name="role" (change)="validateField('role')" required class="form-control">
-        <option value="" disabled>Select Role</option>
-        <option *ngFor="let role of roles" [value]="role.name">{{ role.name }}</option>
-      </select>
-      <input *ngIf="isEditMode" type="text" [value]="employee.role" readonly class="form-control readonly-field" />
-      <div *ngIf="formErrors['role']" class="text-danger">{{ formErrors['role'] }}</div>
-    </div>
-    <div class="form-group">
-      <label for="branchId">Branch:</label>
-      <select 
-        id="branchId" 
-        class="form-control" 
-        [(ngModel)]="employee.branchId" 
-        name="branchId" 
-        required 
-        (change)="validateField('branchId')"
-      >
-        <option value="" disabled>Select Branch</option>
-        <option *ngFor="let branch of branches" [value]="branch.id">{{ branch.name }}</option>
-      </select>
-      <div *ngIf="formErrors['branchId']" class="text-danger">{{ formErrors['branchId'] }}</div>
-    </div>
-    <button type="submit" class="btn btn-primary">{{ isEditMode ? 'Update' : 'Add' }}</button>
-    <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
-  </form>
+  </div>
 </div>
+
+<style>
+.btn-gradient-primary {
+  background: linear-gradient(to right, #9c57ff, #8f3bff);
+  border: none;
+  color: white;
+}
+
+.btn-gradient-primary:hover {
+  background: linear-gradient(to right, #8f3bff, #7719ff);
+  color: white;
+}
+
+.form-select {
+  height: calc(1.5em + 0.75rem + 2px);
+  padding: 0.375rem 0.75rem;
+  font-size: 1rem;
+  font-weight: 400;
+  line-height: 1.5;
+  color: #495057;
+  background-color: #fff;
+  background-clip: padding-box;
+  border: 1px solid #ced4da;
+  border-radius: 0.25rem;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+}
+
+.form-select:focus {
+  border-color: #9c57ff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(156, 87, 255, 0.25);
+}
+
+.form-control:focus {
+  border-color: #9c57ff;
+  outline: 0;
+  box-shadow: 0 0 0 0.2rem rgba(156, 87, 255, 0.25);
+}
+</style>
