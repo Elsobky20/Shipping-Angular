@@ -30,7 +30,6 @@ export interface IBranchDTO {
   export interface IBranchEditDTO {
     id: number;
     name: string;
-    isDeleted:boolean;
     mobile: string;
     location: string
   }

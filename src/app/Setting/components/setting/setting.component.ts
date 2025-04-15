@@ -28,6 +28,7 @@ export class SettingComponent implements OnInit {
         console.error('Error fetching settings:', error);
       }
     });
+
     // this.mySubsribe = this.httpReqervice.getAll('Setting','all').subscribe({
     //   next: (response) => {
     //     console.log(response);
@@ -38,6 +39,10 @@ export class SettingComponent implements OnInit {
     //     console.log(error);
     //   }
     // })
+  }
+  editSetting(id:number):void
+  {
+    this.router.navigate(['/seting/edit',id])
   }
 }
 

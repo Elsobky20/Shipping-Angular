@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { HttpClient } from '@angular/common/http';
 import { APIResponse } from '../../AllModel/api-response';
-import { IBranchResponseData } from '../Interfaces/ibranch-get';
+import { IBranchCreateDTO, IBranchResponseData } from '../Interfaces/ibranch-get';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,13 @@ export class BranchService {
   getBranchById(id:number):Observable<APIResponse<IBranchResponseData>>{
     return this.http.get<APIResponse<IBranchResponseData>>(this.baseURL);
   }
-
+  // checkBranchExistence(branchData: IBranchCreateDTO): Observable<boolean> {
+  //   return this.http.post<boolean>(`${this.baseURL}/check-existence`, branchData);
+  // }
+  checkBranchExistence(branchData: IBranchCreateDTO): Observable<{ exists: boolean, type: string }> {
+    return this.http.post<{ exists: boolean, type: string }>(`${this.baseURL}/check-existence`, branchData);
+  }
+  
 }
 
 

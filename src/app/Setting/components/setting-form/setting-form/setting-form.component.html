@@ -1,11 +1,10 @@
-
-<div class="container my-5">
+ <div class="container my-5">
     <div class="card shadow-lg p-4 rounded-4">
-      <h2 class="mb-4 text-center text-primary fw-bold">Add New Setting</h2>
+      <h2 class="mb-4 text-center text-primary fw-bold">  {{ isEdit ? 'Edit Setting' : 'Add New Setting' }}</h2>
   
       <form [formGroup]="settingForm" (ngSubmit)="onSubmit()" novalidate>
         <div class="row">
-          <!-- Shipping To Village Cost -->
+        <!--   Shipping To Village Cost -->
           <div class="mb-3 col-md-6">
             <label for="shippingToVillageCost" class="form-label">Shipping To Village Cost</label>
             <input id="shippingToVillageCost" type="number" formControlName="shippingToVillageCost" class="form-control" [class.is-invalid]="isInvalid('shippingToVillageCost')" />
@@ -14,7 +13,7 @@
             </div>
           </div>
   
-          <!-- Delivery Auto Accept -->
+       <!--    Delivery Auto Accept -->
           <div class="mb-3 col-md-6">
             <label for="deliveryAutoAccept" class="form-label">Delivery Auto Accept</label>
             <select id="deliveryAutoAccept" formControlName="deliveryAutoAccept" class="form-select" [class.is-invalid]="isInvalid('deliveryAutoAccept')">
@@ -28,10 +27,10 @@
           </div>
         </div>
   
-        <!-- Submit Button -->
+       <!--  Submit Button -->
         <div class="d-grid mt-3">
-          <button type="submit" class="btn btn-primary py-2 fw-bold">Add Setting</button>
+          <button type="submit" class="btn btn-primary py-2 fw-bold">{{ isEdit ? 'Update Setting' : 'Add Setting' }}</button>
         </div>
       </form>
     </div>
-  </div>
+  </div> 

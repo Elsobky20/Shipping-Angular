@@ -8,6 +8,7 @@ export const routes: Routes = [
     {path :'branch' , component: BranchesComponent},
     {path:'branch/add' , component:BranchFormComponent},
     {path :'setting' , component: SettingComponent},
-    {path:'setting/add' , component:SettingFormComponent}
+    {path:'setting/add' , component:SettingFormComponent},
+    {path:'seting/edit/:id',component:SettingFormComponent}
 ];
   

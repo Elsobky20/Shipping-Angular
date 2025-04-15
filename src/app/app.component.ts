@@ -10,10 +10,11 @@ import { BranchesComponent } from './Branch/components/branches/branches.compone
 import { SettingComponent } from './Setting/components/setting/setting.component';
 import { ProfileComponent } from './Profile/components/profile/profile.component';
 import { SettingFormComponent } from './Setting/components/setting-form/setting-form/setting-form.component';
+import { BranchFormComponent } from './Branch/components/branch-form/branch-form.component';
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule, EmployeeFormComponent, RoleListComponent, CitiesComponent, SideBarComponent,LoginComponent ,BranchesComponent,SettingComponent ,ProfileComponent ,SettingFormComponent],
+  imports: [RouterOutlet, CommonModule, EmployeeFormComponent, RoleListComponent, CitiesComponent, SideBarComponent,LoginComponent ,BranchesComponent,SettingComponent ,ProfileComponent ,SettingFormComponent,BranchFormComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
