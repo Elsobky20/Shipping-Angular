@@ -1,4 +1,4 @@
-import { Routes } from '@angular/router';
+
 import { DashboardComponent } from './Dashboard/dashboard.component';
 import { CitiesComponent } from './City/components/cities/cities.component';
 import { NotFoundComponent } from './NotFound/not-found.component';
@@ -14,6 +14,11 @@ import { EmployeeListComponent } from './employees/components/employee-list/empl
 import { EmployeeFormComponent } from './employees/components/employee-form/employee-form.component';
 import { RoleListComponent } from './Roles/components/role-list/role-list.component';
 import { AddRoleComponent } from './Roles/components/add-role/add-role.component';
+import { BranchesComponent } from './Branch/components/branches/branches.component';
+import { SettingComponent } from './Setting/components/setting/setting.component';
+import { SettingFormComponent } from './Setting/components/setting-form/setting-form/setting-form.component';
+import { BranchFormComponent } from './Branch/components/branch-form/branch-form.component';
+import { Routes } from '@angular/router';
 
 export const routes: Routes = [
   {path: '', redirectTo: 'login', pathMatch: 'full'},
@@ -34,5 +39,12 @@ export const routes: Routes = [
   {path: 'employee/add', component: EmployeeFormComponent},
   {path:'role',component:RoleListComponent},
   {path:'role/add',component:AddRoleComponent},
+  {path :'branch' , component: BranchesComponent},
+  {path:'branch/add' , component:BranchFormComponent},
+  {path:'branch/:id',component:BranchFormComponent},
+  {path :'setting' , component: SettingComponent},
+  {path:'setting/add' , component:SettingFormComponent},
+  {path:'seting/edit/:id',component:SettingFormComponent},
   {path: '**', component: NotFoundComponent}
 ];
+

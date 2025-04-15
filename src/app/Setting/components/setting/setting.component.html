@@ -1,0 +1,95 @@
+<div class="content-wrapper container-fluid">
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body p-5 py-4">
+          <div class="row">
+            <h4
+              class="card-title fs-3"
+              style="color: #9c57ff; font-weight: bold; letter-spacing: 1px"
+            >
+              Setting
+            </h4>
+          </div>
+  
+          <div class="row mb-3 px-3">
+            <button type="button" class="btn btn-gradient-primary btn-fw col-sm-2" 
+            routerLink="/setting/add">
+      Add Setting
+    </button>
+          </div>
+  
+          <div
+            class="row col-sm-12 table-responsive table-bordered rounded mx-auto"
+          >
+            <table class="table text-center table-hover">
+              <thead>
+                <tr>
+                  <th scope="col" style="background-color: #8080808a">#</th>
+                  <th scope="col" style="background-color: #8080808a">ShippingToVillageCost</th>
+                  <th scope="col" style="background-color: #8080808a">DeliveryAutoAccept</th>
+                  <th scope="col" style="background-color: #8080808a">Status</th>
+                  <th scope="col" style="background-color: #8080808a">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (setting of settings; track setting.id; let i = $index) {
+                <tr>
+                  <th scope="row" class="py-0">{{ i + 1 }}</th>
+                  <td class="py-0">{{ setting.shippingToVillageCost }}</td>
+                  <td class="py-0">{{ setting.deliveryAutoAccept }}</td>
+                  @if(setting.isDeleted){
+                  <td class="d-flex justify-content-center py-0">
+                    <div class="form-check form-switch">
+                      <input
+                        class="form-check-input"
+                        style="
+                          transform: translateX(80%);
+                          background-color: rgb(203, 195, 195, 0.45);
+                          font-size: 20px;
+                        "
+                        type="checkbox"
+                        role="switch"
+                        id="switchCheckDisabled"
+                        value="{{ setting.isDeleted }}"
+                        disabled
+                      />
+                    </div>
+                  </td>
+                  }@else {
+                  <td class="d-flex justify-content-center py-0">
+                    <div class="form-check form-switch">
+                      <input
+                        class="form-check-input"
+                        style="
+                          transform: translateX(80%);
+                          background-color: green;
+                          font-size: 20px;
+                        "
+                        type="checkbox"
+                        role="switch"
+                        id="switchCheckCheckedDisabled"
+                        value="{{ setting.isDeleted }}"
+                        checked
+                        disabled
+                      />
+                    </div>
+                  </td>
+                  }
+                  <td class="py-0">
+                    <i
+                      class="bi bi-pencil-square fs-4 text-info btn p-2"
+                      data-bs-toggle="tooltip"
+                      title="Edit"
+                      (click)="editSetting(setting.id)"
+                    ></i>
+                  </td>
+                </tr>
+                }
+              </tbody>
+            </table>
+          </div>
+        </div>
+     </div>
+   </div>
+</div>
+  

@@ -1,0 +1,82 @@
+<div class="content-wrapper container-fluid">
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card">
+        <div class="card-body p-5 py-4">
+          <div class="row">
+            <h4
+              class="card-title fs-3"
+              style="color: #9c57ff; font-weight: bold; letter-spacing: 1px"
+            >
+              Profile
+            </h4>
+          </div>
+  
+          <div class="row d-flex justify-content-center align-items-center mt-4">
+            <div class="col-md-4 text-center">
+              <img
+                [src]="'http://localhost:5050' + profile.profileImagePath"
+                alt="Profile Image"
+                class="img-fluid rounded-circle"
+                style="width: 150px; height: 150px; object-fit: cover"
+              />
+            </div>
+  
+            <div class="col-md-8">
+              <table class="table table-borderless">
+                <tbody>
+                  <tr>
+                    <th class="text-muted">Username:</th>
+                    <td>{{ profile.userName }}</td>
+                  </tr>
+                  <tr>
+                    <th class="text-muted">Email:</th>
+                    <td>{{ profile.email }}</td>
+                  </tr>
+                  <tr>
+                    <th class="text-muted">Phone:</th>
+                    <td>{{ profile.phoneNumber }}</td>
+                  </tr>
+                  <tr>
+                    <th class="text-muted">Address:</th>
+                    <td>{{ profile.address }}</td>
+                  </tr>
+                  <tr>
+                    <th class="text-muted">Roles:</th>
+                    <td>
+                      <span class="badge bg-primary me-1" *ngFor="let role of profile.roles">
+                        {{ role }}
+                      </span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <th class="text-muted">Joined:</th>
+                    <td>{{ profile.createdDate }}</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+  
+          <div class="row mt-3 justify-content-center">
+            <div class="col-md-6">
+              <form (ngSubmit)="onUploadImage()" #imageForm="ngForm">
+                <div class="input-group">
+                  <input
+                    type="file"
+                    class="form-control"
+                    (change)="onFileSelected($event)"
+                    accept="image/*"
+                    required
+                  />
+                  <button class="btn btn-outline-success" type="submit">
+                    Upload
+                  </button>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  
