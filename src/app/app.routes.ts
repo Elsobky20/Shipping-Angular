@@ -44,6 +44,7 @@ const routes: Routes = [
   { path: 'merchant', component: MerchantsComponent },
   { path: 'merchant/:id', component: MerchantDetailsComponent },
   { path: 'merchant/:id/edit', component: MerchantFormComponent },
+  
   { path: 'deliveries', component: AllDeliveryComponent },
   { path: 'delivery/add', component: AddDeliveryComponent },
   { path: 'delivery/edit/:id', component: AddDeliveryComponent },
