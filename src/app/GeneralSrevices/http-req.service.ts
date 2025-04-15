@@ -36,7 +36,7 @@ export class HttpReqService {
   /* ===================== End GetAll Method By Pagination ===================== */
 
   /* ===================== Start GetById Method ================================ */
-  getById(endPoint:string, id:number):Observable<any> {
+  getById(endPoint:string, id:any):Observable<any> {
     return this.http.get<any>(`${this.baseUrl}/${endPoint}/${id}`);
   }
   /* ===================== End GetById Method ================================== */
@@ -48,8 +48,8 @@ export class HttpReqService {
   /* ===================== End Create Method =================================== */
 
   /* ===================== Start Edit Method =================================== */
-  editById(endPoint:string, id:number, iCityEditDTO:ICityEditDTO):Observable<any> {
-    return this.http.put<any>(`${this.baseUrl}/${endPoint}/${id}`, iCityEditDTO);
+  editById(endPoint:string, id:number, Dto:object):Observable<any> {
+    return this.http.put<any>(`${this.baseUrl}/${endPoint}/${id}`, Dto);
   }
   /* ===================== End Edit Method ===================================== */
 

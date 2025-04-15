@@ -1,0 +1,31 @@
+<div class="container">
+    <h2>Role Permissions</h2>
+    <table class="table table-bordered">
+      <thead>
+        <tr>
+          <th>Role </th>
+          <th>Permission </th>
+          <th>Can View</th>
+          <th>Can Edit</th>
+          <th>Can Add</th>
+          <th>Can Delete</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let rolePermission of rolePermissions">
+          <td>{{ rolePermission.roleName }}</td>
+          <td>{{ rolePermission.permissionName }}</td>
+          <td>{{ rolePermission.canView ? 'Yes' : 'No' }}</td>
+          <td>{{ rolePermission.canEdit ? 'Yes' : 'No' }}</td>
+          <td>{{ rolePermission.canAdd ? 'Yes' : 'No' }}</td>
+          <td>{{ rolePermission.canDelete ? 'Yes' : 'No' }}</td>
+          <td>
+            <button class="btn btn-warning" (click)="editRolePermission(rolePermission)">Edit</button>
+          </td>
+       
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  

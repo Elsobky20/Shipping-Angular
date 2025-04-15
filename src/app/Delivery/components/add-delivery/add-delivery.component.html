@@ -1,105 +1,250 @@
-<div class="container my-5">
-  <div class="card shadow-lg p-4 rounded-4">
-    <h2 class="mb-4 text-center text-primary fw-bold">Add New Delivery</h2>
+<div class="row">
+  <div class="content-wrapper container-fluid p-0">
+    <div class="col-12 grid-margin stretch-card">
+      <div class="card" style="max-height: 100vh !important">
+        <div
+          class="card-body p-5 py-3"
+          style="height: 80vh !important; max-height: 100vh !important"
+        >
+          <div class="row mt-2 d-flex justify-content-between mb-2">
+            <h4
+              class="card-title fs-3 col-sm-8"
+              style="color: #9c57ff; font-weight: bold; letter-spacing: 1px"
+            >
+            {{ mode === 'details' ? "Delivery Details" : (mode === 'add' ? "Add New Delivery" : "Edit Delivery") }}
 
-    <form [formGroup]="deliveryForm" (ngSubmit)="onSubmit()" novalidate>
-      <div class="row">
-        <!-- Name -->
-        <div class="mb-3 col-md-6">
-          <label for="name" class="form-label">Name</label>
-          <input id="name" type="text" formControlName="name" class="form-control" [class.is-invalid]="isInvalid('name')" />
-          <div *ngIf="isInvalid('name')" class="invalid-feedback">
-            Name is required and must be 3-10 characters long.
+            </h4>
+            <a
+              class="btn btn-light col-sm-1 px-0 d-flex align-items-center justify-content-center ms-auto me-2"
+              style="
+                color: #9c57ff;
+                letter-spacing: 0.8px;
+                height: 42px;
+                width: 42px;
+                border-radius: 50%;
+              "
+              title="Back to deliveries"
+              href="/deliveries"
+            >
+              <i class="bi bi-skip-backward-circle fs-2"></i>
+            </a>
           </div>
-        </div>
-
-        <!-- Email -->
-        <div class="mb-3 col-md-6">
-          <label for="email" class="form-label">Email</label>
-          <input id="email" type="email" formControlName="email" class="form-control" [class.is-invalid]="isInvalid('email')" />
-          <div *ngIf="isInvalid('email')" class="invalid-feedback">
-            Please enter a valid email.
-          </div>
-        </div>
-
-        <!-- Phone -->
-        <div class="mb-3 col-md-6">
-          <label for="phone" class="form-label">Phone</label>
-          <input id="phone" type="text" formControlName="phone" class="form-control" [class.is-invalid]="isInvalid('phone')" />
-          <div *ngIf="isInvalid('phone')" class="invalid-feedback">
-            Please enter a valid Egyptian phone number.
-          </div>
-        </div>
-
-        <!-- Password -->
-        <div class="mb-3 col-md-6">
-          <label for="password" class="form-label">Password</label>
-          <input id="password" type="password" formControlName="password" class="form-control" [class.is-invalid]="isInvalid('password')" />
-          <div *ngIf="isInvalid('password')" class="invalid-feedback">
-            Password must be at least 6 characters.
-          </div>
-        </div>
-
-        <!-- Address -->
-        <div class="mb-3 col-md-6">
-          <label for="address" class="form-label">Address</label>
-          <input id="address" type="text" formControlName="address" class="form-control" [class.is-invalid]="isInvalid('address')" />
-          <div *ngIf="isInvalid('address')" class="invalid-feedback">
-            Address is required.
-          </div>
-        </div>
-
-        <!-- Branch -->
-        <div class="mb-3 col-md-6">
-          <label for="branchId" class="form-label">Branch</label>
-          <select id="branchId" formControlName="branchId" (change)="onBranchChange($event)" class="form-select" [class.is-invalid]="isInvalid('branchId')">
-            <option value="">Select Branch</option>
-            <option *ngFor="let branch of branches" [value]="branch.id">{{ branch.name }}</option>
-          </select>
-          <div *ngIf="isInvalid('branchId')" class="invalid-feedback">
-            Please select a branch.
-          </div>
-        </div>
-
-   
-                <!-- Governments -->
-                <div class="mb-3 col-md-6">
-                  <label for="governmentsId" class="form-label">Governments</label>
-                  <select id="governmentsId" formControlName="governmentsId" class="form-select" multiple [class.is-invalid]="isInvalid('governmentsId')">
-                    <option *ngFor="let gov of governments" [value]="gov.id">{{ gov.name }}</option>
-                  </select>
-                  <div *ngIf="isInvalid('governmentsId')" class="invalid-feedback">
-                    Please select at least one government.
+          <div
+            class="row col-sm-12 table-responsive table-bordered rounded mx-auto"
+            style="max-height: 85%"
+          >
+            <form
+              [formGroup]="deliveryForm"
+              class="forms-sample"
+              (submit)="onSubmit()"
+              autocomplete="off"
+            >
+              <div class="row">
+                <!-- Name -->
+                <div class="col-md-6">
+                  <div class="form-group my-3">
+                    <label for="name">Name</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="name"
+                      placeholder="Name"
+                      formControlName="name"
+                      autocomplete="off"
+                      [disabled]="mode === 'details'"
+                    />
+                    <div *ngIf="isInvalid('name')" class="form-text text-danger">
+                      Name is required and must be 3-10 characters long.
+                    </div>
                   </div>
                 </div>
-
-        <!-- Company Percentage -->
-        <div class="mb-3 col-md-6">
-          <label for="companyPercentage" class="form-label">Company Percentage</label>
-          <input id="companyPercentage" type="number" formControlName="companyPercentage" class="form-control" [class.is-invalid]="isInvalid('companyPercentage')" />
-          <div *ngIf="isInvalid('companyPercentage')" class="invalid-feedback">
-            Company percentage is required.
+                
+                <!-- Email -->
+                <div class="col-md-6">
+                  <div class="form-group my-3">
+                    <label for="email">Email</label>
+                    <input
+                      type="email"
+                      class="form-control"
+                      id="email"
+                      placeholder="Email"
+                      formControlName="email"
+                      autocomplete="new-email"
+                      [disabled]="mode === 'details'"
+                    />
+                    <div *ngIf="isInvalid('email')" class="form-text text-danger">
+                      Please enter a valid email.
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Phone -->
+                <div class="col-md-6">
+                  <div class="form-group my-3">
+                    <label for="phone">Phone</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="phone"
+                      placeholder="Phone"
+                      formControlName="phone"
+                      autocomplete="off"
+                      [disabled]="mode === 'details'"
+                    />
+                    <div *ngIf="isInvalid('phone')" class="form-text text-danger">
+                      Please enter a valid Egyptian phone number.
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Password -->
+                <div *ngIf="mode !== 'details'" class="col-md-6">
+                  <div class="form-group my-3">
+                    <label for="password">Password</label>
+                    <input
+                      type="password"
+                      class="form-control"
+                      id="password"
+                      placeholder="Password"
+                      formControlName="password"
+                      autocomplete="new-password"
+                    />
+                    <div *ngIf="isInvalid('password')" class="form-text text-danger">
+                      Password must be at least 6 characters.
+                    </div>
+                  </div>
+                </div>
+                
+                
+                <!-- Address -->
+                <div class="col-md-6">
+                  <div class="form-group my-3">
+                    <label for="address">Address</label>
+                    <input
+                      type="text"
+                      class="form-control"
+                      id="address"
+                      placeholder="Address"
+                      formControlName="address"
+                      autocomplete="off"
+                      [disabled]="mode === 'details'"
+                    />
+                    <div *ngIf="isInvalid('address')" class="form-text text-danger">
+                      Address is required.
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Branch -->
+                <div class="col-md-6">
+                  <div class="form-group my-3">
+                    <label for="branchId">Branch</label>
+                    <div *ngIf="mode === 'details'; else editableSelect">
+                      <p  class="form-control ng-untouched ng-pristine sel">{{ deliveryForm.value.branchId }}</p> 
+                    </div>
+                    
+                    <ng-template #editableSelect>
+                      <select class="form-select" id="branchId" formControlName="branchId"  (change)="onBranchChange($event)">
+                        <option *ngFor="let branch of branches" [value]="branch.id">{{ branch.name }}</option>
+                      </select>
+                    </ng-template>
+                
+                    <div *ngIf="isInvalid('branchId')" class="form-text text-danger">
+                      Please select a branch.
+                    </div>
+                  </div>
+                </div>
+                
+                
+                <!-- Governments -->
+                <div class="col-md-6">
+                  <div class="form-group my-3">
+                    <label for="governmentsId">Governments</label>
+                    <div *ngIf="mode === 'details'; else multiSelect">
+                      <p  class="form-control ng-untouched ng-pristine sel">
+                        {{ deliveryForm.value.governmentsId.join(', ') }}  <!-- عرض الحكومات -->
+                      </p>
+                    </div>
+                    
+                    <ng-template #multiSelect>
+                      <select id="governmentsId" formControlName="governmentsId" 
+                      class="form-select" multiple [class.is-invalid]="isInvalid('governmentsId')" >
+                        <option *ngFor="let gov of governments" [value]="gov.id">{{ gov.name }}</option>
+                      </select>
+                    </ng-template>
+                    
+                    <div *ngIf="isInvalid('governmentsId')" class="form-text text-danger">
+                      Please select at least one government.
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Discount Type -->
+                <div class="col-md-6">
+                  <div class="form-group my-3">
+                    <label for="discountType">Discount Type</label>
+                    <select
+                      class="form-select"
+                      id="discountType"
+                      formControlName="discountType"
+                      autocomplete="off"
+                    >
+                      <option value="">Select Discount Type ..</option>
+                      <option value="Fixed">Fixed</option>
+                      <option value="Percentage">Percentage</option>
+                    </select>
+                    <div *ngIf="isInvalid('discountType')" class="form-text text-danger">
+                      Please select a discount type.
+                    </div>
+                  </div>
+                </div>
+                
+                <!-- Company Percentage -->
+                <div class="col-md-6">
+                  <div class="form-group my-3">
+                    <label for="companyPercentage">Company Percentage</label>
+                    <input
+                      type="number"
+                      class="form-control"
+                      id="companyPercentage"
+                      placeholder="Company Percentage"
+                      min="0"
+                      step="1"
+                      formControlName="companyPercentage"
+                      autocomplete="off"
+                      [disabled]="mode === 'details'"
+                    />
+                    <div *ngIf="isInvalid('companyPercentage')" class="form-text text-danger">
+                      Company percentage is required.
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="row mt-3 px-3">
+                <button
+                *ngIf="mode !== 'details'"  
+                type="submit"
+                class="btn btn-gradient-primary me-2 col-sm-3 px-0"
+                style="letter-spacing: 0.8px"
+                [disabled]="loading"
+              >
+                {{ loading ? 'Please wait...' : (mode === 'add' ? 'Add New Delivery' : 'Update Delivery') }}
+              </button>
+              
+                <a
+                *ngIf="mode !== 'details'"
+                  class="btn btn-light col-sm-3 px-0 d-flex align-items-center justify-content-center"
+                  style="color: rgb(95, 95, 95); letter-spacing: 0.8px"
+                  href="/deliveries"
+                >
+                  Cancel
+                </a>
+              </div>
+            </form>
           </div>
         </div>
       </div>
-
-           <!-- Discount Type -->
-        <div class="mb-3 col-md-6">
-          <label for="discountType" class="form-label">Discount Type</label>
-          <select id="discountType" formControlName="discountType" class="form-select" [class.is-invalid]="isInvalid('discountType')">
-            <option value="">Select Discount Type</option>
-            <option value="Fixed">Fixed</option>
-            <option value="Percentage">Percentage</option>
-          </select>
-          <div *ngIf="isInvalid('discountType')" class="invalid-feedback">
-            Please select a discount type.
-          </div>
-        </div>
-
-      <!-- Submit Button -->
-      <div class="d-grid mt-3">
-        <button type="submit" class="btn btn-primary py-2 fw-bold">Add Delivery</button>
-      </div>
-    </form>
+    </div>
   </div>
 </div>

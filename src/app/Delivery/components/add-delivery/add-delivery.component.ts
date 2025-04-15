@@ -1,28 +1,68 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, Validators, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { HttpReqService } from '../../../GeneralSrevices/http-req.service';
-import swal from 'sweetalert2';
+import Swal from 'sweetalert2';
 import { CommonModule } from '@angular/common';
-import { ReactiveFormsModule, FormsModule } from '@angular/forms'; 
-import {DeliveryCreateDTO} from '../../Interfaces/delivery.model';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { Router, ActivatedRoute } from '@angular/router';
+
 @Component({
   selector: 'app-add-delivery',
   templateUrl: './add-delivery.component.html',
   styleUrls: ['./add-delivery.component.css'],
-  imports: [CommonModule,ReactiveFormsModule, FormsModule]
+  standalone: true,
+  imports: [CommonModule, ReactiveFormsModule, FormsModule]
 })
 export class AddDeliveryComponent implements OnInit {
+  mode: 'add' | 'edit' | 'details' = 'add';
+  deliveryId?: number;
   deliveryForm!: FormGroup;
   branches: any[] = [];
   governments: any[] = [];
+  loading = false;
 
-  constructor(private fb: FormBuilder, private http: HttpReqService) {}
+  constructor(
+    private fb: FormBuilder,
+    private http: HttpReqService,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {}
 
   ngOnInit(): void {
     this.initForm();
     this.loadBranches();
-    // this.loadGovernments();
+  
+    this.route.params.subscribe(params => {
+      const id = params['id'];
+      if (id) {
+        this.deliveryId = +id;
+  
+        // لو الرابط فيه كلمة "details" هنخلي المود details
+        if (this.router.url.includes('details')) {
+          this.mode = 'details';
+        } else {
+          this.mode = 'edit';
+        }
+  
+        this.loadDeliveryData(this.deliveryId);
+  
+        // لو details اعملي disable لكل الفيلدات بعد تحميل البيانات
+        if (this.mode === 'details') {
+          this.deliveryForm.disable();
+        }
+      }
+    });
   }
+  
+
+  getGovernmentsNames(ids: number[]): string[] {
+    return this.governments
+      .filter(g => ids.includes(g.id))
+      .map(g => g.name);
+  }
+
+
+  
 
   initForm(): void {
     this.deliveryForm = this.fb.group({
@@ -36,18 +76,49 @@ export class AddDeliveryComponent implements OnInit {
       discountType: ['', Validators.required],
       companyPercentage: ['', Validators.required]
     });
-    console.log(this.deliveryForm.value);
   }
 
-  loadBranches(): void {
-    this.http.getAll('Branch','all').subscribe(res => {
-      this.branches = res.data.branches.sort((a: { name: string; }, b: { name: any; }) =>
-        a.name.localeCompare(b.name));
-      
+  loadDeliveryData(id: number): void {
+    this.loading = true;
+    this.http.getById('Delivery', id).subscribe({
+      next: (delivery) => {
+        console.log(delivery);
+        // تعيين البيانات بناءً على الاستجابة من الـ API
+        this.deliveryForm.patchValue({
+          name: delivery.name,
+          email: delivery.email,
+          phone: delivery.phone,
+          address: delivery.address,
+          branchId: delivery.branchName,  // تعيين اسم الفرع
+          governmentsId: delivery.governmentName,  // تعيين الأسماء بدلاً من المعرفات
+          discountType: delivery.discountType,
+          companyPercentage: delivery.companyPercentage
+        });
+        this.loading = false;
+      },
+      error: (err) => {
+        console.error(err);
+        Swal.fire('Error', 'Failed to load delivery data', 'error');
+        this.loading = false;
+      }
     });
   }
+  
+  
 
-  // دالة لتحميل المحافظات بناءً على branchId
+  loadBranches(): void {
+    this.http.getAll('Branch', 'all').subscribe({
+      next: (res) => {
+        this.branches = res.data.branches.sort((a: { name: string }, b: { name: string }) => 
+          a.name.localeCompare(b.name));
+      },
+      error: (err) => {
+        console.error(err);
+      }
+    });
+    
+  }
+
   onBranchChange(event: Event): void {
     const target = event.target as HTMLSelectElement;
     const selectedBranchId = Number(target.value);
@@ -56,6 +127,7 @@ export class AddDeliveryComponent implements OnInit {
       this.http.getById('Delivery/GovernmentByBranch', selectedBranchId).subscribe({
         next: (data) => {
           this.governments = data;
+          console.log('Governments:', this.governments);
         },
         error: (err) => {
           console.log('Error:', err?.message || err);
@@ -63,47 +135,66 @@ export class AddDeliveryComponent implements OnInit {
       });
     }
   }
-  
+
+  getBranchName(id: number): string {
+    const branch = this.branches.find(b => b.id === id);
+    return branch ? branch.name : '';
+  }
+
   onSubmit(): void {
     if (this.deliveryForm.invalid) {
-      swal.fire({
+      Swal.fire({
         icon: 'warning',
         title: 'Validation Error',
         text: 'Please fill all required fields correctly.',
       });
       return;
     }
-  
-    console.log('Form values:', this.deliveryForm.value); // تأكد من أن القيم صحيحة
-  
-    this.http.create('Delivery', this.deliveryForm.value).subscribe({
-      next: res => {
-        swal.fire({
+
+    this.loading = true;
+    const deliveryData = this.deliveryForm.value;
+
+    const request = this.mode === 'add' 
+      ? this.http.create('Delivery', deliveryData)
+      : this.http.editById('Delivery', this.deliveryId!, deliveryData);
+
+    request.subscribe({
+      next: (res) => {
+        Swal.fire({
           icon: 'success',
           title: 'Success!',
-          text: 'Delivery added successfully!',
+          text: res?.message || `Delivery ${this.mode === 'add' ? 'added' : 'updated'} successfully!`,
           confirmButtonText: 'OK'
+        }).then(() => {
+          this.router.navigate(['/deliveries']);
         });
-        this.deliveryForm.reset();
       },
-      error: err => {
-        console.error(err);
-        swal.fire({
+      error: (err) => {
+        console.error('Error:', err);
+        const errorMessage = err?.error?.message || 
+          `Something went wrong while ${this.mode === 'add' ? 'adding' : 'updating'} delivery.`;
+        
+        Swal.fire({
           icon: 'error',
           title: 'Failed!',
-          text: 'Something went wrong while adding delivery.',
+          text: errorMessage,
           confirmButtonText: 'OK'
         });
+        this.loading = false;
+      },
+      complete: () => {
+        this.loading = false;
       }
     });
   }
-  
 
+  // Helper methods for form validation
   fc = (control: string) => this.deliveryForm.get(control);
-  isInvalid = (control: string): boolean => {
-    const controlInstance = this.fc(control); // حفظ المرجعية للمتحكم (control) في متغير
-    return controlInstance ? !!controlInstance.invalid && (controlInstance.touched || controlInstance.dirty) : false;
-  };
   
-
+  isInvalid = (control: string): boolean => {
+    const controlInstance = this.fc(control);
+    return controlInstance ? 
+      controlInstance.invalid && (controlInstance.touched || controlInstance.dirty) : 
+      false;
+  };
 }

@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Observable, catchError, tap, throwError } from 'rxjs';
 import { jwtDecode } from 'jwt-decode';
+import { Route ,Router} from '@angular/router';
+
 
 interface DecodedToken {
   exp: number;
@@ -18,7 +20,7 @@ interface DecodedToken {
 export class AuthService {
   private apiUrl = 'http://localhost:5050/api/Account';
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient,private router:Router) {}
 
   // Store token data with decoding
    storeAuthData(token: string): void {
@@ -34,8 +36,14 @@ export class AuthService {
     if (decoded['email']) {
       localStorage.setItem('userEmail', decoded['email']);
     }
-    if (decoded['roles']) {
-      localStorage.setItem('userRoles', JSON.stringify(decoded['roles']));
+    if (decoded['role']) {
+      localStorage.setItem('userRoles', decoded['role']);
+    }
+    if (decoded['nameid']) {
+      localStorage.setItem('userId', decoded['nameid']);
+    }
+    if (decoded['unique_name']) {
+      localStorage.setItem('name', decoded['unique_name']);
     }
   }
   // Decode JWT token
@@ -64,7 +72,7 @@ export class AuthService {
   // Check if user has specific role
   hasRole(requiredRole: string): boolean {
     const decoded = this.getDecodedToken();
-    if (!decoded || !decoded['roles']) return false;
+    if (!decoded || !decoded['role']) return false;
     
     const roles = decoded['roles'];
     if (Array.isArray(roles)) {
@@ -161,7 +169,8 @@ export class AuthService {
     localStorage.removeItem('userId');
     localStorage.removeItem('userEmail');
     localStorage.removeItem('userRoles');
-    localStorage.removeItem('user');
+    localStorage.removeItem('name');
+   this.router.navigate(['/login']);
   }
 
   // Get auth token

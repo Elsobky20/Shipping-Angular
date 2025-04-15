@@ -6,3 +6,7 @@
   height: 100vh;
   overflow-y: auto;
 }
+.sidebar-hidden {
+  margin-left: -250px;
+  transition: all 0.3s ease;
+}
