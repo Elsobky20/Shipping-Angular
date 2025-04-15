@@ -9,6 +9,7 @@ import { ICityCreateDTO, ICityEditDTO } from '../City/Interfaces/icity-get';
 })
 export class HttpReqService {
   baseUrl:string = "http://localhost:5050/api";
+  delete: any;
   constructor(private http:HttpClient) { }
   /* ===================== Start GetAll Method By Pagination =================== */
   getAll(endPoint:string, allOrExist:string,options: {
