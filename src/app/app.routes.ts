@@ -9,6 +9,7 @@ import { LoginComponent } from './Login/components/login/login.component';
 import { MerchantsComponent } from './Merchant/components/merchants/merchants.component';
 import { MerchantFormComponent } from './Merchant/components/merchant-form/merchant-form.component';
 import { MerchantDetailsComponent } from './Merchant/components/merchant-details/merchant-details.component';
+import { OrdersComponent } from './Orders/components/orders/orders.component';
 import { EmployeeListComponent } from './employees/components/employee-list/employee-list.component';
 import { EmployeeFormComponent } from './employees/components/employee-form/employee-form.component';
 import { RoleListComponent } from './Roles/components/role-list/role-list.component';
@@ -21,6 +22,8 @@ export const routes: Routes = [
   {path: 'city/:id', component: CityFormComponent},
   {path: 'merchant', component: MerchantsComponent},
   {path: 'merchant/:id', component: MerchantDetailsComponent},
+  {path: 'order', component: OrdersComponent},
+  //{path: 'order/:id', component: MerchantDetailsComponent},
   {path: 'merchant/:id/edit', component: MerchantFormComponent},
   { path: 'deliveries', component: AllDeliveryComponent },
   { path: 'delivery/add', component: AddDeliveryComponent },
