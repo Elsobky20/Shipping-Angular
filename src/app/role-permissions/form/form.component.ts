@@ -3,12 +3,12 @@ import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, ReactiveFormsModule, FormArray } from '@angular/forms';
 import { RolePermissionService } from '../services/role-permission.service';
 import { CreateRolePermissionDTO, RolePermissionDTO, UpdateRolePermissionDTO } from '../models/models';
-import { ActivatedRoute, Router } from '@angular/router';
-
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { RouterModule } from '@angular/router'; 
 @Component({
   selector: 'app-role-permission-form',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule,RouterModule],
   templateUrl: './form.component.html',
   styleUrls: ['./form.component.css'] 
 })

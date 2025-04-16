@@ -3,10 +3,12 @@ import { RolePermissionService } from '../services/role-permission.service';
 import { RolePermissionDTO } from '../models/models';
 import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+import { RouterModule } from '@angular/router'; 
+
 @Component({
   selector: 'app-role-permission-list',
   templateUrl: './list.component.html',
-  imports: [CommonModule],
+  imports: [CommonModule,RouterModule],
 
   styleUrls: ['./list.component.css']
 })

@@ -1,39 +1,83 @@
-<div class="role-permission-form-container">
-  <h2 class="form-title">Link Permissions with {{ permissionsArray.at(0).value.roleName }} Role</h2>
+<div class="row">
+  <div class="content-wrapper container-fluid p-0">
+    <div class="col-12 grid-margin stretch-card">
+      <div class="card" style="max-height: 100vh !important">
+        <div class="card-body p-5 py-3" style="height: 80vh !important; max-height: 100vh !important">
+          
+          <div class="row mt-2 d-flex justify-content-between mb-4">
+            <h4 class="card-title fs-3 col-sm-8" style="color: #9c57ff; font-weight: bold; letter-spacing: 1px">
+              Link Permissions with {{ permissionsArray.at(0).value.roleName }} Role
+            </h4>
+            <button
+              class="btn btn-light col-sm-1 px-0 d-flex align-items-center justify-content-center ms-auto me-2"
+              style="color: #9c57ff; letter-spacing: 0.8px; height: 42px; width: 42px; border-radius: 50%"
+              title="Back"
+              [routerLink]="['/roles']"
+            >
+              <i class="bi bi-skip-backward-circle fs-2"></i>
+            </button>
+          </div>
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()" class="role-form">
-    
-    <div class="form-group">
-      <span>Role: {{ permissionsArray.at(0).value.roleName }}</span>
+          <form [formGroup]="form" (ngSubmit)="onSubmit()" class="role-form">
+
+            <div class="form-group mb-4">
+              <span class="fs-5 fw-semibold text-dark">
+                Role: {{ permissionsArray.at(0).value.roleName }}
+              </span>
+            </div>
+
+            <div class="row col-sm-12 table-responsive table-bordered rounded mx-auto">
+              <table class="table table-hover table-striped">
+                <thead class="table-light">
+                  <tr>
+                    <th>Permission</th>
+                    <th class="text-center">Can View</th>
+                    <th class="text-center">Can Edit</th>
+                    <th class="text-center">Can Add</th>
+                    <th class="text-center">Can Delete</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let perm of permissionsArray.controls; let i = index" [formGroupName]="i">
+                    <td>{{ perm.value.permissionName }}</td>
+                    <td class="text-center">
+                      <input type="checkbox" formControlName="canView" class="form-check-input">
+                    </td>
+                    <td class="text-center">
+                      <input type="checkbox" formControlName="canEdit" class="form-check-input">
+                    </td>
+                    <td class="text-center">
+                      <input type="checkbox" formControlName="canAdd" class="form-check-input">
+                    </td>
+                    <td class="text-center">
+                      <input type="checkbox" formControlName="canDelete" class="form-check-input">
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <div class="row mt-4 px-3 justify-content-end">
+              <button
+                type="submit"
+                class="btn btn-gradient-primary me-2 col-sm-2 px-0"
+                style="letter-spacing: 0.8px"
+              >
+                Save
+              </button>
+              <button
+                type="button"
+                class="btn btn-light col-sm-2 px-0"
+                style="color: rgb(95, 95, 95); letter-spacing: 0.8px"
+                (click)="cancel()"
+              >
+                Cancel
+              </button>
+            </div>
+          </form>
+
+        </div>
+      </div>
     </div>
-
-    <div formArrayName="permissions">
-      <table class="permissions-table">
-        <thead>
-          <tr>
-            <th>Permission </th>
-            <th>Can View</th>
-            <th>Can Edit</th>
-            <th>Can Add</th>
-            <th>Can Delete</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr *ngFor="let perm of permissionsArray.controls; let i = index" [formGroupName]="i">
-            <td>{{ perm.value.permissionName }}</td>
-            <td><input type="checkbox" formControlName="canView"></td>
-            <td><input type="checkbox" formControlName="canEdit"></td>
-            <td><input type="checkbox" formControlName="canAdd"></td>
-            <td><input type="checkbox" formControlName="canDelete"></td>
-          </tr>
-        </tbody>
-      </table>
-    </div>
-
-    <div class="submit-btn-container">
-      <button type="submit"> Save</button>
-      <button type="button" class="btn btn-secondary" (click)="cancel()">Cancel</button>
-
-    </div>
-  </form>
+  </div>
 </div>

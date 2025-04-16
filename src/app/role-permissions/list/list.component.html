@@ -1,31 +1,82 @@
-<div class="container">
-    <h2>Role Permissions</h2>
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>Role </th>
-          <th>Permission </th>
-          <th>Can View</th>
-          <th>Can Edit</th>
-          <th>Can Add</th>
-          <th>Can Delete</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let rolePermission of rolePermissions">
-          <td>{{ rolePermission.roleName }}</td>
-          <td>{{ rolePermission.permissionName }}</td>
-          <td>{{ rolePermission.canView ? 'Yes' : 'No' }}</td>
-          <td>{{ rolePermission.canEdit ? 'Yes' : 'No' }}</td>
-          <td>{{ rolePermission.canAdd ? 'Yes' : 'No' }}</td>
-          <td>{{ rolePermission.canDelete ? 'Yes' : 'No' }}</td>
-          <td>
-            <button class="btn btn-warning" (click)="editRolePermission(rolePermission)">Edit</button>
-          </td>
-       
-        </tr>
-      </tbody>
-    </table>
+<div class="row">
+  <div class="content-wrapper container-fluid p-0">
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card" style="max-height: 100vh !important">
+        <div
+          class="card-body p-5 py-3"
+          style="height: 80vh !important; max-height: 100vh !important"
+        >
+          <div class="row d-flex justify-content-between mb-2">
+            <h4
+              class="card-title fs-3 col-sm-8"
+              style="color: #9c57ff; font-weight: bold; letter-spacing: 1px"
+            >
+              Role Permissions
+              <span class="fs-5">[{{ rolePermissions.length }}]</span>
+            </h4>
+
+            <button
+              class="btn btn-light col-sm-1 px-0 d-flex align-items-center justify-content-center ms-auto me-2"
+              style="
+                color: #9c57ff;
+                letter-spacing: 0.8px;
+                height: 42px;
+                width: 42px;
+                border-radius: 50%;
+              "
+              title="Back to Roles"
+              [routerLink]="['/roles']"
+            >
+              <i class="bi bi-skip-backward-circle fs-2"></i>
+            </button>
+          </div>
+
+          <div
+            class="row col-sm-12 table-responsive table-bordered rounded mx-auto"
+            style="max-height: 72%; overflow-y: auto"
+          >
+            <table class="table text-center table-hover">
+              <thead>
+                <tr id="tableHead">
+                  <th style="background-color: #bdb8b8">Role</th>
+                  <th style="background-color: #bdb8b8">Permission</th>
+                  <th style="background-color: #bdb8b8">Can View</th>
+                  <th style="background-color: #bdb8b8">Can Edit</th>
+                  <th style="background-color: #bdb8b8">Can Add</th>
+                  <th style="background-color: #bdb8b8">Can Delete</th>
+                  <th style="background-color: #bdb8b8">Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let rolePermission of rolePermissions">
+                  <td class="py-1">{{ rolePermission.roleName }}</td>
+                  <td class="py-1">{{ rolePermission.permissionName }}</td>
+                  <td class="py-1">
+                    {{ rolePermission.canView ? 'Yes' : 'No' }}
+                  </td>
+                  <td class="py-1">
+                    {{ rolePermission.canEdit ? 'Yes' : 'No' }}
+                  </td>
+                  <td class="py-1">
+                    {{ rolePermission.canAdd ? 'Yes' : 'No' }}
+                  </td>
+                  <td class="py-1">
+                    {{ rolePermission.canDelete ? 'Yes' : 'No' }}
+                  </td>
+                  <td class="py-1">
+                    <i
+                      class="bi bi-pencil-square fs-4 text-info btn p-2"
+                      title="Edit"
+                      (click)="editRolePermission(rolePermission)"
+                    ></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+        </div>
+      </div>
+    </div>
   </div>
-  
+</div>
