@@ -13,6 +13,7 @@ export class SideBarComponent {
   dropdownStates: { [key: string]: boolean } = {};
   isSidebarMinimized: boolean = false;
 
+
   toggleDropdown(key: string): void {
     this.dropdownStates[key] = !this.dropdownStates[key];
   }
@@ -39,6 +40,7 @@ toggleSidebar() {
     }
     return 'Role';
   }
+  role=this.getRolUser();
   logout() {
     this.authService.logout();
   }
