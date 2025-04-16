@@ -10,12 +10,13 @@ import { AllDeliveryComponent } from "./Delivery/components/all-delivery/all-del
 import { AddDeliveryComponent } from "./Delivery/components/add-delivery/add-delivery.component";
 import { DashboardComponent } from "./Dashboard/dashboard.component";
 import { Router } from '@angular/router';
+import { WieghPriceFormComponent } from "./WeightPricing/components/wiegh-price-form/wiegh-price-form.component";
 
 
 
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule, SideBarComponent ],
+  imports: [RouterOutlet, CommonModule, SideBarComponent ,WieghPriceFormComponent ],
 
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

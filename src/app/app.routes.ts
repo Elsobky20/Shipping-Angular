@@ -7,6 +7,7 @@ import { LoginComponent } from './Login/components/login/login.component';
 // City
 import { CitiesComponent } from './City/components/cities/cities.component';
 import { CityFormComponent } from './City/components/city-form/city-form.component';
+import { WieghPriceFormComponent } from './WeightPricing/components/wiegh-price-form/wiegh-price-form.component';
 
 // Employees
 import { EmployeeListComponent } from './employees/components/employee-list/employee-list.component';
@@ -61,6 +62,8 @@ export const routes: Routes = [
   // City
   { path: 'city', component: CitiesComponent },
   { path: 'city/:id', component: CityFormComponent },
+  
+  { path: 'Weigh', component: WieghPriceFormComponent },
 
   // Employees
   { path: 'employees', component: EmployeeListComponent },
