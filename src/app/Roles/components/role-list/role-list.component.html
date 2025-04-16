@@ -1,32 +1,79 @@
-<div class="col-lg-12 grid-margin stretch-card">
-    <div class="card">
-      <div class="card-body">
-        <h4 class="card-title">Roles Table</h4>
-        <p class="card-description"> List of roles fetched from the server </p>
-        <table class="table table-striped">
-          <thead>
-            <tr>
-              <th> Role Name </th>
-              <th> Permissions Count </th>
-              <th> Deleted? </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let role of roles">
-              <td>{{ role.name }}</td>
-              <td>{{ role.rolePermissions.length }}</td>
-              <td>
-                <span class="badge" [ngClass]="{
-                  'bg-danger': role.isDeleted,
-                  'bg-success': !role.isDeleted
-                }">
-                  {{ role.isDeleted ? 'Deleted' : 'Active' }}
-                </span>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+<div class="row">
+  <div class="content-wrapper container-fluid p-0">
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card" style="max-height: 100vh !important">
+        <div class="card-body p-5 py-3" style="height: 80vh !important; max-height: 100vh !important">
+          
+          <div class="row">
+            <h4 class="card-title fs-3" style="color: #9c57ff; font-weight: bold; letter-spacing: 1px">
+              Roles List <span class="fs-5">[{{ filteredRoles().length }}]</span>
+            </h4>
+          </div>
+
+          <div class="row mb-2 px-3">
+            <button type="button" class="btn btn-gradient-primary btn-fw col-sm-2" [routerLink]="['add']">
+              Add Role
+            </button>
+
+            <form class="d-flex align-items-center h-100 col-sm-2 ms-auto"
+              style="background-image: linear-gradient(to right, rgb(217 139 255), #9c57ff);">
+              <div class="input-group">
+                <div class="input-group-prepend bg-transparent"
+                  style="background-color: rgb(217 139 255); display: flex; align-items: center;">
+                  <i class="input-group-text border-0 mdi mdi-magnify"
+                    style="color: white; background-color: rgb(217 139 255); transform: translateX(-20px);"></i>
+                </div>
+                <input type="search" class="form-control bg-transparent border-0" style="color: white !important; padding-left: 5px; font-size: 16px;"
+                  placeholder="Search roles.." [(ngModel)]="searchText" />
+              </div>
+            </form>
+          </div>
+
+          <div class="row col-sm-12 table-responsive table-bordered rounded mx-auto"
+            style="max-height: 72%; overflow-y: auto">
+            <table class="table text-center table-hover">
+              <thead>
+                <tr id="tableHead">
+                  <th style="background-color: #bdb8b8">#</th>
+                  <th style="background-color: #bdb8b8">Role Name</th>
+                  <th style="background-color: #bdb8b8">Permissions Count</th>
+                  <th style="background-color: #bdb8b8">Status</th>
+                  <th style="background-color: #bdb8b8">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let role of filteredRoles(); let i = index">
+                  <th scope="row">{{ i + 1 }}</th>
+                  <td>{{ role.name }}</td>
+                  <td>{{ role.rolePermissions.length }}</td>
+                  <td>
+                    <span [ngClass]="{
+                      'badge bg-success': !role.isDeleted,
+                      'badge bg-danger': role.isDeleted
+                    }">
+                      {{ role.isDeleted ? 'Deleted' : 'Active' }}
+                    </span>
+                  </td>
+                  <td>
+                    <i class="bi bi-pencil-square fs-4 text-info btn p-2" data-bs-toggle="tooltip"
+                      title="Edit"  [routerLink]="['/Roles/edit', role.id]"></i>
+                  
+                    <i class="bi bi-trash3 fs-4 text-danger btn p-2" data-bs-toggle="tooltip"
+                      title="Delete" (click)="deleteRole(role.id)"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div *ngIf="errorMessage?.trim()" class="row mx-auto">
+              <div class="alert alert-danger col-sm-3 mx-auto my-2 text-center">
+                {{ errorMessage }}
+              </div>
+            </div>
+          </div>
+
+        </div>
       </div>
     </div>
   </div>
-  
+</div>

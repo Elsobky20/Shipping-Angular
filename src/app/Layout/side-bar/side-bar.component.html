@@ -7,10 +7,10 @@
       class="text-center navbar-brand-wrapper d-flex align-items-center justify-content-start"
     >
       <a class="navbar-brand brand-logo" href="index.html"
-        ><img src="logo.png" alt="logo"
+        ><img src="logo2.png" alt="logo"
       /></a>
       <a class="navbar-brand brand-logo-mini" href="index.html"
-        ><img src="logo.png" alt="logo"
+        ><img src="logo2.png" alt="logo"
       /></a>
     </div>
     <div class="navbar-menu-wrapper d-flex align-items-stretch">
@@ -45,7 +45,7 @@
             aria-expanded="false"
           >
             <div class="nav-profile-img">
-              <img src="logo.png" alt="image" />
+              <img src="logo2.png" alt="image" />
               <span class="availability-status online"></span>
             </div>
             <div class="nav-profile-text">
@@ -56,7 +56,7 @@
             class="dropdown-menu navbar-dropdown"
             aria-labelledby="profileDropdown"
           >
-            <a class="dropdown-item"  routerLink="/profile">
+            <a class="dropdown-item"  [routerLink]="['/profile']">
               <i class="mdi mdi-account-circle me-2 text-success"></i> Profile
             </a>
             <div class="dropdown-divider"></div>
@@ -90,7 +90,7 @@
             <a class="dropdown-item preview-item">
               <div class="preview-thumbnail">
                 <img
-                  src="assets/images/faces/face4.jpg"
+                  src="logo2.png"
                   alt="image"
                   class="profile-pic"
                 />
@@ -108,7 +108,7 @@
             <a class="dropdown-item preview-item">
               <div class="preview-thumbnail">
                 <img
-                  src="assets/images/faces/face2.jpg"
+                  src="logo2.png"
                   alt="image"
                   class="profile-pic"
                 />
@@ -126,7 +126,7 @@
             <a class="dropdown-item preview-item">
               <div class="preview-thumbnail">
                 <img
-                  src="assets/images/faces/face3.jpg"
+                  src="logo2.png"
                   alt="image"
                   class="profile-pic"
                 />
@@ -241,7 +241,7 @@
         <li class="nav-item nav-profile">
           <a href="#" class="nav-link">
             <div class="nav-profile-image">
-              <img src="assets/images/faces/face1.jpg" alt="profile" />
+              <img src="logo2.png" alt="profile" />
               <span class="login-status online"></span>
               <!--change to offline or busy as needed-->
             </div>
@@ -260,9 +260,11 @@
             <i class="mdi mdi-home menu-icon"></i>
           </a>
         </li>
-        <li class="nav-item">
+         <!-- *ngIf="role === 'admin'" -->
+        <li class="nav-item" >
           <a
             class="nav-link"
+            
             (click)="toggleDropdown('delivery')"
             [attr.aria-expanded]="isDropdownOpen('delivery')"
           >
@@ -329,6 +331,30 @@
             </ul>
           </div>
         </li>
+
+
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            (click)="toggleDropdown('order')"
+            [attr.aria-expanded]="isDropdownOpen('order')"
+          >
+            <span class="menu-title">Order</span>
+            <i class="menu-arrow" [ngClass]="{ 'rotate-arrow': isDropdownOpen('order') }"></i>
+            <i class="mdi mdi-store menu-icon"></i>
+          </a>
+        
+          <div *ngIf="isDropdownOpen('order')">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/order']">All Order</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/order/add']">Add Order</a>
+              </li>
+            </ul>
+          </div>
+        </li>
         <li class="nav-item">
           <a
           class="nav-link"
@@ -371,6 +397,50 @@
             </ul>
           </div>
         </li>
+
+        <li class="nav-item">
+          <a
+          class="nav-link"
+          (click)="toggleDropdown('permission')"
+          [attr.aria-expanded]="isDropdownOpen('permission')"
+          >
+            <span class="menu-title">permission</span>
+            <i class="menu-arrow" [ngClass]="{ 'rotate-arrow': isDropdownOpen('permission') }"></i>
+            <i class="mdi mdi-account-key menu-icon"></i>
+          </a>
+          <div *ngIf="isDropdownOpen('permission')">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/permissions']">All permission</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/permissions/add']">Add permission</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <a
+          class="nav-link"
+          (click)="toggleDropdown('rolepermission')"
+          [attr.aria-expanded]="isDropdownOpen('rolepermission')"
+          >
+            <span class="menu-title">Role Permission</span>
+            <i class="menu-arrow" [ngClass]="{ 'rotate-arrow': isDropdownOpen('rolepermission') }"></i>
+            <i class="mdi mdi-security menu-icon"></i> 
+                             </a>
+          <div *ngIf="isDropdownOpen('rolepermission')">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/role-permissions']">All Role Permission</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/role-permissions/:roleId/:permissionId']">Add Role Permission</a>
+              </li>
+            </ul>
+          </div>
+        </li>
         <li class="nav-item">
           <a
           class="nav-link"
@@ -388,7 +458,7 @@
                 <a class="nav-link" [routerLink]="['/branch']">All Branch</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/branch']">Add Branch</a>
+                <a class="nav-link" [routerLink]="['/branch/add']">Add Branch</a>
               </li>
             </ul>
           </div>
