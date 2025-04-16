@@ -63,7 +63,7 @@ export const routes: Routes = [
   { path: 'city', component: CitiesComponent },
   { path: 'city/:id', component: CityFormComponent },
   
-  { path: 'Weigh', component: WieghPriceFormComponent },
+  { path: 'weight', component: WieghPriceFormComponent },
 
   // Employees
   { path: 'employees', component: EmployeeListComponent },
