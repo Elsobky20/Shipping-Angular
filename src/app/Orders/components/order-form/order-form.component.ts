@@ -208,6 +208,7 @@ export class OrderFormComponent implements OnInit{
           // Edit Mode
           this.httpReqService.getById('order', this.orderId).subscribe({
             next: (response) => {
+              console.log('edit', response)
               const orderData = response.data;
               this.orderForm.patchValue({
                 branch_Id: orderData.branch_Id,
@@ -228,18 +229,18 @@ export class OrderFormComponent implements OnInit{
               });
 
               // Handle Products (if any)
-              if (orderData.products && Array.isArray(orderData.products)) {
-                const productsFormArray = this.products;
-                productsFormArray.clear();
+              // if (orderData.products && Array.isArray(orderData.products)) {
+              //   const productsFormArray = this.products;
+              //   productsFormArray.clear();
 
-                orderData.products.forEach((product: any) => {
-                  productsFormArray.push(new FormGroup({
-                    productName: new FormControl(product.productName),
-                    quantity: new FormControl(product.quantity),
-                    price: new FormControl(product.price)
-                  }));
-                });
-              }
+              //   orderData.products.forEach((product: any) => {
+              //     productsFormArray.push(new FormGroup({
+              //       productName: new FormControl(product.productName),
+              //       quantity: new FormControl(product.quantity),
+              //       price: new FormControl(product.price)
+              //     }));
+              //   });
+              // }
             },
             error: (err) => {
               console.error('Error fetching order by ID:', err);
@@ -294,11 +295,14 @@ export class OrderFormComponent implements OnInit{
           }
         });
       } else {
-        const newEditParam = {
-          ...this.orderForm.value
-        };
+        this.newEditParam = {
+          ...this.orderForm.value,
+          merchant_Id: this.merchantId,
+          products: [{name: 'phone1', quantity: 10, ItemWeight: 1},
+            {name: 'phone2', quantity: 20, ItemWeight: 2}]
+        }
 
-        this.httpReqService.editById('Order', this.orderId, newEditParam).subscribe({
+        this.httpReqService.editById('Order', this.orderId, this.newEditParam).subscribe({
           next: (response) => {
             Swal.fire({
               icon: 'success',
