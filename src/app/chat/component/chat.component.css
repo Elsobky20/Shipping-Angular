@@ -1,0 +1,59 @@
+.chat-box {
+    max-width: 600px;
+    margin: 40px auto;
+    padding: 20px;
+    background-color: #ffffff;
+    border-radius: 16px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    direction: rtl;
+    font-family: 'Segoe UI', sans-serif;
+  }
+  
+  .chat-box div.user,
+  .chat-box div.bot {
+    margin: 10px 0;
+    padding: 10px 14px;
+    border-radius: 12px;
+    max-width: 80%;
+    word-wrap: break-word;
+  }
+  
+  .chat-box div.user {
+    background-color: #dcf8c6;
+    align-self: flex-end;
+    text-align: right;
+    margin-left: auto;
+  }
+  
+  .chat-box div.bot {
+    background-color: #f1f0f0;
+    align-self: flex-start;
+    text-align: right;
+    margin-right: auto;
+  }
+  
+  .chat-box input {
+    width: calc(100% - 110px);
+    padding: 10px;
+    margin-top: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    outline: none;
+  }
+  
+  .chat-box button {
+    padding: 10px 20px;
+    margin-top: 20px;
+    margin-right: 10px;
+    background-color: #8e44ad; /* بنفسجي */
+    color: white;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+  }
+  
+  .chat-box button:hover {
+    background-color: #732d91; /* درجة أغمق عند التحويم */
+  }
+  
