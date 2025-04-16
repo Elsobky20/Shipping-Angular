@@ -5,12 +5,18 @@ import { IEmployeeDTO } from '../Interfaces/IEmployeeDTO';
 import { ICreateEmployeeDTO } from '../Interfaces/ICreateEmployeeDTO';
 import { IGenericPagination } from '../Interfaces/IGenericPagination';
 import { IUpdateEmployeeDTO } from '../Interfaces/IUpdateEmployeeDTO';
+import { map } from 'rxjs/operators';
+
+
+import { IBranchDTO } from '../../Branch/Interfaces/model';
 
 @Injectable({
   providedIn: 'root'
 })
 export class EmployeeService {
   private baseUrl = 'http://localhost:5050/api/Employee'; 
+  private apiUrl = 'http://localhost:5050/api/Branch';
+
 
   constructor(private http: HttpClient) {}
 
@@ -60,6 +66,15 @@ export class EmployeeService {
     return this.http.get<IEmployeeDTO[]>(`${this.baseUrl}/GetEmployeesByRole`, { params });
   }
 
-
+  //
+ getAllBranchesEmp(): Observable<IBranchDTO[]> {
+    
+    
+    
+    return this.http.get<any>(`${this.apiUrl}/all`).pipe(
+      map(response => response.data.branches.filter((branch: IBranchDTO) => !branch.isDeleted))
+    );
+  }
+  
   
 }

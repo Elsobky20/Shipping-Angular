@@ -15,14 +15,14 @@ export class BranchService {
   private apiUrl = 'http://localhost:5050/api/Branch';
   constructor(private http: HttpClient) {}
 
-  getAllBranchesEmp(): Observable<IBranchDTO[]> {
+  // getAllBranchesEmp(): Observable<IBranchDTO[]> {
     
     
     
-    return this.http.get<any>(`${this.apiUrl}/all`).pipe(
-      map(response => response.data.branches.filter((branch: IBranchDTO) => !branch.isDeleted))
-    );
-  }
+  //   return this.http.get<any>(`${this.apiUrl}/all`).pipe(
+  //     map(response => response.data.branches.filter((branch: IBranchDTO) => !branch.isDeleted))
+  //   );
+  // }
   
 
  
@@ -36,8 +36,8 @@ export class BranchService {
   // checkBranchExistence(branchData: IBranchCreateDTO): Observable<boolean> {
   //   return this.http.post<boolean>(`${this.baseURL}/check-existence`, branchData);
   // }
-  checkBranchExistence(branchData: IBranchCreateDTO): Observable<{ exists: boolean, type: string }> {
-    return this.http.post<{ exists: boolean, type: string }>(`${this.apiUrl}`, branchData);
+  checkBranchExistence(branchData: IBranchDTO): Observable<{ exists: boolean, type: string }> {
+    return this.http.get<{ exists: boolean, type: string }>(`${this.apiUrl}}/check-existence`);
   }
   
 }
