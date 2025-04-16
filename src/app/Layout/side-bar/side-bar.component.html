@@ -260,9 +260,11 @@
             <i class="mdi mdi-home menu-icon"></i>
           </a>
         </li>
-        <li class="nav-item">
+         <!-- *ngIf="role === 'admin'" -->
+        <li class="nav-item" >
           <a
             class="nav-link"
+            
             (click)="toggleDropdown('delivery')"
             [attr.aria-expanded]="isDropdownOpen('delivery')"
           >
@@ -391,6 +393,50 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link" [routerLink]="['/role/add']">Add Role</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <a
+          class="nav-link"
+          (click)="toggleDropdown('permission')"
+          [attr.aria-expanded]="isDropdownOpen('permission')"
+          >
+            <span class="menu-title">permission</span>
+            <i class="menu-arrow" [ngClass]="{ 'rotate-arrow': isDropdownOpen('permission') }"></i>
+            <i class="mdi mdi-account-key menu-icon"></i>
+          </a>
+          <div *ngIf="isDropdownOpen('permission')">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/permissions']">All permission</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/permissions/add']">Add permission</a>
+              </li>
+            </ul>
+          </div>
+        </li>
+
+        <li class="nav-item">
+          <a
+          class="nav-link"
+          (click)="toggleDropdown('rolepermission')"
+          [attr.aria-expanded]="isDropdownOpen('rolepermission')"
+          >
+            <span class="menu-title">Role Permission</span>
+            <i class="menu-arrow" [ngClass]="{ 'rotate-arrow': isDropdownOpen('rolepermission') }"></i>
+            <i class="mdi mdi-security menu-icon"></i> 
+                             </a>
+          <div *ngIf="isDropdownOpen('rolepermission')">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/role-permissions']">All Role Permission</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/role-permissions/:roleId/:permissionId']">Add Role Permission</a>
               </li>
             </ul>
           </div>
