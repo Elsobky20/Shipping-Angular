@@ -32,7 +32,7 @@
             <button
               type="button"
               class="btn btn-gradient-primary btn-fw col-sm-2"
-              [routerLink]="[0]"
+              [routerLink]="[0, 'edit']"
             >
               Add Order
             </button>
@@ -115,10 +115,21 @@
                   <th scope="col" style="background-color: #bdb8b8">
                     Shipping Cost
                   </th>
+                  @if (selectedStatus !== 'All') {
                   <th scope="col" style="background-color: #bdb8b8">
                     State Change
                   </th>
+                  } @if (selectedStatus === 'Pending') {
+                  <th scope="col" style="background-color: #bdb8b8">
+                    Assign To Delivery
+                  </th>
+                  } @if (selectedStatus !== 'New') {
+                  <th scope="col" style="background-color: #bdb8b8">
+                    View Order
+                  </th>
+                  } @if (selectedStatus === 'New') {
                   <th scope="col" style="background-color: #bdb8b8">Action</th>
+                  }
                 </tr>
               </thead>
               <tbody>
@@ -133,29 +144,54 @@
                   <td class="py-0">{{ order.governrate }}</td>
                   <td class="py-0">{{ order.city }}</td>
                   <td class="py-0">{{ order.orderCost | currency }}</td>
+                  @if (selectedStatus !== 'All'){
                   <td class="py-0">
                     <button
                       type="button"
                       title="Status"
                       class="btn btn-gradient-danger p-2"
+                      (click)="updateStatus(order.id)"
                     >
                       Change
                     </button>
                   </td>
+                  } @if (selectedStatus === 'Pending') {
+                  <td class="py-0">
+                    <button
+                      type="button"
+                      title="Status"
+                      class="btn btn-gradient-danger p-2"
+                      (click)="assignOrderToAgent(order.id, order.branch_Id)"
+                    >
+                      Assign
+                    </button>
+                  </td>
+                  } @if (selectedStatus !== 'New') {
+                  <td class="py-0">
+                    <i
+                      class="bi bi-eye-fill fs-4 btn p-2"
+                      style="color: #198ae3"
+                      data-bs-toggle="tooltip"
+                      title="Details"
+                      [routerLink]="[order.id]"
+                    ></i>
+                  </td>
+                  } @if (selectedStatus === 'New') {
                   <td class="py-0">
                     <i
                       class="bi bi-pencil-square fs-4 text-info btn p-2"
                       data-bs-toggle="tooltip"
                       title="Edit"
-                      [routerLink]="[order.id]"
+                      [routerLink]="[order.id, 'edit']"
                     ></i>
                     <i
                       class="bi bi-trash3 fs-4 text-danger btn p-2"
                       data-bs-toggle="tooltip"
                       title="Delete"
-                      (click)="deleteCity(order.id)"
+                      (click)="deleteOrder(order.id)"
                     ></i>
                   </td>
+                  }
                 </tr>
                 }
               </tbody>

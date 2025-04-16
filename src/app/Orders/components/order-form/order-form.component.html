@@ -1,0 +1,382 @@
+<div class="row">
+  <div class="content-wrapper container-fluid p-0">
+    <div class="col-md-12 grid-margin stretch-card">
+      <div class="card" style="max-height: 100vh !important">
+        <div
+          class="card-body p-5 py-3"
+          style="
+            height: 80vh !important;
+            max-height: 100vh !important;
+            overflow: auto;
+          "
+        >
+          <div class="row d-flex justify-content-between mb-2">
+            <h4
+              class="card-title fs-3 col-sm-8"
+              style="color: #9c57ff; font-weight: bold; letter-spacing: 1px"
+            >
+              {{ orderId == 0 ? "Add Order" : "Edit Order" }}
+            </h4>
+            <button
+              class="btn btn-light col-sm-1 px-0 d-flex align-items-center justify-content-center mx-auto me-2"
+              style="
+                color: #9c57ff;
+                letter-spacing: 0.8px;
+                height: 42px;
+                width: 42px;
+                border-radius: 50%;
+              "
+              title="Back to merchant"
+              [routerLink]="['/order']"
+            >
+              <i class="bi bi-skip-backward-circle fs-2"></i>
+            </button>
+          </div>
+          <div class="row px-3">
+            <form
+              class="forms-sample d-flex justify-content-start flex-wrap"
+              [formGroup]="orderForm"
+              (submit)="orderHandler()"
+            >
+              <div class="form-group col-sm-4 px-2 mb-2">
+                <label for="exampleInputOrderType">Order Type</label>
+                <select
+                  class="form-select"
+                  id="exampleInputOrderType"
+                  formControlName="orderType"
+                >
+                  <option value="">Select Type ..</option>
+                  @for (typ of allOrderTypes; track $index) {
+                  <option value="{{ typ.value }}">{{ typ.label }}</option>
+                  }
+                </select>
+                @if(getOrderType.touched && getOrderType.hasError('required')) {
+                <div id="emailHelp" class="form-text text-danger">
+                  Order Type is required
+                </div>
+                }
+              </div>
+              <div class="form-group col-sm-4 px-2 mb-2">
+                <label for="exampleInputClientName1">Client Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="exampleInputClientName1"
+                  placeholder="Name"
+                  formControlName="clientName"
+                />
+                @if(getClientName.touched){ @if
+                (getClientName.hasError('required')) {
+                <div id="emailHelp" class="form-text text-danger">
+                  Name is required
+                </div>
+                } @if (getClientName.hasError('minlength')) {
+                <div id="emailHelp" class="form-text text-danger">
+                  Name length must be greater than 3
+                </div>
+                } }
+              </div>
+              <div class="form-group col-sm-4 px-2 mb-2">
+                <label for="exampleInputPhone">Phone 1</label>
+                <input
+                  type="tel"
+                  class="form-control"
+                  id="exampleInputPhone"
+                  placeholder="Phone1"
+                  formControlName="clientPhone1"
+                />
+                @if(getClientPhone1.touched){ @if
+                (getClientPhone1.hasError('required')) {
+                <div id="emailHelp" class="form-text text-danger">
+                  Phone is required
+                </div>
+                } @if (getClientPhone1.hasError('pattern')) {
+                <div id="emailHelp" class="form-text text-danger">
+                  Phone must match tha pattern
+                </div>
+                } }
+              </div>
+              <div class="form-group col-sm-4 px-2 mb-2">
+                <label for="exampleInputPhone2">Phone 2</label>
+                <input
+                  type="tel"
+                  class="form-control"
+                  id="exampleInputPhone2"
+                  placeholder="Phone2"
+                  formControlName="clientPhone2"
+                />
+                @if(getClientPhone2.touched){ @if
+                (getClientPhone2.hasError('required')) {
+                <div id="emailHelp" class="form-text text-danger">
+                  Phone is required
+                </div>
+                } @if (getClientPhone2.hasError('pattern')) {
+                <div id="emailHelp" class="form-text text-danger">
+                  Phone must match tha pattern
+                </div>
+                } }
+              </div>
+              <div class="form-group col-sm-4 px-2 mb-2">
+                <label for="exampleInputEmail1">Email</label>
+                <input
+                  type="email"
+                  class="form-control"
+                  id="exampleInputEmail1"
+                  placeholder="Email"
+                  formControlName="clientEmail"
+                />
+                @if(getClientEmail.touched){ @if
+                (getClientEmail.hasError('required')) {
+                <div id="emailHelp" class="form-text text-danger">
+                  Email is required
+                </div>
+                } @if (getClientEmail.hasError('email')) {
+                <div id="emailHelp" class="form-text text-danger">
+                  Email must end with &#64;example.com
+                </div>
+                } }
+              </div>
+              <div class="form-group col-sm-4 px-2 mb-2">
+                <label for="exampleInputGov">Governrate</label>
+                <select
+                  class="form-select"
+                  id="exampleInputGov"
+                  formControlName="government_Id"
+                >
+                  <option value="">Select Governrate ..</option>
+                  @for (gov of allGovernrates; track gov.id) {
+                  <option value="{{ gov.id }}">{{ gov.name }}</option>
+                  }
+                </select>
+                @if(getGovernmentId.touched){ @if
+                (getGovernmentId.hasError('required')){
+                <div id="emailHelp" class="form-text text-danger">
+                  Governrate is required
+                </div>
+                }@if (getGovernmentId.hasError('minlength')) {
+                <div id="emailHelp" class="form-text text-danger">
+                  Governrate length must be greater than 5
+                </div>
+                }}
+              </div>
+              <div class="form-group col-sm-4 px-2 mb-2">
+                <label for="exampleInputCity">City</label>
+                <select
+                  class="form-select"
+                  id="exampleInputCity"
+                  formControlName="city_Id"
+                >
+                  <option value="">Select City ..</option>
+                  @for (city of filteredCities; track city.id) {
+                  <option value="{{ city.id }}">{{ city.name }}</option>
+                  }
+                </select>
+                @if(getCityId.touched){ @if (getCityId.hasError('required')){
+                <div id="emailHelp" class="form-text text-danger">
+                  Governrate is required
+                </div>
+                }@if (getCityId.hasError('minlength')) {
+                <div id="emailHelp" class="form-text text-danger">
+                  Governrate length must be greater than 5
+                </div>
+                }}
+              </div>
+              <div class="form-group col-sm-4 px-2 mb-2">
+                <label for="exampleInputShippingType">Shipping Type</label>
+                <select
+                  class="form-select"
+                  id="exampleInputShippingType"
+                  formControlName="shippingType_Id"
+                >
+                  <option value="">Select Shiiping Type ..</option>
+                  @for (typ of allShippingTypes; track typ.id) {
+                  <option value="{{ typ.id }}">{{ typ.type }}</option>
+                  }
+                </select>
+                @if(getShippingTypeId.touched &&
+                getShippingTypeId.hasError('required')) {
+                <div id="emailHelp" class="form-text text-danger">
+                  Shipping Type is required
+                </div>
+                }
+              </div>
+              <div class="form-group col-sm-4 px-2 mb-2">
+                <label for="exampleInputPaymentType">Payment Type</label>
+                <select
+                  class="form-select"
+                  id="exampleInputPaymentType"
+                  formControlName="paymentType"
+                >
+                  <option value="">Select Payment Type ..</option>
+                  @for (typ of allPaymentTypes; track $index) {
+                  <option value="{{ typ.value }}">{{ typ.label }}</option>
+                  }
+                </select>
+                @if(getPaymentType.touched &&
+                getPaymentType.hasError('required')) {
+                <div id="emailHelp" class="form-text text-danger">
+                  Payment Type is required
+                </div>
+                }
+              </div>
+              <div class="form-group col-sm-4 px-2 mb-2">
+                <label for="exampleInputBranch">Branch</label>
+                <select
+                  class="form-select"
+                  id="exampleInputBranch"
+                  formControlName="branch_Id"
+                >
+                  <option value="">Select Branch ..</option>
+                  @for (branch of allBranches; track branch.id) {
+                  <option value="{{ branch.id }}">{{ branch.name }}</option>
+                  }
+                </select>
+                @if(getBranchId.touched && getBranchId.hasError('required')){
+                <div id="emailHelp" class="form-text text-danger">
+                  Branch is required
+                </div>
+                }
+              </div>
+              <div class="form-group col-sm-4 px-2 mb-2">
+                <label for="exampleInputvillage">Village and Street</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="exampleInputvillage"
+                  placeholder="Street"
+                  formControlName="clientAddress"
+                />
+              </div>
+              <div class="form-group col-sm-4 px-2 mb-2">
+                <div class="form-check form-switch col-sm-1">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id="switchCheck"
+                    style="transform: translate(120%, 60%); font-size: 20px"
+                    formControlName="deliverToVillage"
+                  />
+                </div>
+              </div>
+              <div class="row col-sm-12 mt-0">
+                <div class="my-2">
+                  <button type="button" class="btn btn-gradient-info">
+                    Add Product
+                  </button>
+                </div>
+              </div>
+              <div class="row col-sm-12 table-bordered rounded px-2">
+                <table class="table text-center table-hover ms-2 mb-4">
+                  <thead>
+                    <tr id="tableHead">
+                      <th scope="col" style="background-color: #bdb8b8">#</th>
+                      <th scope="col" style="background-color: #bdb8b8">
+                        Product Name
+                      </th>
+                      <th scope="col" style="background-color: #bdb8b8">
+                        Quantity
+                      </th>
+                      <th scope="col" style="background-color: #bdb8b8">
+                        Weight
+                      </th>
+                      <th scope="col" style="background-color: #bdb8b8">
+                        Delete
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody id="tableBody">
+                    <ng-container
+                      *ngFor="let product of products.controls; let i = index"
+                    >
+                      <tr [formGroup]="product">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>
+                          <input
+                            type="text"
+                            formControlName="name"
+                            class="form-control"
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="number"
+                            formControlName="quantity"
+                            class="form-control"
+                            min="1"
+                          />
+                        </td>
+                        <td>
+                          <input
+                            type="number"
+                            formControlName="weight"
+                            class="form-control"
+                            min="0"
+                          />
+                        </td>
+                        <td>
+                          <button type="button" class="btn btn-danger">
+                            <i class="fa fa-trash"></i>
+                          </button>
+                        </td>
+                      </tr>
+                    </ng-container>
+                  </tbody>
+                </table>
+              </div>
+              <div class="form-group col-sm-4 px-2">
+                <label for="exampleInputOrderCost">Order Cost</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="exampleInputOrderCost"
+                  placeholder="Order Cost"
+                  formControlName="orderCost"
+                  min="0"
+                />
+              </div>
+              <div class="form-group col-sm-4 px-2">
+                <label for="exampleInputTotalWeight">Total Weight(KG)</label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="exampleInputTotalWeight"
+                  placeholder="Total Weight"
+                  formControlName="orderTotalWeight"
+                />
+              </div>
+              <div class="form-group col-sm-4 px-2">
+                <label for="exampleTextarea1">Notes</label>
+                <textarea
+                  class="form-control"
+                  id="exampleTextarea1"
+                  rows="1"
+                  placeholder="Notes"
+                  formControlName="merchantNotes"
+                ></textarea>
+              </div>
+              <div class="row col-sm-12">
+                <div class="row mt-3 px-3">
+                  <button
+                    type="submit"
+                    class="btn btn-gradient-primary me-2 col-sm-3 px-0"
+                    style="letter-spacing: 0.8px"
+                  >
+                    {{ orderId == 0 ? "Add New Merchant" : "Edit Merchant" }}
+                  </button>
+                  <button
+                    class="btn btn-light col-sm-3 px-0"
+                    style="color: rgb(95, 95, 95); letter-spacing: 0.8px"
+                    (click)="cancelHandeler()"
+                  >
+                    {{ orderId == 0 ? "Reset" : "Cancel" }}
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
