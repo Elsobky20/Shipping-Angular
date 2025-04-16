@@ -1,11 +1,39 @@
-<div class="chat-box">
-    <div *ngFor="let msg of messages" [ngClass]="msg.sender">
-      <b *ngIf="msg.sender === 'user'">أنت:</b>
-      <b *ngIf="msg.sender === 'bot'">بوت:</b>
-      {{ msg.text }}
+<div class="chat-container card" style="max-height: 80vh; overflow-y: auto;">
+  <div class="card-body p-4 py-3">
+    <div class="row d-flex justify-content-between mb-3">
+      <h4 class="card-title fs-3 col-sm-8" style="color: #9c57ff; font-weight: bold; letter-spacing: 1px">
+        Chat <span class="fs-5">[{{ messages.length }}]</span>
+      </h4>
     </div>
   
-    <input [(ngModel)]="userMessage" (keyup.enter)="sendMessage()" placeholder="اكتب رسالة..." />
-    <button (click)="sendMessage()">إرسال</button>
+    <div class="form-group mb-3">
+      <label for="senderId" class="form-label">Sender ID:</label>
+      <input type="text" id="senderId" [(ngModel)]="senderId" class="form-control" placeholder="Enter your Sender ID">
+    </div>
+
+    <div class="form-group mb-3">
+      <label for="content" class="form-label">Message:</label>
+      <textarea id="content" [(ngModel)]="content" class="form-control" rows="4" placeholder="Type your message"></textarea>
+    </div>
+
+    <button (click)="sendMessage()" class="btn btn-gradient-primary btn-fw col-sm-2">
+      Send Message
+    </button>
+
+    <div class="messages-list mt-4">
+      <h3 style="color: #9c57ff;">Messages</h3>
+      <ul class="list-group">
+        <li *ngFor="let message of messages"
+            class="list-group-item d-flex justify-content-between align-items-start flex-column"
+            [ngClass]="{'bg-light': message.senderId === 'bot', 'bg-primary-subtle': message.senderId !== 'bot'}">
+
+          <div class="w-100 d-flex justify-content-between">
+            <strong>{{ message.senderId === 'bot' ? '🤖 Bot' : '🧑 You' }}</strong>
+            <em style="font-size: 0.8em;">{{ message.timestamp | date:'short' }}</em>
+          </div>
+          <p class="mt-2 mb-0">{{ message.content }}</p>
+        </li>
+      </ul>
+    </div>
   </div>
-  
+</div>
