@@ -50,6 +50,7 @@ import { SettingFormComponent } from './Setting/components/setting-form/setting-
 
 import { BranchFormComponent } from './Branch/components/branch-form/branch-form.component';
 import { ProfileComponent } from './Profile/components/profile/profile.component';
+import { UserOrderComponent } from './UserOrder/components/user-order/user-order.component';
 
 export const routes: Routes = [
 
@@ -96,6 +97,7 @@ export const routes: Routes = [
   // Orders
   { path: 'order', component: OrdersComponent },
   // { path: 'order/:id', component: MerchantDetailsComponent }, // تم التعليق عليه
+  {path:'order/user',component:UserOrderComponent},
 
   // Delivery
   { path: 'deliveries', component: AllDeliveryComponent },
