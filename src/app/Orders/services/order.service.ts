@@ -67,4 +67,46 @@ export class OrderService {
       }
     });
   }
+  /* ===================== Start Update Status Method =================== */
+  changeOrderStatus(orderId: number, userId: string, newStatus: string, note: string): Observable<any> {
+    const url = `${this.baseUrl}/${orderId}/${userId}/${newStatus}?note=${encodeURIComponent(note)}`;
+    return this.http.put<Observable<any>>(url, {});
+  }
+  /* ===================== Start Assign Order To Delivery Method =================== */
+  assignOrderToDelivery(orderId: number, deliveryId: number): Observable<any> {
+    return this.http.put<Observable<any>>(`${this.baseUrl}/${orderId}/${deliveryId}`, {}); // ممكن تزود Headers أو Body لو محتاج
+  }
+  /* ===================== Start Get Exist Governments Method =================== */
+  getExistingGovernments():Observable<any> {
+    return this.http.get<Observable<any>>(`http://localhost:5050/api/government/exist`, {
+      params: {
+        pageSize:10000
+      }
+    });
+  }
+  /* ===================== Start Get Exist Cities Method ============================ */
+  getExistingCities():Observable<any> {
+    return this.http.get<Observable<any>>(`http://localhost:5050/api/city/exist`, {
+      params: {
+        pageSize:10000
+      }
+    });
+  }
+  /* ===================== Start Get Shipping Type Method =========================== */
+  getExistingShippingTypes():Observable<any> {
+    return this.http.get<Observable<any>>(`http://localhost:5050/api/shippingType/exist`);
+  }
+  /* ===================== Start Get Branches Method ================================ */
+  getExistingBranches():Observable<any> {
+    return this.http.get<Observable<any>>(`http://localhost:5050/api/branch/exist`, {
+      params: {
+        pageSize:10000
+      }
+    });
+  }
+  /* ===================== Start Get User Method ================================ */
+  getUserByRole(id: string, role: string): Observable<any> {
+    const params = new HttpParams().set('Role', role);
+    return this.http.get<Observable<any>>(`http://localhost:5050/api/user/${id}`, { params });
+  }
 }
