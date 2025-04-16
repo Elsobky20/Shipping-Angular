@@ -75,12 +75,17 @@ import { BranchFormComponent } from './Branch/components/branch-form/branch-form
 import { ProfileComponent } from './Profile/components/profile/profile.component';
 import { UserOrderComponent } from './UserOrder/components/user-order/user-order.component';
 
+
+
+import {ChatComponent}from './chat/component/chat.component'
 export const routes: Routes = [
 
   // Login & Dashboard
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: DashboardComponent },
+
+  { path: 'chat', component: ChatComponent },
 
   // City
   { path: 'city', component: CitiesComponent },

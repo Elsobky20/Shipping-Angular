@@ -1,0 +1,11 @@
+<div class="chat-box">
+    <div *ngFor="let msg of messages" [ngClass]="msg.sender">
+      <b *ngIf="msg.sender === 'user'">أنت:</b>
+      <b *ngIf="msg.sender === 'bot'">بوت:</b>
+      {{ msg.text }}
+    </div>
+  
+    <input [(ngModel)]="userMessage" (keyup.enter)="sendMessage()" placeholder="اكتب رسالة..." />
+    <button (click)="sendMessage()">إرسال</button>
+  </div>
+  
