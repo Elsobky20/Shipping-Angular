@@ -14,3 +14,19 @@ export interface DeliveryGet {
   id: number;
   name: string;
 }
+
+export interface OrderReportGetDTO {
+  serialNumber: string;
+  orderStatus: string;
+  merchantName: string;
+  clientName: string;
+  clientPhone: string;
+  governrate: string;
+  city: string;
+  orderCost: number;
+  shippingCost: number;
+  companyRights?: number; // لأنها nullable في C#
+  createdDate: string;
+}
+
+

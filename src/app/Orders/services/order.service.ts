@@ -109,4 +109,25 @@ export class OrderService {
     const params = new HttpParams().set('Role', role);
     return this.http.get<Observable<any>>(`http://localhost:5050/api/user/${id}`, { params });
   }
+  /* ===================== Start Get User Method ================================ */
+  getOrderReports(
+    searchTxt?: string,
+    startDate?: string,
+    endDate?: string,
+    orderStatus: string = 'New',
+    page: number = 1,
+    pageSize: number = 10
+  ): Observable<any> {
+    let params = new HttpParams()
+      .set('orderStatus', orderStatus)
+      .set('page', page.toString())
+      .set('pageSize', pageSize.toString());
+
+    if (searchTxt) params = params.set('searchTxt', searchTxt);
+    if (startDate) params = params.set('startDate', startDate);
+    if (endDate) params = params.set('endDate', endDate);
+
+    return this.http.get<Observable<any>>(`http://localhost:5050/api/orderReport`, { params });
+  }
 }
+
