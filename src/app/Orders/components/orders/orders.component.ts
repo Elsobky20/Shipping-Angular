@@ -3,9 +3,10 @@ import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { catchError, debounceTime, distinctUntilChanged, EMPTY, Subject, switchMap, takeUntil } from 'rxjs';
-import { IOrderGetDTO } from '../../Interfaces/iorder-get-dto';
+import { DeliveryGet, IOrderGetDTO } from '../../Interfaces/iorder-get-dto';
 import { OrderService } from '../../services/order.service';
 import Swal from 'sweetalert2';
+import { DeliveryService } from '../../../Delivery/services/delivery.service';
 
 @Component({
   selector: 'app-orders',
@@ -26,6 +27,7 @@ export class OrdersComponent {
   selectedPageSize: number = 10;
   numberOfPages!:number;
   values: number[] = [5, 10, 25, 50];
+  userId:any = localStorage.getItem('userId');
 
   statuses: string[] = [
     'All',
@@ -58,8 +60,10 @@ export class OrdersComponent {
   };
 
   selectedStatus: string = 'New';
+  // الحالات اللي التاجر يقدر يختارها
+  allowedStatuses: string[] = ['Pending', 'CanceledByRecipient'];
 
-  constructor(private orderService:OrderService){
+  constructor(private orderService:OrderService, private deliveryService:DeliveryService){
     this.searchForm = new FormGroup({
       search: new FormControl('')
     });
@@ -186,50 +190,178 @@ export class OrdersComponent {
   /* ============================================ End Number Of Rows ========================================= */
 
   /* ============================================ Start Delete =============================================== */
-  
 
+  deleteOrder(id: number): void {
+    const order = this.orders.find(o => o.id === id);
 
-  deleteCity(id:number):void{
-      // const order = this.orders.find(c => c.id === id);
-      // if (true) {
-      //   Swal.fire({
-      //     title: "Can't delete city.",
-      //     text: 'This city is already deleted!',
-      //     icon: 'error',
-      //     confirmButtonText: 'Ok'
-      //   });
-      //   return;
-      // }
-      // // تأكيد الحذف للمدينة النشطة
-      // this.httpReqService.confirmAndDelete('city', id).subscribe({
-      //   next: () => {
-      //     // عند نجاح الحذف
-      //     Swal.fire({
-      //       title: 'Deleted successfully!',
-      //       text: 'City deleted successfully!',
-      //       icon: 'success',
-      //       confirmButtonText: 'Ok'
-      //     });
-
-      //     const index = this.orders.findIndex(c => c.id === id);
-      //     if (index !== -1) {
-      //       // 2. إنشاء نسخة جديدة من المصفوفة
-      //       this.orders = [...this.orders];
-      //       //this.orders[index].isDeleted = true;
-      //       //this.orders.sort((a, b) => a.governmentName.localeCompare(b.governmentName));
-      //       this.loadExistCities();
-      //     }
-      //   },
-      //   error: (error) => {
-      //     console.log(error);
-      //     Swal.fire({
-      //       title: 'Error!',
-      //       text: 'Failed deleting city.',
-      //       icon: 'error',
-      //       confirmButtonText: 'Ok'
-      //     });
-      //   }
-      // });
+    if (!this.userId || !order) {
+      Swal.fire({
+        title: "Can't delete order.",
+        text: 'User or Order not found!',
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      });
+      return;
     }
-    /* ============================================ End Delete ================================================= */
+
+    Swal.fire({
+      title: 'Are you sure?',
+      text: 'Do you want to delete or reject this order?',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonText: 'Yes, confirm',
+      cancelButtonText: 'Cancel'
+    }).then(result => {
+      if (result.isConfirmed) {
+        this.orderService.deleteOrRejectOrder(id, this.userId).subscribe({
+          next: (res) => {
+            Swal.fire({
+              title: 'Done!',
+              text: res.message || 'Order deleted or rejected successfully.',
+              icon: 'success',
+              confirmButtonText: 'Ok'
+            });
+
+            const index = this.orders.findIndex(o => o.id === id);
+            if (index !== -1) {
+              // ممكن تحدث القائمة بعد الحذف
+              this.orders = [...this.orders];
+              this.loadExistOrders(this.selectedPageSize, this.pageNumber); // تحديث القائمة
+            }
+          },
+          error: (err) => {
+            console.error(err);
+            Swal.fire({
+              title: 'Error!',
+              text: err.error?.message || 'Failed to delete/reject the order.',
+              icon: 'error',
+              confirmButtonText: 'Ok'
+            });
+          }
+        });
+      }
+    });
+  }
+
+  /* ============================================ End Delete ================================================= */
+
+  /* ============================================ Start Update Status ======================================== */
+  updateStatus(orderId: number) {
+    const selectHtml = `
+      <div class="mb-3 text-start">
+        <label for="orderStatus" class="form-label fw-bold">Choose Status</label>
+        <select id="orderStatus" class="form-select" style="width: 100%;">
+          ${this.statuses
+            .filter(status => status !== 'All')
+            .map(
+              status => `
+            <option value="${status}" ${this.allowedStatuses.includes(status) ? '' : 'disabled'}>
+              ${this.statusLabels[status]}
+            </option>
+          `
+            )
+            .join('')}
+        </select>
+      </div>
+
+      <div class="mb-3 text-start">
+        <label for="merchantNote" class="form-label fw-bold">Merchant Notes</label>
+        <textarea id="merchantNote" class="form-control" placeholder="Enter your notes here..." rows="4" style="width: 100%;"></textarea>
+      </div>
+  `;
+
+  Swal.fire({
+    title: 'Change Order Status',
+    html: selectHtml,
+    showCancelButton: true,
+    confirmButtonText: 'Change',
+    focusConfirm: false,
+    preConfirm: () => {
+      const selectedStatus = (document.getElementById('orderStatus') as HTMLSelectElement).value;
+      const merchantNote = (document.getElementById('merchantNote') as HTMLTextAreaElement).value.trim() || "";
+
+      if (!this.allowedStatuses.includes(selectedStatus)) {
+        Swal.showValidationMessage('This status is not allowed for merchants!');
+        return false;
+      }
+
+      return { selectedStatus, merchantNote };
+    }
+  }).then(result => {
+    if (result.isConfirmed) {
+      const { selectedStatus, merchantNote } = result.value;
+
+      this.orderService.changeOrderStatus(orderId, this.userId, selectedStatus, merchantNote).subscribe({
+        next: (res) => {
+          Swal.fire('Success', 'Order status updated successfully.', 'success');
+
+            this.orders = [...this.orders];
+            this.loadExistOrders(this.selectedPageSize, this.pageNumber); // تحديث القائمة
+        },
+        error: (err) => {
+          Swal.fire('Error', err.error?.message || 'Something went wrong!', 'error');
+        }
+      });
+    }
+  });
+  }
+  /* ============================================ End Update Status ========================================= */
+
+  /* ============================================ Start Assign Order To Delivery Status ===================== */
+  assignOrderToAgent(orderId: number, branchId: number): void {
+    this.deliveryService.getDeliveriesByBranch(branchId).subscribe({
+      next: (deliveries: DeliveryGet[]): void => {
+        if (!deliveries.length) {
+          Swal.fire('No Deliveries', 'No delivery agents found for this branch.', 'info');
+          return;
+        }
+
+        const selectOptions = deliveries.map((d) => `
+          <option value="${d.id}">${d.name}</option>
+        `).join('');
+
+        Swal.fire({
+          title: 'Assign Order to Delivery',
+          html: `
+            <label for="deliverySelect" class="form-label">Choose a Delivery Agent</label>
+            <select id="deliverySelect" class="form-select">
+              ${selectOptions}
+            </select>
+          `,
+          confirmButtonText: 'Assign',
+          showCancelButton: true,
+          focusConfirm: false,
+          preConfirm: () => {
+            const selectedId = (document.getElementById('deliverySelect') as HTMLSelectElement)?.value;
+            if (!selectedId) {
+              Swal.showValidationMessage('Please select a delivery agent.');
+              return;
+            }
+            return selectedId;
+          }
+        }).then(result => {
+          if (result.isConfirmed && result.value) {
+            const deliveryId = Number(result.value);
+            this.orderService.assignOrderToDelivery(orderId, deliveryId).subscribe({
+              next: () => {
+                Swal.fire('Assigned!', 'Order assigned successfully.', 'success');
+
+                this.orders = [...this.orders];
+                this.loadExistOrders(this.selectedPageSize, this.pageNumber); // تحديث القائمة
+              },
+              error: () => {
+                Swal.fire('Error', 'Failed to assign the order.', 'error');
+              }
+            });
+          }
+        });
+      },
+      error: () => {
+        Swal.fire('Error', 'Failed to load delivery agents.', 'error');
+      }
+    });
+  }
+  /* ============================================ End Assign Order To Delivery Status ======================= */
+
+  /* ============================================ End Assign Order To Delivery Status ======================= */
 }
