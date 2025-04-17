@@ -1,0 +1,17 @@
+<div class="container">
+    <h2 class="title">Weight Pricing Management</h2>
+  
+    <div class="form">
+      <label for="defaultWeight">Default Weight (KG):</label>
+      <input type="number" [(ngModel)]="formData.defaultWeight" id="defaultWeight" class="form-control" placeholder="Enter default weight">
+  
+      <label for="additionalKgPrice">Additional KG Price (LE):</label>
+      <input type="number" [(ngModel)]="formData.additionalKgPrice" id="additionalKgPrice" class="form-control" placeholder="Enter additional KG price">
+    </div>
+  
+    <div class="actions">
+      <button (click)="createWeightPricing()" class="btn btn-success">Create</button>
+      <button (click)="updateWeightPricing()" class="btn btn-primary">Update</button>
+    </div>
+  </div>
+  

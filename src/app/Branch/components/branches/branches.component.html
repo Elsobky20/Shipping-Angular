@@ -1,0 +1,262 @@
+<div class="row">
+  <div class="content-wrapper container-fluid p-0">
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card" style="max-height: 100vh !important">
+        <div
+          class="card-body p-5 py-3"
+          style="height: 80vh !important; max-height: 100vh !important"
+        >
+          <div class="row">
+            <h4
+              class="card-title fs-3"
+              style="color: #9c57ff; font-weight: bold; letter-spacing: 1px"
+            >
+              branches <span class="fs-5">[{{ ExistBranchesNumber }}]</span>
+            </h4>
+          </div>
+          <div class="row mb-2 px-3">
+            <button
+              type="button"
+              class="btn btn-gradient-primary btn-fw col-sm-2"
+              routerLink="/branch/add">
+              
+              Add Branch
+            </button>
+            <form
+              class="d-flex align-items-center h-100 col-sm-2 ms-auto"
+              style="
+                background-image: linear-gradient(
+                  to right,
+                  rgb(217 139 255),
+                  #9c57ff
+                );
+              "
+              action="#"
+              [formGroup]="searchForm"
+            >
+              <div class="input-group">
+                <div
+                  class="input-group-prepend bg-transparent"
+                  style="
+                    background-color: rgb(217 139 255);
+                    display: flex;
+                    align-items: center;
+                  "
+                >
+                  <i
+                    class="input-group-text border-0 mdi mdi-magnify"
+                    style="
+                      color: white;
+                      background-color: rgb(217 139 255);
+                      transform: translateX(-20px);
+                    "
+                  ></i>
+                </div>
+                <input
+                  type="search"
+                  class="form-control bg-transparent border-0"
+                  style="
+                    color: white !important;
+                    padding-left: 5px;
+                    font-size: 16px;
+                  "
+                  placeholder="Search .."
+                  formControlName="search"
+                />
+              </div>
+            </form>
+          </div>
+          <div
+            class="row col-sm-12 table-responsive table-bordered rounded mx-auto"
+            style="max-height: 72%; overflow-y: auto"
+          >
+            <table class="table text-center table-hover">
+              <thead>
+                <tr id="tableHead">
+                  <th scope="col" style="background-color: #bdb8b8">#</th>
+                  <th scope="col" style="background-color: #bdb8b8">Name</th>
+                  <th scope="col" style="background-color: #bdb8b8">
+                    Mobile
+                  </th>
+                  <th scope="col" style="background-color: #bdb8b8">Status</th>
+                  <th scope="col" style="background-color: #bdb8b8">
+                    Location
+                  </th>
+                  <th scope="col" style="background-color: #bdb8b8">
+                    CreatedDate
+                  </th>
+                  <th scope="col" style="background-color: #bdb8b8">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (branch of branches; track branch.id; let i = $index) {
+                <tr>
+                  <th scope="row" class="py-0">{{ i + 1 }}</th>
+                  <td class="py-0">{{ branch.name }}</td>
+                  <td class="py-0">{{ branch.mobile }}</td>
+                  @if(branch.isDeleted){
+                  <td class="d-flex justify-content-center py-0">
+                    <div class="form-check form-switch">
+                      <input
+                        class="form-check-input"
+                        style="
+                          transform: translateX(80%);
+                          background-color: rgb(203, 195, 195, 0.45);
+                          font-size: 20px;
+                        "
+                        type="checkbox"
+                        role="switch"
+                        id="switchCheckDisabled"
+                        value="{{ branch.isDeleted }}"
+                        disabled
+                      />
+                    </div>
+                  </td>
+                  }@else {
+                  <td class="d-flex justify-content-center py-0">
+                    <div class="form-check form-switch">
+                      <input
+                        class="form-check-input"
+                        style="
+                          transform: translateX(80%);
+                          background-color: green;
+                          font-size: 20px;
+                        "
+                        type="checkbox"
+                        role="switch"
+                        id="switchCheckCheckedDisabled"
+                        value="{{ branch.isDeleted }}"
+                        checked
+                        disabled
+                      />
+                    </div>
+                  </td>
+                  }
+                  <td class="py-0">
+                    {{ branch.location }}
+                  </td>
+                  <td class="py-0">{{ branch.createdDate}}</td>
+                  <td class="py-0">
+                    <i
+                      class="bi bi-pencil-square fs-4 text-info btn p-2"
+                      data-bs-toggle="tooltip"
+                      title="Edit"
+                      (click)="editbranch(branch.id)"
+                    ></i>
+                    <i
+                      class="bi bi-trash3 fs-4 text-danger btn p-2"
+                      data-bs-toggle="tooltip"
+                      title="Delete"
+                      (click)="deleteBranch(branch.id)"
+                    ></i>
+                  </td>
+                </tr>
+                }
+              </tbody>
+            </table>
+            @if(errorMessage?.trim()){
+            <div class="row mx-auto">
+              <div class="alert alert-danger col-sm-3 mx-auto my-2 text-center">
+                {{ errorMessage }}
+              </div>
+            </div>
+            }
+          </div>
+          <div class="row mt-2 px-3" style="text-align: right">
+            <div class="col-sm-3 px-0">
+              <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                  <li class="page-item fw-bold">
+                    <button
+                      class="page-link"
+                      aria-label="Previous"
+                      [disabled]="pageNumber < 1"
+                      (click)="updatePageNumber(pageNumber - 1)"
+                    >
+                      <span
+                        style="color: #9c57ff"
+                        aria-hidden="true"
+                        class="page-link-next"
+                        >&laquo;</span
+                      >
+                    </button>
+                  </li>
+                  <li class="page-item">
+                    <button
+                      class="page-link fw-bold"
+                      style="color: #9c57ff"
+                      (click)="updatePageNumber(1)"
+                    >
+                      1
+                    </button>
+                  </li>
+                  <li class="page-item">
+                    <button
+                      class="page-link fw-bold"
+                      style="color: #9c57ff"
+                      (click)="updatePageNumber(2)"
+                    >
+                      2
+                    </button>
+                  </li>
+                  <li class="page-item">
+                    <button
+                      class="page-link fw-bold"
+                      style="color: #9c57ff"
+                      (click)="updatePageNumber(3)"
+                    >
+                      3
+                    </button>
+                  </li>
+                  <li class="page-item">
+                    <button
+                      class="page-link fw-bold"
+                      aria-label="Next"
+                      [disabled]="pageNumber >= numberOfPages"
+                      (click)="updatePageNumber(pageNumber + 1)"
+                    >
+                      <span
+                        style="color: #9c57ff"
+                        aria-hidden="true"
+                        class="page-link-next"
+                        >&raquo;</span
+                      >
+                    </button>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div class="dropdown dropup px-0 col-sm-3 ms-auto">
+              <button
+                class="btn btn-outline-primary dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                style="width: 120px !important"
+              >
+                {{ selectedPageSize }}
+              </button>
+              <ul
+                class="dropdown-menu"
+                style="width: 120px !important; min-width: 100px !important"
+                aria-labelledby="dropdownMenuButton"
+              >
+                @for (val of values; track $index) {
+                <li>
+                  <button
+                    class="dropdown-item"
+                    (click)="updateSelectedValue(val)"
+                  >
+                    {{ val }}
+                  </button>
+                </li>
+                }
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

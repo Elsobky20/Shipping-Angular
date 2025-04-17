@@ -13,9 +13,10 @@ import { Router } from '@angular/router';
 
 
 
+
 @Component({
   selector: 'app-root',
-  imports: [RouterOutlet, CommonModule, SideBarComponent ],
+  imports: [RouterOutlet, CommonModule, SideBarComponent  ],
 
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'

@@ -1,0 +1,74 @@
+<div class="content-wrapper container-fluid p-0">
+  <div class="col-lg-12 grid-margin stretch-card">
+    <div class="card" style="max-height: 100vh">
+      <div class="card-body px-4 py-3" style="height: 80vh; max-height: 100vh">
+        <div class="row justify-content-between mb-2">
+          <h4 class="card-title fs-3 col-sm-8" style="color: #9c57ff; font-weight: bold; letter-spacing: 1px;">
+            Settings <span class="fs-5">[{{ settings.length || 0 }}]</span>
+          </h4>
+          <button
+            class="btn btn-light col-sm-1 d-flex align-items-center justify-content-center ms-auto me-2"
+            style="color: #9c57ff; height: 42px; width: 42px; border-radius: 50%;"
+            title="Back to dashboard"
+            routerLink="/dashboard"
+          >
+            <i class="bi bi-skip-backward-circle fs-2"></i>
+          </button>
+        </div>
+
+        <div class="row mb-3">
+          <div class="col-sm-2">
+            <button type="button" class="btn btn-gradient-primary btn-fw w-100" routerLink="/setting/add">
+              Add Setting
+            </button>
+          </div>
+        </div>
+
+        <div class="table-responsive rounded" style="max-height: 72%; overflow-y: auto;">
+          <table class="table text-center table-bordered table-hover mb-0">
+            <thead id="tableHead" class="table-light sticky-top">
+              <tr>
+                <th>#</th>
+                <th>Shipping To Village Cost</th>
+                <th>Delivery Auto Accept</th>
+                <th>Status</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              @for (setting of settings; track setting.id; let i = $index) {
+              <tr>
+                <td class="py-2">{{ i + 1 }}</td>
+                <td class="py-2">{{ setting.shippingToVillageCost }}</td>
+                <td class="py-2">{{ setting.deliveryAutoAccept }}</td>
+                <td class="py-2">
+                  <div class="form-check form-switch d-flex justify-content-center">
+                    <input
+                      class="form-check-input"
+                      [ngStyle]="{
+                        'background-color': setting.isDeleted ? 'rgba(203, 195, 195, 0.45)' : 'green'
+                      }"
+                      type="checkbox"
+                      role="switch"
+                      [checked]="!setting.isDeleted"
+                      disabled
+                    />
+                  </div>
+                </td>
+                <td class="py-2">
+                  <i
+                    class="bi bi-pencil-square fs-4 text-info btn p-2"
+                    data-bs-toggle="tooltip"
+                    title="Edit"
+                    (click)="editSetting(setting.id)"
+                  ></i>
+                </td>
+              </tr>
+              }
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
