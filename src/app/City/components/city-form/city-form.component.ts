@@ -25,7 +25,6 @@ export class CityFormComponent implements OnInit {
   cityForm = new FormGroup({
     name: new FormControl('', [Validators.required, Validators.minLength(3)]),
     government_Id: new FormControl('', [Validators.required]),
-    pickupShipping: new FormControl('', [Validators.required]),
     standardShipping: new FormControl('', [Validators.required]),
     isDeleted: new FormControl(false)
   })
@@ -37,9 +36,6 @@ export class CityFormComponent implements OnInit {
     return this.cityForm.controls['government_Id'];
   }
   get getStandard() {
-    return this.cityForm.controls['pickupShipping'];
-  }
-  get getPickup() {
     return this.cityForm.controls['standardShipping'];
   }
   get getIsDeleted() {
@@ -64,14 +60,12 @@ export class CityFormComponent implements OnInit {
         this.getCity.setValue('');
         this.getGovernrate.setValue('');
         this.getStandard.setValue('0');
-        this.getPickup.setValue('0');
 
         if (this.cityId != 0) {
           this.httpReqService.getById('city',this.cityId).subscribe({
             next: (response) => {
               this.getCity.setValue(response.data.name);
               this.getStandard.setValue(response.data.pickupShipping.toString());
-              this.getPickup.setValue(response.data.standardShipping.toString());
 
               this.theGovern = this.allGovernrates.find(c => c.name === response.data.governmentName);
               this.getGovernrate.setValue(this.theGovern.id || '');
@@ -160,7 +154,6 @@ export class CityFormComponent implements OnInit {
         name: '',
         government_Id: '',
         standardShipping: '0',
-        pickupShipping: '0'
       });
     }
     else

@@ -3,7 +3,6 @@ export interface ICityGetDTO {
   name: string;
   governmentName: string;
   isDeleted: boolean;
-  pickupShipping: number;
   standardShipping: number
 }
 export interface ICityResponseData {
@@ -15,14 +14,12 @@ export interface ICityResponseData {
 export interface ICityCreateDTO {
   government_Id: number;
   name: string;
-  pickupShipping: number;
   standardShipping: number
 }
 export interface ICityEditDTO {
   government_Id: number;
   name: string;
   isDeleted:boolean;
-  pickupShipping: number;
   standardShipping: number
 }
 

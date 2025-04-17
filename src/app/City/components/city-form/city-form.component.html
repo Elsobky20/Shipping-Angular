@@ -93,23 +93,6 @@
                 </div>
                 }}
               </div>
-              <div class="form-group my-3">
-                <label for="exampleInputPickup">Pickup Shipping Cost</label>
-                <input
-                  type="number"
-                  class="form-control"
-                  id="exampleInputPickup"
-                  placeholder="Pickup Shipping"
-                  min="0"
-                  step="5"
-                  formControlName="standardShipping"
-                />
-                @if(getPickup.touched){ @if (getPickup.hasError('required')) {
-                <div id="emailHelp" class="form-text text-danger">
-                  Pickup Shipping Cost is required
-                </div>
-                }}
-              </div>
               @if (cityId != 0) {
               <div class="form-group my-3 row justify-content-sm-start mt-3">
                 <label for="switchCheck" class="col-sm-2 me-3"

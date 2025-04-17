@@ -49,14 +49,14 @@
               <span class="availability-status online"></span>
             </div>
             <div class="nav-profile-text">
-              <p class="mb-1 text-black">{{getUserName()}}</p>
+              <p class="mb-1 text-black">{{ getUserName() }}</p>
             </div>
           </a>
           <div
             class="dropdown-menu navbar-dropdown"
             aria-labelledby="profileDropdown"
           >
-            <a class="dropdown-item"  [routerLink]="['/profile']">
+            <a class="dropdown-item" [routerLink]="['/profile']">
               <i class="mdi mdi-account-circle me-2 text-success"></i> Profile
             </a>
             <div class="dropdown-divider"></div>
@@ -89,11 +89,7 @@
             <div class="dropdown-divider"></div>
             <a class="dropdown-item preview-item">
               <div class="preview-thumbnail">
-                <img
-                  src="logo2.png"
-                  alt="image"
-                  class="profile-pic"
-                />
+                <img src="logo2.png" alt="image" class="profile-pic" />
               </div>
               <div
                 class="preview-item-content d-flex align-items-start flex-column justify-content-center"
@@ -107,11 +103,7 @@
             <div class="dropdown-divider"></div>
             <a class="dropdown-item preview-item">
               <div class="preview-thumbnail">
-                <img
-                  src="logo2.png"
-                  alt="image"
-                  class="profile-pic"
-                />
+                <img src="logo2.png" alt="image" class="profile-pic" />
               </div>
               <div
                 class="preview-item-content d-flex align-items-start flex-column justify-content-center"
@@ -125,11 +117,7 @@
             <div class="dropdown-divider"></div>
             <a class="dropdown-item preview-item">
               <div class="preview-thumbnail">
-                <img
-                  src="logo2.png"
-                  alt="image"
-                  class="profile-pic"
-                />
+                <img src="logo2.png" alt="image" class="profile-pic" />
               </div>
               <div
                 class="preview-item-content d-flex align-items-start flex-column justify-content-center"
@@ -246,8 +234,8 @@
               <!--change to offline or busy as needed-->
             </div>
             <div class="nav-profile-text d-flex flex-column">
-              <span class="font-weight-bold mb-2">{{getUserName()}}</span>
-              <span class="text-secondary text-small">{{getRolUser()}}</span>
+              <span class="font-weight-bold mb-2">{{ getUserName() }}</span>
+              <span class="text-secondary text-small">{{ getRolUser() }}</span>
             </div>
             <i
               class="mdi mdi-bookmark-check text-success nav-profile-badge"
@@ -255,37 +243,43 @@
           </a>
         </li>
         <li class="nav-item">
-          <a class="nav-link"[routerLink]="['/dashboard']">
+          <a class="nav-link" [routerLink]="['/dashboard']">
             <span class="menu-title">Dashboard</span>
             <i class="mdi mdi-home menu-icon"></i>
           </a>
         </li>
-         <!-- *ngIf="role === 'admin'" -->
-        <li class="nav-item" >
+        <!-- *ngIf="role === 'admin'" -->
+        <li class="nav-item">
           <a
             class="nav-link"
-            
             (click)="toggleDropdown('delivery')"
             [attr.aria-expanded]="isDropdownOpen('delivery')"
           >
             <span class="menu-title">Delivery</span>
-            
-            <i class="menu-arrow" [ngClass]="{ 'rotate-arrow': isDropdownOpen('delivery') }"></i>
+
+            <i
+              class="menu-arrow"
+              [ngClass]="{ 'rotate-arrow': isDropdownOpen('delivery') }"
+            ></i>
             <i class="mdi mdi-truck-delivery menu-icon"></i>
           </a>
-        
+
           <div *ngIf="isDropdownOpen('delivery')">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/deliveries']">All Delivery</a>
+                <a class="nav-link" [routerLink]="['/deliveries']"
+                  >All Delivery</a
+                >
               </li>
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/delivery/add']">Add Delivery</a>
+                <a class="nav-link" [routerLink]="['/delivery/add']"
+                  >Add Delivery</a
+                >
               </li>
             </ul>
           </div>
         </li>
-        
+
         <li class="nav-item">
           <a
             class="nav-link"
@@ -293,45 +287,57 @@
             [attr.aria-expanded]="isDropdownOpen('merchant')"
           >
             <span class="menu-title">Merchant</span>
-            <i class="menu-arrow" [ngClass]="{ 'rotate-arrow': isDropdownOpen('merchant') }"></i>
+            <i
+              class="menu-arrow"
+              [ngClass]="{ 'rotate-arrow': isDropdownOpen('merchant') }"
+            ></i>
             <i class="mdi mdi-store menu-icon"></i>
           </a>
-        
+
           <div *ngIf="isDropdownOpen('merchant')">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/merchant']">All Merchant</a>
+                <a class="nav-link" [routerLink]="['/merchant']"
+                  >All Merchant</a
+                >
               </li>
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/merchant/add']">Add Merchant</a>
-              </li>
-            </ul>
-          </div>
-        </li>
-        
-        
-        <li class="nav-item">
-          <a
-          class="nav-link"
-          (click)="toggleDropdown('employee')"
-          [attr.aria-expanded]="isDropdownOpen('employee')"
-          >
-            <span class="menu-title">Employee</span>
-            <i class="menu-arrow" [ngClass]="{ 'rotate-arrow': isDropdownOpen('employee') }"></i>
-            <i class="mdi mdi-account-multiple menu-icon"></i>
-          </a>
-          <div *ngIf="isDropdownOpen('employee')">
-            <ul class="nav flex-column sub-menu">
-              <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/employee']">All Employee</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/employee/add']">Add Employee</a>
+                <a class="nav-link" [routerLink]="['/merchant/add']"
+                  >Add Merchant</a
+                >
               </li>
             </ul>
           </div>
         </li>
 
+        <li class="nav-item">
+          <a
+            class="nav-link"
+            (click)="toggleDropdown('employee')"
+            [attr.aria-expanded]="isDropdownOpen('employee')"
+          >
+            <span class="menu-title">Employee</span>
+            <i
+              class="menu-arrow"
+              [ngClass]="{ 'rotate-arrow': isDropdownOpen('employee') }"
+            ></i>
+            <i class="mdi mdi-account-multiple menu-icon"></i>
+          </a>
+          <div *ngIf="isDropdownOpen('employee')">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/employee']"
+                  >All Employee</a
+                >
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/employee/add']"
+                  >Add Employee</a
+                >
+              </li>
+            </ul>
+          </div>
+        </li>
 
         <li class="nav-item">
           <a
@@ -340,29 +346,37 @@
             [attr.aria-expanded]="isDropdownOpen('order')"
           >
             <span class="menu-title">Order</span>
-            <i class="menu-arrow" [ngClass]="{ 'rotate-arrow': isDropdownOpen('order') }"></i>
+            <i
+              class="menu-arrow"
+              [ngClass]="{ 'rotate-arrow': isDropdownOpen('order') }"
+            ></i>
             <i class="mdi mdi-store menu-icon"></i>
           </a>
-        
+
           <div *ngIf="isDropdownOpen('order')">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
                 <a class="nav-link" [routerLink]="['/order']">All Order</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/order/add']">Add Order</a>
+                <a class="nav-link" [routerLink]="['/order/0/edit']"
+                  >Add Order</a
+                >
               </li>
             </ul>
           </div>
         </li>
         <li class="nav-item">
           <a
-          class="nav-link"
-          (click)="toggleDropdown('city')"
-          [attr.aria-expanded]="isDropdownOpen('city')"
+            class="nav-link"
+            (click)="toggleDropdown('city')"
+            [attr.aria-expanded]="isDropdownOpen('city')"
           >
             <span class="menu-title">City</span>
-            <i class="menu-arrow" [ngClass]="{ 'rotate-arrow': isDropdownOpen('city') }"></i>
+            <i
+              class="menu-arrow"
+              [ngClass]="{ 'rotate-arrow': isDropdownOpen('city') }"
+            ></i>
             <i class="mdi mdi-city menu-icon"></i>
           </a>
           <div *ngIf="isDropdownOpen('city')">
@@ -378,12 +392,15 @@
         </li>
         <li class="nav-item">
           <a
-          class="nav-link"
-          (click)="toggleDropdown('role')"
-          [attr.aria-expanded]="isDropdownOpen('role')"
+            class="nav-link"
+            (click)="toggleDropdown('role')"
+            [attr.aria-expanded]="isDropdownOpen('role')"
           >
             <span class="menu-title">Role</span>
-            <i class="menu-arrow" [ngClass]="{ 'rotate-arrow': isDropdownOpen('role') }"></i>
+            <i
+              class="menu-arrow"
+              [ngClass]="{ 'rotate-arrow': isDropdownOpen('role') }"
+            ></i>
             <i class="mdi mdi-shield-account menu-icon"></i>
           </a>
           <div *ngIf="isDropdownOpen('role')">
@@ -400,21 +417,28 @@
 
         <li class="nav-item">
           <a
-          class="nav-link"
-          (click)="toggleDropdown('permission')"
-          [attr.aria-expanded]="isDropdownOpen('permission')"
+            class="nav-link"
+            (click)="toggleDropdown('permission')"
+            [attr.aria-expanded]="isDropdownOpen('permission')"
           >
             <span class="menu-title">permission</span>
-            <i class="menu-arrow" [ngClass]="{ 'rotate-arrow': isDropdownOpen('permission') }"></i>
+            <i
+              class="menu-arrow"
+              [ngClass]="{ 'rotate-arrow': isDropdownOpen('permission') }"
+            ></i>
             <i class="mdi mdi-account-key menu-icon"></i>
           </a>
           <div *ngIf="isDropdownOpen('permission')">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/permissions']">All permission</a>
+                <a class="nav-link" [routerLink]="['/permissions']"
+                  >All permission</a
+                >
               </li>
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/permissions/add']">Add permission</a>
+                <a class="nav-link" [routerLink]="['/permissions/add']"
+                  >Add permission</a
+                >
               </li>
             </ul>
           </div>
@@ -422,35 +446,46 @@
 
         <li class="nav-item">
           <a
-          class="nav-link"
-          (click)="toggleDropdown('rolepermission')"
-          [attr.aria-expanded]="isDropdownOpen('rolepermission')"
+            class="nav-link"
+            (click)="toggleDropdown('rolepermission')"
+            [attr.aria-expanded]="isDropdownOpen('rolepermission')"
           >
             <span class="menu-title">Role Permission</span>
-            <i class="menu-arrow" [ngClass]="{ 'rotate-arrow': isDropdownOpen('rolepermission') }"></i>
-            <i class="mdi mdi-security menu-icon"></i> 
-                             </a>
+            <i
+              class="menu-arrow"
+              [ngClass]="{ 'rotate-arrow': isDropdownOpen('rolepermission') }"
+            ></i>
+            <i class="mdi mdi-security menu-icon"></i>
+          </a>
           <div *ngIf="isDropdownOpen('rolepermission')">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/role-permissions']">All Role Permission</a>
+                <a class="nav-link" [routerLink]="['/role-permissions']"
+                  >All Role Permission</a
+                >
               </li>
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/role-permissions/:roleId/:permissionId']">Add Role Permission</a>
+                <a
+                  class="nav-link"
+                  [routerLink]="['/role-permissions/:roleId/:permissionId']"
+                  >Add Role Permission</a
+                >
               </li>
             </ul>
           </div>
         </li>
         <li class="nav-item">
           <a
-          class="nav-link"
-          (click)="toggleDropdown('branch')"
-          [attr.aria-expanded]="isDropdownOpen('branch')"
+            class="nav-link"
+            (click)="toggleDropdown('branch')"
+            [attr.aria-expanded]="isDropdownOpen('branch')"
           >
             <span class="menu-title">Branch</span>
-            <i class="menu-arrow" [ngClass]="{ 'rotate-arrow': isDropdownOpen('branch') }"></i>
+            <i
+              class="menu-arrow"
+              [ngClass]="{ 'rotate-arrow': isDropdownOpen('branch') }"
+            ></i>
             <i class="mdi mdi-map-marker-radius menu-icon"></i>
-
           </a>
           <div *ngIf="isDropdownOpen('branch')">
             <ul class="nav flex-column sub-menu">
@@ -458,43 +493,53 @@
                 <a class="nav-link" [routerLink]="['/branch']">All Branch</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/branch/add']">Add Branch</a>
+                <a class="nav-link" [routerLink]="['/branch/add']"
+                  >Add Branch</a
+                >
               </li>
             </ul>
           </div>
         </li>
         <li class="nav-item">
           <a
-          class="nav-link"
-          (click)="toggleDropdown('government')"
-          [attr.aria-expanded]="isDropdownOpen('government')"
+            class="nav-link"
+            (click)="toggleDropdown('government')"
+            [attr.aria-expanded]="isDropdownOpen('government')"
           >
             <span class="menu-title">Government</span>
-            <i class="menu-arrow" [ngClass]="{ 'rotate-arrow': isDropdownOpen('government') }"></i>
+            <i
+              class="menu-arrow"
+              [ngClass]="{ 'rotate-arrow': isDropdownOpen('government') }"
+            ></i>
             <i class="mdi mdi-domain menu-icon"></i>
-
           </a>
           <div *ngIf="isDropdownOpen('government')">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/government']">All Government</a>
+                <a class="nav-link" [routerLink]="['/government']"
+                  >All Government</a
+                >
               </li>
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/government/add']">Add Government</a>
+                <a class="nav-link" [routerLink]="['/government/add']"
+                  >Add Government</a
+                >
               </li>
-              
             </ul>
           </div>
         </li>
 
         <li class="nav-item">
           <a
-          class="nav-link"
-          (click)="toggleDropdown('setting')"
-          [attr.aria-expanded]="isDropdownOpen('setting')"
+            class="nav-link"
+            (click)="toggleDropdown('setting')"
+            [attr.aria-expanded]="isDropdownOpen('setting')"
           >
             <span class="menu-title">Setting</span>
-            <i class="menu-arrow" [ngClass]="{ 'rotate-arrow': isDropdownOpen('setting') }"></i>
+            <i
+              class="menu-arrow"
+              [ngClass]="{ 'rotate-arrow': isDropdownOpen('setting') }"
+            ></i>
             <i class="mdi mdi-account-cog menu-icon"></i>
           </a>
           <div *ngIf="isDropdownOpen('setting')">
@@ -503,19 +548,24 @@
                 <a class="nav-link" [routerLink]="['/setting']">All Setting</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/setting/add']">Add Setting</a>
+                <a class="nav-link" [routerLink]="['/setting/add']"
+                  >Add Setting</a
+                >
               </li>
             </ul>
           </div>
         </li>
         <li class="nav-item">
           <a
-          class="nav-link"
-          (click)="toggleDropdown('weight')"
-          [attr.aria-expanded]="isDropdownOpen('weight')"
+            class="nav-link"
+            (click)="toggleDropdown('weight')"
+            [attr.aria-expanded]="isDropdownOpen('weight')"
           >
             <span class="menu-title">Weight Pricing</span>
-            <i class="menu-arrow" [ngClass]="{ 'rotate-arrow': isDropdownOpen('weight') }"></i>
+            <i
+              class="menu-arrow"
+              [ngClass]="{ 'rotate-arrow': isDropdownOpen('weight') }"
+            ></i>
             <i class="mdi mdi-weight menu-icon"></i>
           </a>
           <div *ngIf="isDropdownOpen('weight')">
@@ -524,7 +574,9 @@
                 <a class="nav-link" [routerLink]="['/weight']">All Weight</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/weight/add']">Add Weight</a>
+                <a class="nav-link" [routerLink]="['/weight/add']"
+                  >Add Weight</a
+                >
               </li>
             </ul>
           </div>
