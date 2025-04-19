@@ -14,11 +14,7 @@
     </select>
   </div>
 
-  <div class="form-check mb-3">
-    <input type="checkbox" class="form-check-input" id="isActive" formControlName="isActive" />
-    <label class="form-check-label" for="isActive">Active</label>
-  </div>
-
+ 
   <div class="form-actions">
     <button type="submit" [disabled]="form.invalid">
       {{ isEditMode ? 'Update' : 'Create' }}
