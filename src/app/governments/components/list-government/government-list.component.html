@@ -1,0 +1,93 @@
+<h2 style="color: #9c57ff; font-weight: bold; letter-spacing: 1px;">Governments List</h2>
+
+<div class="mb-3">
+  <button (click)="onAdd()" class="btn btn-gradient-primary btn-fw">Add New Government</button>
+</div>
+
+<div class="table-responsive rounded border" style="box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
+  <table class="table text-center table-hover">
+    <thead>
+      <tr style="background-color: #bdb8b8; color: #333;">
+        <th>#</th>
+        <th>Government Name</th>
+        <th>Branch ID</th>
+        <th>Status</th>
+        <th>Actions</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let gov of governments; let i = index" [ngStyle]="{ 'opacity': gov.isDeleted ? 0.5 : 1 }">
+        <td>{{ (pageIndex - 1) * pageSize + i + 1 }}</td>
+        <td>{{ gov.name }}</td>
+        <td>{{ gov.branch_Id }}</td>
+        <td>
+          <span
+            [ngStyle]="{
+              backgroundColor: gov.isDeleted ? '#f8d7da' : '#d4edda',
+              color: gov.isDeleted ? '#dc3545' : '#28a745',
+              borderRadius: '20px',
+              padding: '4px 12px',
+              fontWeight: 'bold',
+              fontSize: '14px',
+              boxShadow: '0 1px 3px rgba(0,0,0,0.2)'
+            }"
+          >
+            {{ gov.isDeleted ? 'Inactive' : 'Active' }}
+          </span>
+        </td>
+        <td>
+          <button
+            *ngIf="!gov.isDeleted"
+            (click)="onEdit(gov.id)"
+            class="btn btn-light text-info me-1"
+            title="Edit"
+            style="border-radius: 50%; width: 36px; height: 36px;"
+          >
+            <i class="bi bi-pencil-square fs-5"></i>
+          </button>
+          <button
+            *ngIf="!gov.isDeleted"
+            (click)="onDelete(gov.id)"
+            class="btn btn-light text-danger"
+            title="Delete"
+            style="border-radius: 50%; width: 36px; height: 36px;"
+          >
+            <i class="bi bi-trash3 fs-5"></i>
+          </button>
+        </td>
+      </tr>
+      <tr *ngIf="!governments?.length">
+        <td colspan="5" class="text-muted">No governments found.</td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Pagination Section -->
+<div
+  *ngIf="totalCount > 0"
+  class="d-flex justify-content-between align-items-center mt-3"
+>
+  <span style="color: #6c757d;">
+    Showing {{ (pageIndex - 1) * pageSize + 1 }} to
+    {{ pageIndex * pageSize > totalCount ? totalCount : pageIndex * pageSize }}
+    of {{ totalCount }} governments
+  </span>
+  <div>
+    <button
+      class="btn btn-outline-primary me-2"
+      (click)="previousPage()"
+      [disabled]="pageIndex === 1"
+    >
+      &laquo; Previous
+    </button>
+    <span style="color: #9c57ff; font-weight: bold">Page {{ pageIndex }} of {{ totalPages }}</span>
+    <button
+      class="btn btn-outline-primary ms-2"
+      (click)="nextPage()"
+      [disabled]="pageIndex === totalPages"
+    >
+      Next &raquo;
+    </button>
+  </div>
+</div>
