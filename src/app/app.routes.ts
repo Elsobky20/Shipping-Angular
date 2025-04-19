@@ -18,7 +18,7 @@ import { ShippingTypeListComponent } from './ShippingType/components/shipping-ty
 import { ShippingTypeFormComponent } from './ShippingType/components/shipping-type-form/shipping-type-form.component';
 
 // Roles
-import { RoleListComponent } from './Roles/components/role-list/role-list.component'; 
+import { RoleListComponent } from './Roles/components/role-list/role-list.component';
 import { AddRoleComponent } from './Roles/components/add-role/add-role.component';
 
 // Permissions
@@ -36,6 +36,8 @@ import { MerchantDetailsComponent } from './Merchant/components/merchant-details
 
 // Orders
 import { OrdersComponent } from './Orders/components/orders/orders.component';
+
+
 import { OrderDetailsComponent } from './Orders/components/order-details/order-details.component';
 import { OrderFormComponent } from './Orders/components/order-form/order-form.component';
 
@@ -50,7 +52,7 @@ import {GovernmentListComponent}from './governments/components/list-government/g
 //   {path: 'city/:id', component: CityFormComponent},
 //   {path: 'merchant', component: MerchantsComponent},
 //   {path: 'merchant/:id', component: MerchantDetailsComponent},
-  
+
 //   {path: 'merchant/:id/edit', component: MerchantFormComponent},
 //   {path: 'deliveries', component: AllDeliveryComponent },
 //   {path: 'delivery/add', component: AddDeliveryComponent },
@@ -93,7 +95,7 @@ export const routes: Routes = [
   // City
   { path: 'city', component: CitiesComponent },
   { path: 'city/:id', component: CityFormComponent },
-  
+
   { path: 'weight', component: WieghPriceFormComponent },
 
   // Employees
