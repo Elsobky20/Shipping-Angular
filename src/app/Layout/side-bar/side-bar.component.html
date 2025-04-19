@@ -260,8 +260,9 @@
             <i class="mdi mdi-home menu-icon"></i>
           </a>
         </li>
-         <!-- *ngIf="role === 'admin'" -->
-        <li class="nav-item" >
+         <!-- ( Admin ,merchant ,employee,delivery) -->
+      <!--delivery -->
+        <li class="nav-item" *ngIf="role === 'admin' || role==='employee'" >
           <a
             class="nav-link"
             
@@ -285,8 +286,8 @@
             </ul>
           </div>
         </li>
-        
-        <li class="nav-item">
+         <!-- mercient -->
+        <li class="nav-item" *ngIf="role === 'admin' || role==='employee'"  >
           <a
             class="nav-link"
             (click)="toggleDropdown('merchant')"
@@ -307,10 +308,9 @@
               </li>
             </ul>
           </div>
-        </li>
-        
-        
-        <li class="nav-item">
+        </li> 
+         <!-- employee -->
+        <li class="nav-item" *ngIf="role === 'admin'">
           <a
           class="nav-link"
           (click)="toggleDropdown('employee')"
@@ -331,9 +331,8 @@
             </ul>
           </div>
         </li>
-
-
-        <li class="nav-item">
+        <!-- order -->
+        <li class="nav-item" *ngIf="role === 'admin' || role==='employee' || role==='merchant' ">
           <a
             class="nav-link"
             (click)="toggleDropdown('order')"
@@ -350,12 +349,13 @@
                 <a class="nav-link" [routerLink]="['/order']">All Order</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/order/add']">Add Order</a>
+                <a class="nav-link" [routerLink]="['/order/0/edit']">Add Order</a>
               </li>
             </ul>
           </div>
         </li>
-        <li class="nav-item">
+         <!-- city -->
+        <li class="nav-item" *ngIf="role === 'admin'  || role==='employee'">
           <a
           class="nav-link"
           (click)="toggleDropdown('city')"
@@ -376,7 +376,8 @@
             </ul>
           </div>
         </li>
-        <li class="nav-item">
+         <!-- roles -->
+        <li class="nav-item" *ngIf="role === 'admin' ">
           <a
           class="nav-link"
           (click)="toggleDropdown('role')"
@@ -397,8 +398,8 @@
             </ul>
           </div>
         </li>
-
-        <li class="nav-item">
+        <!-- permition -->
+        <li class="nav-item" *ngIf="role === 'admin' ">
           <a
           class="nav-link"
           (click)="toggleDropdown('permission')"
@@ -419,8 +420,8 @@
             </ul>
           </div>
         </li>
-
-        <li class="nav-item">
+         <!-- role permition -->
+        <li class="nav-item" *ngIf="role === 'admin'">
           <a
           class="nav-link"
           (click)="toggleDropdown('rolepermission')"
@@ -441,7 +442,8 @@
             </ul>
           </div>
         </li>
-        <li class="nav-item">
+         <!-- branch-->
+        <li class="nav-item" *ngIf="role === 'admin' || role==='employee'">
           <a
           class="nav-link"
           (click)="toggleDropdown('branch')"
@@ -463,7 +465,8 @@
             </ul>
           </div>
         </li>
-        <li class="nav-item">
+         <!-- Government -->
+        <!-- <li class="nav-item" *ngIf="role === 'admin' || role==='employee'">
           <a
           class="nav-link"
           (click)="toggleDropdown('government')"
@@ -485,9 +488,9 @@
               
             </ul>
           </div>
-        </li>
-
-        <li class="nav-item">
+        </li> -->
+         <!-- setting-->
+        <li class="nav-item" *ngIf="role === 'admin' || role==='employee'">
           <a
           class="nav-link"
           (click)="toggleDropdown('setting')"
@@ -508,7 +511,8 @@
             </ul>
           </div>
         </li>
-        <li class="nav-item">
+         <!-- weight -->
+        <li class="nav-item" *ngIf="role === 'admin' || role==='employee'">
           <a
           class="nav-link"
           (click)="toggleDropdown('weight')"
