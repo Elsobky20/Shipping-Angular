@@ -259,11 +259,16 @@ export class OrderFormComponent implements OnInit{
     this.newEditParam = {
       ...this.orderForm.value,
       merchant_Id: this.merchantId,
-      products: [{name: 'phone1', quantity: 10, ItemWeight: 1},
-        {name: 'phone2', quantity: 20, ItemWeight: 2}]
-    }
+      // products: [
+      //   { name: 'phone1', quantity: 10, itemWeight: 1 },
+      //   { name: 'phone2', quantity: 20, itemWeight: 2 } // lowercase 'itemWeight' fixed
+      // ]
+    };
+
     console.log(this.newEditParam )
     console.log(this.orderForm.value)
+    console.log(this.orderForm.status)
+    console.log(this.orderForm.errors)
     if (this.orderForm.status === 'VALID') {
       if (this.orderId === 0) {
         this.httpReqService.create('Order', this.newEditParam).subscribe({
@@ -298,8 +303,8 @@ export class OrderFormComponent implements OnInit{
         this.newEditParam = {
           ...this.orderForm.value,
           merchant_Id: this.merchantId,
-          products: [{name: 'phone1', quantity: 10, ItemWeight: 1},
-            {name: 'phone2', quantity: 20, ItemWeight: 2}]
+          // products: [{name: 'phone1', quantity: 10, itemWeight: 1},
+          //   {name: 'phone2', quantity: 20, itemWeight: 2}]
         }
 
         this.httpReqService.editById('Order', this.orderId, this.newEditParam).subscribe({

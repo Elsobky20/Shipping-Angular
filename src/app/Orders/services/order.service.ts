@@ -8,8 +8,10 @@ import { Observable } from 'rxjs';
 export class OrderService {
   baseUrl:string = "http://localhost:5050/api/order";
   constructor(private http:HttpClient) { }
-  /* ===================== Start GetAll Method By Pagination =================== */
-  getAllOrders(
+
+
+  /* ===================== Start GetAllByEmployee Method By Pagination =================== */
+  getAllOrdersByEmployee(
     orderStatus: string = "New",
     allOrExist: string,
     filters: {
@@ -59,7 +61,102 @@ export class OrderService {
       { params }
     );
   }
-  /* ===================== Start Delete Method =================== */
+  /* ===================== End GetAllByEmployee Method By Pagination ===================== */
+
+
+  /* ===================== Start GetAllByMerchant Method By Pagination =================== */
+  getAllOrdersByMerchant(
+    id:number,
+    orderStatus: string = "New",
+    allOrExist: string,
+    filters: {
+      searchTxt?: string;
+      governId?: number;
+      cityId?: number;
+      branchId?: number;
+      startDate?: string; // ISO string format
+      endDate?: string;   // ISO string format
+      page?: number;
+      pageSize?: number;
+    } = {}
+  ): Observable<any> {
+    const {
+      searchTxt,
+      governId,
+      cityId,
+      branchId,
+      startDate,
+      endDate,
+      page = 1,
+      pageSize = 10
+    } = filters;
+
+    let params = new HttpParams()
+    .set('page', page.toString())
+    .set('pageSize', pageSize.toString());
+
+    if (searchTxt) params = params.set('searchTxt', searchTxt);
+    if (governId) params = params.set('governId', governId.toString());
+    if (cityId) params = params.set('cityId', cityId.toString());
+    if (branchId) params = params.set('serialNum', branchId);
+    if (startDate) params = params.set('startDate', startDate);
+    if (endDate) params = params.set('endDate', endDate);
+
+    return this.http.get<any>(
+      `${this.baseUrl}/Merchant/${id}/${orderStatus}/${allOrExist}`,
+      { params }
+    );
+  }
+  /* ===================== End GetAllByMerchant Method By Pagination ===================== */
+
+
+  /* ===================== Start GetAllByMerchant Method By Pagination =================== */
+  getAllOrdersByDelivery(
+    id:number,
+    orderStatus: string = "DeliveredToAgent",
+    allOrExist: string,
+    filters: {
+      searchTxt?: string;
+      governId?: number;
+      cityId?: number;
+      serialNum?: string;
+      startDate?: string; // ISO string format
+      endDate?: string;   // ISO string format
+      page?: number;
+      pageSize?: number;
+    } = {}
+  ): Observable<any> {
+    const {
+      searchTxt,
+      governId,
+      cityId,
+      serialNum,
+      startDate,
+      endDate,
+      page = 1,
+      pageSize = 10
+    } = filters;
+
+    let params = new HttpParams()
+    .set('page', page.toString())
+    .set('pageSize', pageSize.toString());
+
+    if (searchTxt) params = params.set('searchTxt', searchTxt);
+    if (governId) params = params.set('governId', governId.toString());
+    if (cityId) params = params.set('cityId', cityId.toString());
+    if (serialNum) params = params.set('serialNum', serialNum);
+    if (startDate) params = params.set('startDate', startDate);
+    if (endDate) params = params.set('endDate', endDate);
+
+    return this.http.get<any>(
+      `${this.baseUrl}/Delivery/${id}/${orderStatus}/${allOrExist}`,
+      { params }
+    );
+  }
+  /* ===================== End GetAllByMerchant Method By Pagination ===================== */
+
+
+  /* ===================== Start Delete Method =========================================== */
   deleteOrRejectOrder(orderId: number, userId: string): Observable<any> {
     return this.http.delete<Observable<any>>(`${this.baseUrl}/${orderId}`, {
       params: {
@@ -67,16 +164,25 @@ export class OrderService {
       }
     });
   }
-  /* ===================== Start Update Status Method =================== */
+  /* ===================== End Delete Method ============================================ */
+
+
+  /* ===================== Start Update Status Method =================================== */
   changeOrderStatus(orderId: number, userId: string, newStatus: string, note: string): Observable<any> {
     const url = `${this.baseUrl}/${orderId}/${userId}/${newStatus}?note=${encodeURIComponent(note)}`;
     return this.http.put<Observable<any>>(url, {});
   }
-  /* ===================== Start Assign Order To Delivery Method =================== */
+  /* ===================== End Update Status Method ===================================== */
+
+
+  /* ===================== Start Assign Order To Delivery Method ======================= */
   assignOrderToDelivery(orderId: number, deliveryId: number): Observable<any> {
     return this.http.put<Observable<any>>(`${this.baseUrl}/${orderId}/${deliveryId}`, {}); // ممكن تزود Headers أو Body لو محتاج
   }
-  /* ===================== Start Get Exist Governments Method =================== */
+  /* ===================== End Assign Order To Delivery Method ======================== */
+
+
+  /* ===================== Start Get Exist Governments Method ========================= */
   getExistingGovernments():Observable<any> {
     return this.http.get<Observable<any>>(`http://localhost:5050/api/government/exist`, {
       params: {
@@ -84,7 +190,10 @@ export class OrderService {
       }
     });
   }
-  /* ===================== Start Get Exist Cities Method ============================ */
+  /* ===================== End Get Exist Governments Method ========================== */
+
+
+  /* ===================== Start Get Exist Cities Method ============================= */
   getExistingCities():Observable<any> {
     return this.http.get<Observable<any>>(`http://localhost:5050/api/city/exist`, {
       params: {
@@ -92,11 +201,17 @@ export class OrderService {
       }
     });
   }
-  /* ===================== Start Get Shipping Type Method =========================== */
+  /* ===================== End Get Exist Cities Method =============================== */
+
+
+  /* ===================== Start Get Shipping Type Method ============================ */
   getExistingShippingTypes():Observable<any> {
     return this.http.get<Observable<any>>(`http://localhost:5050/api/shippingType/exist`);
   }
-  /* ===================== Start Get Branches Method ================================ */
+  /* ===================== End Get Shipping Type Method ============================== */
+
+
+  /* ===================== Start Get Branches Method ================================= */
   getExistingBranches():Observable<any> {
     return this.http.get<Observable<any>>(`http://localhost:5050/api/branch/exist`, {
       params: {
