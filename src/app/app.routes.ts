@@ -63,14 +63,16 @@ import {GovernmentListComponent}from './governments/components/list-government/g
 import { AllDeliveryComponent } from './Delivery/components/all-delivery/all-delivery.component';
 import { AddDeliveryComponent } from './Delivery/components/add-delivery/add-delivery.component';
 
-// Branch
-import { BranchesComponent } from './Branch/components/branches/branches.component';
 
 // Setting
 import { SettingComponent } from './Setting/components/setting/setting.component';
 import { SettingFormComponent } from './Setting/components/setting-form/setting-form/setting-form.component';
 
+// Branch
+
 import { BranchFormComponent } from './Branch/components/branch-form/branch-form.component';
+import {BranchesComponent} from './Branch/components/branches/branches.component'
+
 import { ProfileComponent } from './Profile/components/profile/profile.component';
 import { UserOrderComponent } from './UserOrder/components/user-order/user-order.component';
 
@@ -78,6 +80,12 @@ import { UserOrderComponent } from './UserOrder/components/user-order/user-order
 
 import {ChatComponent}from './chat/component/chat.component'
 export const routes: Routes = [
+
+//
+{path:'branch/add',component : BranchFormComponent},
+{path:'branch/:id',component : BranchFormComponent},
+{path :'branch',component:BranchesComponent},
+
 
   // Login & Dashboard
   { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -89,6 +97,7 @@ export const routes: Routes = [
 //government
 {path:'government', component:GovernmentListComponent},
 {path:'governments/edit/:id',component :GovernmentFormComponent},
+
 {path:'governments/add',component :GovernmentFormComponent},
 
 

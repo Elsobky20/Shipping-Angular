@@ -51,16 +51,16 @@ export class GovernmentListComponent implements OnInit {
   }
 
   onEdit(id: number) {
-    this.router.navigate(['/governments/edit', id]);
+    this.router.navigate(['/government/edit', id]);
   }
 
   onDelete(id: number) {
-    if (confirm('هل أنت متأكد من حذف هذه المحافظة؟')) {
+    if (confirm('are you sure ?')) {
       this.governmentService.delete(id).subscribe(() => this.loadGovernments());
     }
   }
 
   onAdd() {
-    this.router.navigate(['/governments/add']);
+    this.router.navigate(['/government/add']);
   }
 }
