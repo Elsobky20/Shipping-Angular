@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { catchError, debounceTime, distinctUntilChanged, EMPTY, Subject, switchMap, takeUntil } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, EMPTY, pipe, Subject, switchMap, takeUntil } from 'rxjs';
 import { DeliveryGet, IOrderGetDTO } from '../../Interfaces/iorder-get-dto';
 import { OrderService } from '../../services/order.service';
 import Swal from 'sweetalert2';
@@ -15,7 +15,6 @@ import { DeliveryService } from '../../../Delivery/services/delivery.service';
   styleUrl: './orders.component.css'
 })
 export class OrdersComponent {
-  searchForm: FormGroup;
   orders!:IOrderGetDTO[];
   isLoading = false;
   errorMessage: string | null = null;
@@ -27,7 +26,9 @@ export class OrdersComponent {
   selectedPageSize: number = 10;
   numberOfPages!:number;
   values: number[] = [5, 10, 25, 50];
-  userId:any = localStorage.getItem('userId');
+  userId!:any;
+  userRole!:any;
+  specialId!:number;
 
   statuses: string[] = [
     'All',
@@ -59,21 +60,59 @@ export class OrdersComponent {
     RejectedWithPayment: 'Rejected with Payment'
   };
 
-  selectedStatus: string = 'New';
+  selectedStatus!: string;
   // الحالات اللي التاجر يقدر يختارها
-  allowedStatuses: string[] = ['Pending', 'CanceledByRecipient'];
+  allowedStatusesForMerchant: string[] = ['Pending', 'CanceledByRecipient'];
+  allowedStatusesForDelivery: string[] = [
+    'DeliveredToAgent',
+    'Delivered',
+    'PartiallyDelivered',
+    'Postponed',
+    'CannotBeReached',
+    'RejectedAndNotPaid',
+    'RejectedWithPartialPayment',
+    'RejectedWithPayment'];
 
   constructor(private orderService:OrderService, private deliveryService:DeliveryService){
     this.searchForm = new FormGroup({
       search: new FormControl('')
     });
   }
+
+  searchForm: FormGroup;
+  get searchControl(): FormControl {
+    return this.searchForm.get('search') as FormControl;
+  }
   /* ============================================ End Properties & Constructor ================================ */
+  get filteredStatuses(): string[] {
+    if (this.userRole === 'delivery') {
+      return this.statuses.filter(
+        status => !['New', 'Pending', 'CanceledByRecipient'].includes(status)
+      );
+    }
+    return this.statuses;
+  }
+
   ngOnInit(): void {
-    // جلب جميع المدن عند التهيئة
-    this.loadExistOrders(this.selectedPageSize, this.pageNumber);
-    // إعداد البحث التفاعلي
-    this.setupSearch(this.selectedPageSize, this.pageNumber);
+    this.userId = localStorage.getItem('userId');
+    this.userRole = localStorage.getItem('userRoles');
+    if(this.userRole !== 'delivery'){
+      this.selectedStatus = 'New';
+    } else {
+      this.selectedStatus = 'DeliveredToAgent';
+    }
+    this.mySubscribe = this.orderService.getUserByRole(this.userId, this.userRole).subscribe({
+      next: (response) => {
+        this.specialId = response.userId;
+        // جلب جميع المدن عند التهيئة
+        this.loadExistOrders(this.selectedPageSize, this.pageNumber);
+        // إعداد البحث التفاعلي
+        this.setupSearch(this.selectedPageSize, this.pageNumber);
+      },
+      error: (error) => {
+        console.log(error);
+      }
+    });
   }
 
   onStatusChange(status: string): void {
@@ -85,98 +124,137 @@ export class OrdersComponent {
 
   loadExistOrders(size:number, pageNum?:number): void {
       this.isLoading = true;
-      this.mySubscribe = this.orderService.getAllOrders(this.selectedStatus, 'exist', { pageSize: size, page: pageNum })
-      .pipe(takeUntil(this.destroy$))
+      if(this.userRole === 'merchant'){
+        this.mySubscribe = this.orderService.getAllOrdersByMerchant(this.specialId ,this.selectedStatus, 'exist', { pageSize: size, page: pageNum })
+      }
+      else if (this.userRole === 'delivery'){
+        this.mySubscribe = this.orderService.getAllOrdersByDelivery(this.specialId ,this.selectedStatus, 'exist', { pageSize: size, page: pageNum })
+      }
+      else{
+        this.mySubscribe = this.orderService.getAllOrdersByEmployee(this.selectedStatus, 'exist', { pageSize: size, page: pageNum })
+      }
+      this.mySubscribe.pipe(takeUntil(this.destroy$))
       .subscribe({
-        next: (response) => {
+        next: (response: { data: { totalOrders: number; }; }) => {
           this.handleSuccessResponse(response)
           this.totalOrdersNumber = response.data.totalOrders;
           this.numberOfPages = this.totalOrdersNumber / this.selectedPageSize;
         },
-        error: (error) => this.handleError(error)
+        error: (error: any) => this.handleError(error)
       });
-    }
+  }
 
-    setupSearch(size:number, pageNum?:number): void {
-      this.searchForm.get('search')?.valueChanges
-        .pipe(
-          debounceTime(300),
-          distinctUntilChanged(),
-          switchMap(query => {
-            this.isLoading = true;
-            this.errorMessage = null;
-            if (query && query.trim()) {
-              return this.orderService.getAllOrders(this.selectedStatus, 'exist', {
+  setupSearch(size:number, pageNum?:number): void {
+    this.searchForm.get('search')?.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap(query => {
+          this.isLoading = true;
+          this.errorMessage = null;
+          if (query && query.trim()) {
+            if(this.userRole === 'merchant'){
+              this.mySubscribe = this.orderService.getAllOrdersByMerchant(this.specialId ,this.selectedStatus, 'exist',
+                {
+                  searchTxt: query,
+                  pageSize: size,
+                  page: pageNum
+                })
+            } else if (this.userRole === 'delivery'){
+              this.mySubscribe = this.orderService.getAllOrdersByDelivery(this.specialId ,this.selectedStatus, 'exist',
+                {
                 searchTxt: query,
                 pageSize: size,
                 page: pageNum
-              }).pipe(
-                catchError(error => {
-                  this.handleError(error);
-                  return EMPTY; // أو return of([]) لإرجاع مصفوفة فارغة
                 })
-              );
-            } else {
-              return this.orderService.getAllOrders(this.selectedStatus, 'exist', {
+            } else{
+              this.mySubscribe = this.orderService.getAllOrdersByEmployee(this.selectedStatus, 'exist',
+                {
+                  searchTxt: query,
+                  pageSize: size,
+                  page: pageNum
+                })
+            }
+            return this.mySubscribe.pipe(
+              catchError(error => {
+                this.handleError(error);
+                return EMPTY;
+              })
+            );
+          } else {
+            if(this.userRole === 'merchant'){
+              this.mySubscribe = this.orderService.getAllOrdersByMerchant(this.specialId ,this.selectedStatus, 'exist',
+                {
+                  pageSize: size,
+                  page: pageNum
+                })
+            } else if (this.userRole === 'delivery'){
+              this.mySubscribe = this.orderService.getAllOrdersByDelivery(this.specialId ,this.selectedStatus, 'exist',
+                {
                 pageSize: size,
                 page: pageNum
-              });            }
-          }),
-          takeUntil(this.destroy$)
-        )
-        .subscribe({
-          next: (response) => this.handleSuccessResponse(response),
-          error: (error) => this.handleError(error)
-        });
+                })
+            } else{
+              this.mySubscribe = this.orderService.getAllOrdersByEmployee(this.selectedStatus, 'exist',
+                {
+                  pageSize: size,
+                  page: pageNum
+                })
+            }
+            return this.mySubscribe;
+          }
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe({
+        next: (response) => this.handleSuccessResponse(response),
+        error: (error) => this.handleError(error)
+      });
+  }
+
+  handleSuccessResponse(response: any): void {
+    this.isLoading = false;
+    this.errorMessage = null;
+    if (response.isSuccess === false) {
+      this.handleCustomError(response);
+      return;
     }
+    this.orders = response.data?.orders || [];
+    this.sortOrders();
+  }
 
-    handleSuccessResponse(response: any): void {
-      this.isLoading = false;
-      this.errorMessage = null;
-      if (response.isSuccess === false) {
-        this.handleCustomError(response);
-        return;
-      }
-      this.orders = response.data?.orders || [];
-      this.sortOrders();
+  handleCustomError(response: any): void {
+    this.isLoading = false;
+    this.orders = [];
+    this.errorMessage = response.message || 'Error on geting data!';
+  }
+
+  handleError(error: any): void {
+    this.isLoading = false;
+    this.orders = [];
+    if (error.status === 404) {
+      this.errorMessage = 'Not Found';
+    } else {
+      this.errorMessage = 'Error on server!';
     }
+  }
 
-    handleCustomError(response: any): void {
-      this.isLoading = false;
-      this.orders = []; // إفراغ القائمة عند الخطأ
-      this.errorMessage = response.message || 'Error on geting data!';
+  sortOrders(): void {
+    this.orders = this.orders.sort((b, a) =>
+      a.createdDate.localeCompare(b.createdDate));
+  }
+
+  ngOnDestroy(): void {
+    // تنظيف الاشتراكات
+    this.destroy$.next();
+    this.destroy$.complete();
+
+    if (this.mySubscribe) {
+      this.mySubscribe.unsubscribe();
     }
+  }
 
-    handleError(error: any): void {
-      this.isLoading = false;
-      this.orders = []; // إفراغ القائمة عند الخطأ
-
-      if (error.status === 404) {
-        this.errorMessage = 'Not Found';
-      } else {
-        this.errorMessage = 'Error on server!';
-      }
-    }
-
-    sortOrders(): void {
-      this.orders = this.orders.sort((a, b) =>
-        a.serialNumber.localeCompare(b.serialNumber));
-    }
-
-    get searchControl(): FormControl {
-      return this.searchForm.get('search') as FormControl;
-    }
-
-    ngOnDestroy(): void {
-      // تنظيف الاشتراكات
-      this.destroy$.next();
-      this.destroy$.complete();
-
-      if (this.mySubscribe) {
-        this.mySubscribe.unsubscribe();
-      }
-    }
-    /* ============================================ Start Number Of Rows ======================================= */
+  /* ============================================ Start Number Of Rows ======================================= */
   updateSelectedValue(value: number) {
     this.selectedPageSize = value;
     this.loadExistOrders(value);
@@ -189,8 +267,8 @@ export class OrdersComponent {
   }
   /* ============================================ End Number Of Rows ========================================= */
 
-  /* ============================================ Start Delete =============================================== */
 
+  /* ============================================ Start Delete =============================================== */
   deleteOrder(id: number): void {
     const order = this.orders.find(o => o.id === id);
 
@@ -247,28 +325,51 @@ export class OrdersComponent {
 
   /* ============================================ Start Update Status ======================================== */
   updateStatus(orderId: number) {
-    const selectHtml = `
+    if(this.userRole != 'delivery'){
+      var selectHtml = `
       <div class="mb-3 text-start">
         <label for="orderStatus" class="form-label fw-bold">Choose Status</label>
         <select id="orderStatus" class="form-select" style="width: 100%;">
-          ${this.statuses
+            ${this.statuses
             .filter(status => status !== 'All')
             .map(
               status => `
-            <option value="${status}" ${this.allowedStatuses.includes(status) ? '' : 'disabled'}>
+            <option value="${status}" ${this.allowedStatusesForMerchant.includes(status) ? '' : 'disabled'}>
               ${this.statusLabels[status]}
             </option>
           `
-            )
-            .join('')}
+            ).join('')}
         </select>
       </div>
 
       <div class="mb-3 text-start">
-        <label for="merchantNote" class="form-label fw-bold">Merchant Notes</label>
-        <textarea id="merchantNote" class="form-control" placeholder="Enter your notes here..." rows="4" style="width: 100%;"></textarea>
+        <label for="note" class="form-label fw-bold">Merchant Notes</label>
+        <textarea id="note" class="form-control" placeholder="Enter your notes here..." rows="4" style="width: 100%;"></textarea>
       </div>
-  `;
+      `;
+    } else {
+      var selectHtml = `
+      <div class="mb-3 text-start">
+        <label for="orderStatus" class="form-label fw-bold">Choose Status</label>
+        <select id="orderStatus" class="form-select" style="width: 100%;">
+            ${this.statuses
+            .filter(status => status !== 'All')
+            .map(
+              status => `
+            <option value="${status}" ${this.allowedStatusesForDelivery.includes(status) ? '' : 'disabled'}>
+              ${this.statusLabels[status]}
+            </option>
+          `
+            ).join('')}
+        </select>
+      </div>
+
+      <div class="mb-3 text-start">
+        <label for="note" class="form-label fw-bold">Delivery Notes</label>
+        <textarea id="note" class="form-control" placeholder="Enter your notes here..." rows="4" style="width: 100%;"></textarea>
+      </div>
+      `;
+    }
 
   Swal.fire({
     title: 'Change Order Status',
@@ -278,23 +379,23 @@ export class OrdersComponent {
     focusConfirm: false,
     preConfirm: () => {
       const selectedStatus = (document.getElementById('orderStatus') as HTMLSelectElement).value;
-      const merchantNote = (document.getElementById('merchantNote') as HTMLTextAreaElement).value.trim() || "";
-
-      if (!this.allowedStatuses.includes(selectedStatus)) {
-        Swal.showValidationMessage('This status is not allowed for merchants!');
+      const note = (document.getElementById('note') as HTMLTextAreaElement).value.trim() || "";
+      if (this.userRole !== 'delivery' && !this.allowedStatusesForMerchant.includes(selectedStatus)) {
+        Swal.showValidationMessage('This status is not allowed for Merchants!');
         return false;
       }
-
-      return { selectedStatus, merchantNote };
+      if (this.userRole === 'delivery' && !this.allowedStatusesForDelivery.includes(selectedStatus)) {
+        Swal.showValidationMessage('This status is not allowed for Deliveries!');
+        return false;
+      }
+      return { selectedStatus, note };
     }
   }).then(result => {
     if (result.isConfirmed) {
-      const { selectedStatus, merchantNote } = result.value;
-
-      this.orderService.changeOrderStatus(orderId, this.userId, selectedStatus, merchantNote).subscribe({
+      const { selectedStatus, note } = result.value;
+      this.orderService.changeOrderStatus(orderId, this.userId, selectedStatus, note).subscribe({
         next: (res) => {
           Swal.fire('Success', 'Order status updated successfully.', 'success');
-
             this.orders = [...this.orders];
             this.loadExistOrders(this.selectedPageSize, this.pageNumber); // تحديث القائمة
         },
@@ -306,6 +407,7 @@ export class OrdersComponent {
   });
   }
   /* ============================================ End Update Status ========================================= */
+
 
   /* ============================================ Start Assign Order To Delivery Status ===================== */
   assignOrderToAgent(orderId: number, branchId: number): void {

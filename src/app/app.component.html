@@ -1,16 +1,10 @@
-
-
-
-
 <ng-container *ngIf="shouldShowLayout(); else authLayout">
   <!-- دا الشكل العادي بتاع الصفحات اللي فيها سايد بار وهيدر -->
- <app-side-bar>
-  <router-outlet></router-outlet>
- </app-side-bar>
+  <app-side-bar>
+    <router-outlet></router-outlet>
+  </app-side-bar>
 </ng-container>
 
 <ng-template #authLayout>
   <router-outlet></router-outlet>
 </ng-template>
-
-

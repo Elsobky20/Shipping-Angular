@@ -29,6 +29,7 @@
             </button>
           </div>
           <div class="row mb-1 px-3" style="margin: 0 -10px">
+            @if (userRole !== 'delivery') {
             <button
               type="button"
               class="btn btn-gradient-primary btn-fw col-sm-2"
@@ -36,6 +37,7 @@
             >
               Add Order
             </button>
+            }
             <form
               class="d-flex align-items-center h-100 col-sm-2 ms-auto"
               style="
@@ -82,7 +84,7 @@
           </div>
           <div class="row mb-1 justify-content-center">
             <button
-              *ngFor="let status of statuses"
+              *ngFor="let status of filteredStatuses"
               (click)="onStatusChange(status)"
               [ngClass]="{
                 'btn btn-inverse-info btn-fw col-sm-1 p-1 statusButtons': true,
@@ -175,6 +177,14 @@
                       title="Details"
                       [routerLink]="[order.id]"
                     ></i>
+                    @if (userRole == 'delivery') {
+                    <i
+                      class="bi bi-trash3 fs-4 text-danger btn p-2"
+                      data-bs-toggle="tooltip"
+                      title="Delete"
+                      (click)="deleteOrder(order.id)"
+                    ></i>
+                    }
                   </td>
                   } @if (selectedStatus === 'New') {
                   <td class="py-0">
