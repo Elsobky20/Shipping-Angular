@@ -2,7 +2,7 @@ import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { catchError, debounceTime, distinctUntilChanged, EMPTY, pipe, Subject, switchMap, takeUntil } from 'rxjs';
+import { catchError, debounceTime, distinctUntilChanged, EMPTY, Subject, switchMap, takeUntil } from 'rxjs';
 import { DeliveryGet, IOrderGetDTO } from '../../Interfaces/iorder-get-dto';
 import { OrderService } from '../../services/order.service';
 import Swal from 'sweetalert2';
@@ -253,7 +253,6 @@ export class OrdersComponent {
       this.mySubscribe.unsubscribe();
     }
   }
-
   /* ============================================ Start Number Of Rows ======================================= */
   updateSelectedValue(value: number) {
     this.selectedPageSize = value;
