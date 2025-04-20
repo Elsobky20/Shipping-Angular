@@ -224,7 +224,7 @@ export class OrderService {
     const params = new HttpParams().set('Role', role);
     return this.http.get<Observable<any>>(`http://localhost:5050/api/user/${id}`, { params });
   }
-  /* ===================== Start Get User Method ================================ */
+  /* ===================== Start Order Reports Method ================================ */
   getOrderReports(
     searchTxt?: string,
     startDate?: string,
@@ -244,5 +244,17 @@ export class OrderService {
 
     return this.http.get<Observable<any>>(`http://localhost:5050/api/orderReport`, { params });
   }
+  /* ===================== End Order Reports Method ================================== */
+
+
+  /* ===================== Start Order's Count Method ================================== */
+  getOrdersCountByStatus(role: string = '', id: number | null, orderStatus: string = 'New'): Observable<any> {
+    const params = new HttpParams()
+    .set('role', role)
+    .set('id', id !== null ? id.toString() : '');
+
+    return this.http.get<any>(`${this.baseUrl}/${orderStatus}`, { params });
+  }
+  /* ===================== End Order's Count Method ==================================== */
 }
 

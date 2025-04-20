@@ -1,0 +1,29 @@
+<div class="row">
+  <div class="content-wrapper container-fluid p-4">
+    <div class="row mb-4">
+      <h3 class="page-title">
+        <span class="page-title-icon bg-gradient-primary text-white me-2">
+          <i class="mdi mdi-home"></i>
+        </span>
+        Dashboard
+        <span> [{{ numberOfAllOrders }}]</span>
+      </h3>
+    </div>
+    <div class="row mx-0 justify-content-start g-2">
+      <div class="col-12 col-sm-6 col-md-3" *ngFor="let status of statuses">
+        <button
+          type="button"
+          class="btn btn-gradient-danger w-100 d-flex justify-content-between align-items-center"
+          style="height: 100px; padding: 10px"
+        >
+          <div style="width: 60%; text-align: left">
+            {{ statusLabels[status] }}
+          </div>
+          <div *ngIf="statusCounts[status] !== undefined">
+            ({{ statusCounts[status] }})
+          </div>
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

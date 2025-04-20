@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
 
-import { DashboardComponent } from './Dashboard/dashboard.component';
 import { NotFoundComponent } from './NotFound/not-found.component';
 import { LoginComponent } from './Login/components/login/login.component';
 
@@ -45,40 +44,24 @@ import { OrderFormComponent } from './Orders/components/order-form/order-form.co
 import {GovernmentFormComponent} from './governments/components/form-government/government-form.component';
 import {GovernmentListComponent}from './governments/components/list-government/government-list.component'
 
-// export const routes: Routes = [
-//   {path: '', redirectTo: 'order', pathMatch: 'full'},
-//   {path: 'dashboard', component: DashboardComponent},
-//   {path: 'city', component: CitiesComponent},
-//   {path: 'city/:id', component: CityFormComponent},
-//   {path: 'merchant', component: MerchantsComponent},
-//   {path: 'merchant/:id', component: MerchantDetailsComponent},
-
-//   {path: 'merchant/:id/edit', component: MerchantFormComponent},
-//   {path: 'deliveries', component: AllDeliveryComponent },
-//   {path: 'delivery/add', component: AddDeliveryComponent },
-//   {path: 'delivery/edit/:id', component: AddDeliveryComponent },
-// =======
-
 // Delivery
 import { AllDeliveryComponent } from './Delivery/components/all-delivery/all-delivery.component';
 import { AddDeliveryComponent } from './Delivery/components/add-delivery/add-delivery.component';
-
 
 // Setting
 import { SettingComponent } from './Setting/components/setting/setting.component';
 import { SettingFormComponent } from './Setting/components/setting-form/setting-form/setting-form.component';
 
 // Branch
-
 import { BranchFormComponent } from './Branch/components/branch-form/branch-form.component';
 import {BranchesComponent} from './Branch/components/branches/branches.component'
 
 import { ProfileComponent } from './Profile/components/profile/profile.component';
-import { UserOrderComponent } from './UserOrder/components/user-order/user-order.component';
 
 
 
 import {ChatComponent}from './chat/component/chat.component'
+import { MainDashboardComponent } from './Dashboard/main-dashboard/main-dashboard.component';
 export const routes: Routes = [
 
 //
@@ -90,7 +73,7 @@ export const routes: Routes = [
   // Login & Dashboard
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'dashboard', component: DashboardComponent },
+  { path: 'dashboard', component: MainDashboardComponent },
 
   { path: 'chat', component: ChatComponent },
 
@@ -148,17 +131,14 @@ export const routes: Routes = [
   { path: 'delivery/details/:id', component: AddDeliveryComponent },
 
   {path: 'delivery/details/:id', component: AddDeliveryComponent},
- 
- 
- 
- 
+
   {path:'role',component:RoleListComponent},
   {path:'role/add',component:AddRoleComponent},
- 
+
   {path :'setting' , component: SettingComponent},
   {path:'setting/add' , component:SettingFormComponent},
   {path:'seting/edit/:id',component:SettingFormComponent},
- 
+
 
 
   { path: 'setting', component: SettingComponent },
