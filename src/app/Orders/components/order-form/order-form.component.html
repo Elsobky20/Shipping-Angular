@@ -173,11 +173,11 @@
                 </select>
                 @if(getCityId.touched){ @if (getCityId.hasError('required')){
                 <div id="emailHelp" class="form-text text-danger">
-                  Governrate is required
+                  City is required
                 </div>
                 }@if (getCityId.hasError('minlength')) {
                 <div id="emailHelp" class="form-text text-danger">
-                  Governrate length must be greater than 5
+                  City length must be greater than 5
                 </div>
                 }}
               </div>
@@ -259,9 +259,34 @@
                   />
                 </div>
               </div>
+              @if(userRole != "merchant" && userRole != "delivery"){
+              <div class="form-group col-sm-4 px-2 mb-2">
+                <label for="exampleInputMerchant">Merchant Name</label>
+                <select
+                  class="form-select"
+                  id="exampleInputMerchant"
+                  formControlName="merchant_Id"
+                >
+                  <option value="">Select Merchant ..</option>
+                  @for (merch of allMerchants; track merch.id) {
+                  <option value="{{ merch.id }}">{{ merch.name }}</option>
+                  }
+                </select>
+                @if(getMerchantId.touched && getMerchantId.hasError('required'))
+                {
+                <div id="emailHelp" class="form-text text-danger">
+                  Merchant is required
+                </div>
+                }
+              </div>
+              }
               <div class="row col-sm-12 mt-0">
                 <div class="my-2">
-                  <button type="button" class="btn btn-gradient-info">
+                  <button
+                    type="button"
+                    class="btn btn-gradient-info"
+                    (click)="addProduct()"
+                  >
                     Add Product
                   </button>
                 </div>
@@ -309,13 +334,17 @@
                         <td>
                           <input
                             type="number"
-                            formControlName="weight"
+                            formControlName="itemWeight"
                             class="form-control"
                             min="0"
                           />
                         </td>
                         <td>
-                          <button type="button" class="btn btn-danger">
+                          <button
+                            type="button"
+                            class="btn btn-danger"
+                            (click)="removeProduct(i)"
+                          >
                             <i class="fa fa-trash"></i>
                           </button>
                         </td>
@@ -343,18 +372,34 @@
                   id="exampleInputTotalWeight"
                   placeholder="Total Weight"
                   formControlName="orderTotalWeight"
+                  readonly
+                  min="0"
+                  max="1000"
                 />
               </div>
+              @if(userRole == "merchant"){
               <div class="form-group col-sm-4 px-2">
-                <label for="exampleTextarea1">Notes</label>
+                <label for="exampleTextarea2">Merchant Notes</label>
                 <textarea
                   class="form-control"
-                  id="exampleTextarea1"
+                  id="exampleTextarea2"
                   rows="1"
                   placeholder="Notes"
                   formControlName="merchantNotes"
                 ></textarea>
               </div>
+              } @else if(userRole != "merchant" && userRole != "delivery"){
+              <div class="form-group col-sm-4 px-2">
+                <label for="exampleTextarea1">Employee Notes</label>
+                <textarea
+                  class="form-control"
+                  id="exampleTextarea1"
+                  rows="1"
+                  placeholder="Notes"
+                  formControlName="employeeNotes"
+                ></textarea>
+              </div>
+              }
               <div class="row col-sm-12">
                 <div class="row mt-3 px-3">
                   <button

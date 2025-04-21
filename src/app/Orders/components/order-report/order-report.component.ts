@@ -1,11 +1,11 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { IOrderGetDTO } from '../../Interfaces/iorder-get-dto';
 import { catchError, debounceTime, distinctUntilChanged, EMPTY, Subject, switchMap, takeUntil } from 'rxjs';
 import { OrderService } from '../../services/order.service';
-import { DeliveryService } from '../../../Delivery/services/delivery.service';
 import { RouterLink } from '@angular/router';
 import { CommonModule } from '@angular/common';
+import { OrderReportGetDTO } from '../../Interfaces/iorder-get-dto';
+import { APIResponse } from '../../../AllModel/api-response';
 
 @Component({
   selector: 'app-order-report',
@@ -14,90 +14,121 @@ import { CommonModule } from '@angular/common';
   imports: [RouterLink, CommonModule, ReactiveFormsModule],
 })
 export class OrderReportComponent implements OnInit, OnDestroy {
-  searchForm: FormGroup;
-  orders: IOrderGetDTO[] = [];
+  orders!:OrderReportGetDTO[];
   isLoading = false;
   errorMessage: string | null = null;
   destroy$ = new Subject<void>();
-  selectedStatus: string = 'All';
-  ExistOrdersNumber: number = 0;
-  totalOrdersNumber: number = 0;
-  pageNumber: number = 1;
+  mySubscribe: any;
+  ExistOrdersNumber:number = 0;
+  totalOrdersNumber:number = 0;
+  pageNumber:number = 1;
   selectedPageSize: number = 10;
-  numberOfPages: number = 0;
+  numberOfPages!:number;
   values: number[] = [5, 10, 25, 50];
 
-  constructor(
-    private orderService: OrderService,
-    private deliveryService: DeliveryService
-  ) {
+  statuses: string[] = [
+    'All',
+    'New',
+    'Pending',
+    'DeliveredToAgent',
+    'Delivered',
+    'CanceledByRecipient',
+    'PartiallyDelivered',
+    'Postponed',
+    'CannotBeReached',
+    'RejectedAndNotPaid',
+    'RejectedWithPartialPayment',
+    'RejectedWithPayment'
+  ];
+
+  statusLabels: { [key: string]: string } = {
+    All: 'All',
+    New: 'New',
+    Pending: 'Pending',
+    DeliveredToAgent: 'Delivered to Agent',
+    Delivered: 'Delivered',
+    CanceledByRecipient: 'Canceled by Recipient',
+    PartiallyDelivered: 'Partially Delivered',
+    Postponed: 'Postponed',
+    CannotBeReached: 'Cannot be Reached',
+    RejectedAndNotPaid: 'Rejected and Not Paid',
+    RejectedWithPartialPayment: 'Rejected with Partial Payment',
+    RejectedWithPayment: 'Rejected with Payment'
+  };
+  selectedStatus: string = 'New';
+
+  constructor(private orderService: OrderService)
+  {
     this.searchForm = new FormGroup({
       search: new FormControl('')
     });
   }
-  ngOnDestroy(): void {
-    throw new Error('Method not implemented.');
-  }
 
+  searchForm: FormGroup;
+  get searchControl(): FormControl {
+    return this.searchForm.get('search') as FormControl;
+  }
+  /* ============================================ End Properties & Constructor ================================ */
   ngOnInit(): void {
     this.loadExistOrders(this.selectedPageSize, this.pageNumber);
-    this.setupSearch(this.selectedPageSize, this.pageNumber);
+    this.setupSearch(); // فقط مرة واحدة هنا
   }
+
 
   onStatusChange(status: string): void {
     this.selectedStatus = status;
     this.pageNumber = 1;
     this.loadExistOrders(this.selectedPageSize, this.pageNumber);
-    this.setupSearch(this.selectedPageSize, this.pageNumber);
   }
 
-  loadExistOrders(size: number, pageNum: number = 1): void {
-    this.isLoading = true;
-    this.orderService.getAllOrders(this.selectedStatus, 'exist', { pageSize: size, page: pageNum })
+  loadExistOrders(size:number, pageNum?:number): void {
+      this.isLoading = true;
+      this.orderService.getOrderReports({ pageSize: size, page: pageNum, orderStatus: this.selectedStatus})
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
           this.handleSuccessResponse(response);
           this.totalOrdersNumber = response.data.totalOrders;
-          this.numberOfPages = Math.ceil(this.totalOrdersNumber / this.selectedPageSize);
+          this.numberOfPages = this.totalOrdersNumber / this.selectedPageSize;
         },
         error: (error) => this.handleError(error)
       });
   }
 
-  setupSearch(size: number, pageNum: number = 1): void {
+  setupSearch(): void {
     this.searchForm.get('search')?.valueChanges
       .pipe(
         debounceTime(300),
         distinctUntilChanged(),
-        switchMap((query: string) => {
+        switchMap(query => {
           this.isLoading = true;
           this.errorMessage = null;
+
+          const params: any = {
+            pageSize: this.selectedPageSize,
+            page: this.pageNumber,
+            orderStatus: this.selectedStatus
+          };
+
           if (query && query.trim()) {
-            return this.orderService.getOrderReports(
-              query,            // searchTxt
-              undefined,        // startDate
-              undefined,        // endDate
-              'all',            // orderStatus
-              pageNum,          // page
-              size              // pageSize
-          ).pipe(
-              catchError(error => {
-                this.handleError(error);
-                return EMPTY;
-              })
-            );
-          } else {
-            return this.orderService.getAllOrders(this.selectedStatus, 'exist', {
-              pageSize: size,
-              page: pageNum
-            });
+            params.searchTxt = query;
           }
+
+          return this.orderService.getOrderReports(params).pipe(
+            catchError(error => {
+              this.handleError(error);
+              return EMPTY;
+            })
+          );
         }),
         takeUntil(this.destroy$)
       )
       .subscribe({
-        next: (response) => this.handleSuccessResponse(response),
+        next: (response) => {
+          this.handleSuccessResponse(response);
+          this.totalOrdersNumber = response.data.totalOrders;
+          this.numberOfPages = this.totalOrdersNumber / this.selectedPageSize;
+        },
         error: (error) => this.handleError(error)
       });
   }
@@ -105,18 +136,18 @@ export class OrderReportComponent implements OnInit, OnDestroy {
   handleSuccessResponse(response: any): void {
     this.isLoading = false;
     this.errorMessage = null;
-    if (!response.isSuccess) {
+    if (response.isSuccess === false) {
       this.handleCustomError(response);
       return;
     }
-    this.orders = response.data?.orders || [];
+    this.orders = [...(response.data?.orders || [])];
     this.sortOrders();
   }
 
   handleCustomError(response: any): void {
     this.isLoading = false;
     this.orders = [];
-    this.errorMessage = response.message || 'Error retrieving data!';
+    this.errorMessage = response.message || 'Error on geting data!';
   }
 
   handleError(error: any): void {
@@ -125,27 +156,42 @@ export class OrderReportComponent implements OnInit, OnDestroy {
     if (error.status === 404) {
       this.errorMessage = 'Not Found';
     } else {
-      this.errorMessage = 'Server error!';
+      this.errorMessage = 'Error on server!';
     }
   }
 
+  parseCustomDate(dateStr: string): Date {
+    // "21 Apr 2025 04.51PM" → "21 Apr 2025 04:51 PM"
+    const cleaned = dateStr.replace('.', ':').replace(/(AM|PM)/, ' $1');
+    return new Date(cleaned);
+  }
+
   sortOrders(): void {
-    this.orders.sort((a, b) => a.serialNumber.localeCompare(b.serialNumber));
+    this.orders.sort((a, b) => {
+      const dateA = this.parseCustomDate(a.createdDate);
+      const dateB = this.parseCustomDate(b.createdDate);
+      return dateB.getTime() - dateA.getTime(); // الأحدث أول
+    });
   }
 
-  get searchControl(): FormControl {
-    return this.searchForm.get('search') as FormControl;
-  }
 
-  updateSelectedValue(value: number): void {
+  ngOnDestroy(): void {
+    // تنظيف الاشتراكات
+    this.destroy$.next();
+    this.destroy$.complete();
+
+    if (this.mySubscribe) {
+      this.mySubscribe.unsubscribe();
+    }
+  }
+  /* ============================================ Start Number Of Rows ======================================= */
+  updateSelectedValue(value: number) {
     this.selectedPageSize = value;
-    this.pageNumber = 1;
-    this.loadExistOrders(value, this.pageNumber);
-    this.setupSearch(value, this.pageNumber);
+    this.loadExistOrders(value);
   }
-
-  updatePageNumber(value: number): void {
+  updatePageNumber(value:number){
     this.pageNumber = value;
     this.loadExistOrders(this.selectedPageSize, value);
   }
+  /* ============================================ End Number Of Rows ========================================= */
 }
