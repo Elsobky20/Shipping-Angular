@@ -239,10 +239,20 @@ export class OrdersComponent {
     }
   }
 
-  sortOrders(): void {
-    this.orders = this.orders.sort((b, a) =>
-      a.createdDate.localeCompare(b.createdDate));
+  parseCustomDate(dateStr: string): Date {
+    // "21 Apr 2025 04.51PM" → "21 Apr 2025 04:51 PM"
+    const cleaned = dateStr.replace('.', ':').replace(/(AM|PM)/, ' $1');
+    return new Date(cleaned);
   }
+
+  sortOrders(): void {
+    this.orders.sort((a, b) => {
+      const dateA = this.parseCustomDate(a.createdDate);
+      const dateB = this.parseCustomDate(b.createdDate);
+      return dateB.getTime() - dateA.getTime(); // الأحدث أول
+    });
+  }
+
 
   ngOnDestroy(): void {
     // تنظيف الاشتراكات
@@ -294,7 +304,7 @@ export class OrdersComponent {
           next: (res) => {
             Swal.fire({
               title: 'Done!',
-              text: res.message || 'Order deleted or rejected successfully.',
+              text: this.userRole === 'delivery' ? 'Order rejected successfully✔.' : 'Order deleted successfully✔.',
               icon: 'success',
               confirmButtonText: 'Ok'
             });
@@ -462,7 +472,5 @@ export class OrdersComponent {
       }
     });
   }
-  /* ============================================ End Assign Order To Delivery Status ======================= */
-
   /* ============================================ End Assign Order To Delivery Status ======================= */
 }

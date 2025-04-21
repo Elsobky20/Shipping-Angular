@@ -58,36 +58,33 @@ import {BranchesComponent} from './Branch/components/branches/branches.component
 
 import { ProfileComponent } from './Profile/components/profile/profile.component';
 
-
-
 import {ChatComponent}from './chat/component/chat.component'
 import { MainDashboardComponent } from './Dashboard/main-dashboard/main-dashboard.component';
-export const routes: Routes = [
+import { OrderReportComponent } from './Orders/components/order-report/order-report.component';
 
-//
-{path:'branch/add',component : BranchFormComponent},
-{path:'branch/:id',component : BranchFormComponent},
-{path :'branch',component:BranchesComponent},
+
+export const routes: Routes = [
+  //
+  {path :'branch',component:BranchesComponent},
+  {path:'branch/add',component : BranchFormComponent},
+  {path:'branch/:id',component : BranchFormComponent},
 
 
   // Login & Dashboard
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: MainDashboardComponent },
-
   { path: 'chat', component: ChatComponent },
 
-//government
-{path:'government', component:GovernmentListComponent},
-{path:'governments/edit/:id',component :GovernmentFormComponent},
-
-{path:'governments/add',component :GovernmentFormComponent},
+  //government
+  {path:'government', component:GovernmentListComponent},
+  {path:'governments/edit/:id',component :GovernmentFormComponent},
+  {path:'governments/add',component :GovernmentFormComponent},
 
 
   // City
   { path: 'city', component: CitiesComponent },
   { path: 'city/:id', component: CityFormComponent },
-
   { path: 'weight', component: WieghPriceFormComponent },
 
   // Employees
@@ -121,8 +118,9 @@ export const routes: Routes = [
 
   // Orders
   {path: 'order', component: OrdersComponent},
-  {path: 'order/:id', component: OrderDetailsComponent},
+  {path: 'ordersReports', component: OrderReportComponent},
   {path: 'order/:id/edit', component: OrderFormComponent},
+  {path: 'order/:id', component: OrderDetailsComponent},
 
   // Delivery
   { path: 'deliveries', component: AllDeliveryComponent },
@@ -130,20 +128,17 @@ export const routes: Routes = [
   { path: 'delivery/edit/:id', component: AddDeliveryComponent },
   { path: 'delivery/details/:id', component: AddDeliveryComponent },
 
-  {path: 'delivery/details/:id', component: AddDeliveryComponent},
+  {path: 'role',component:RoleListComponent},
+  {path: 'role/add',component:AddRoleComponent},
 
-  {path:'role',component:RoleListComponent},
-  {path:'role/add',component:AddRoleComponent},
-
-  {path :'setting' , component: SettingComponent},
-  {path:'setting/add' , component:SettingFormComponent},
-  {path:'seting/edit/:id',component:SettingFormComponent},
-
-
+  {path: 'setting' , component: SettingComponent},
+  {path: 'setting/add' , component:SettingFormComponent},
+  {path: 'seting/edit/:id',component:SettingFormComponent},
 
   { path: 'setting', component: SettingComponent },
   { path: 'setting/add', component: SettingFormComponent },
   { path: 'seting/edit/:id', component: SettingFormComponent },
+
   // Not Found
   {path:'profile',component:ProfileComponent},
   {path: '**', component: NotFoundComponent},

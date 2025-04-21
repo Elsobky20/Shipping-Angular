@@ -11,7 +11,7 @@
               class="card-title fs-3 col-sm-8"
               style="color: #9c57ff; font-weight: bold; letter-spacing: 1px"
             >
-              Orders Report <span class="fs-5">[{{ totalOrdersNumber }}]</span>
+              Orders Reports <span class="fs-5">[{{ totalOrdersNumber }}]</span>
             </h4>
             <button
               class="btn btn-light col-sm-1 px-0 d-flex align-items-center justify-content-center ms-auto me-2"
@@ -23,19 +23,12 @@
                 border-radius: 50%;
               "
               title="Back to dashboard"
-              [routerLink]="['/order']"
+              [routerLink]="['/dashboard']"
             >
               <i class="bi bi-skip-backward-circle fs-2"></i>
             </button>
           </div>
           <div class="row mb-1 px-3" style="margin: 0 -10px">
-            <button
-              type="button"
-              class="btn btn-gradient-primary btn-fw col-sm-2"
-              [routerLink]="['/order', 0, 'edit']"
-            >
-              Add Order
-            </button>
             <form
               class="d-flex align-items-center h-100 col-sm-2 ms-auto"
               style="
@@ -80,6 +73,19 @@
               </div>
             </form>
           </div>
+          <div class="row mb-1 justify-content-center">
+            <button
+              *ngFor="let status of statuses"
+              (click)="onStatusChange(status)"
+              [ngClass]="{
+                'btn btn-inverse-info btn-fw col-sm-1 p-1 statusButtons': true,
+                active: selectedStatus === status
+              }"
+              style="margin: 3px"
+            >
+              {{ statusLabels[status] }}
+            </button>
+          </div>
           <div
             class="row col-sm-12 table-responsive table-bordered rounded mx-auto"
             style="overflow-y: auto; max-height: 63%"
@@ -95,8 +101,12 @@
                   <th scope="col" style="background-color: #bdb8b8">
                     Merchant
                   </th>
-                  <th scope="col" style="background-color: #bdb8b8">Client</th>
-                  <th scope="col" style="background-color: #bdb8b8">Phone</th>
+                  <th scope="col" style="background-color: #bdb8b8">
+                    Client Name
+                  </th>
+                  <th scope="col" style="background-color: #bdb8b8">
+                    Client Phone
+                  </th>
                   <th scope="col" style="background-color: #bdb8b8">
                     Governrate
                   </th>
@@ -107,26 +117,34 @@
                   <th scope="col" style="background-color: #bdb8b8">
                     Shipping Cost
                   </th>
+                  <th scope="col" style="background-color: #bdb8b8">
+                    Delivery Right
+                  </th>
+                  <th scope="col" style="background-color: #bdb8b8">
+                    Company Right
+                  </th>
                   <th scope="col" style="background-color: #bdb8b8">Date</th>
                 </tr>
               </thead>
               <tbody>
-                <!-- @for (order of orders; track order.id; let i = $index) {
+                @for (order of orders; track $index; let i = $index) {
                 <tr>
-                  <th scope="row" class="py-0">{{ i + 1 }}</th>
-                  <td class="py-0">{{ order.serialNumber }}</td>
-                  <td class="py-0">{{ order.status }}</td>
-                  <td class="py-0">{{ order.merchantName }}</td>
-                  <td class="py-0">{{ order.clientName }}</td>
-                  <td class="py-0">{{ order.phone }}</td>
-                  <td class="py-0">{{ order.governrate }}</td>
-                  <td class="py-0">{{ order.city }}</td>
-                  <td class="py-0">{{ order.orderCost | currency }}</td>
-                  <td class="py-0">{{ order.shippingCost | currency }}</td>
-                  <td class="py-0">{{ order.createdDate | date : "short" }}</td>
+                  <th scope="row" class="">{{ i + 1 }}</th>
+                  <td class="">{{ order.serialNumber }}</td>
+                  <td class="">{{ order.orderStatus }}</td>
+                  <td class="">{{ order.merchantName }}</td>
+                  <td class="">{{ order.clientName }}</td>
+                  <td class="">{{ order.clientPhone }}</td>
+                  <td class="">{{ order.governrate }}</td>
+                  <td class="">{{ order.city }}</td>
+                  <td class="">{{ order.orderCost | currency }}</td>
+                  <td class="">{{ order.shippingCost | currency }}</td>
+                  <td class="">{{ order.deliveryRight | currency }}</td>
+                  <td class="">{{ order.companyRight | currency }}</td>
+                  <td class="">{{ order.createdDate | date : "short" }}</td>
                 </tr>
                 }
-              </tbody> -->
+              </tbody>
             </table>
             @if(errorMessage?.trim()){
             <div class="row mx-auto">
