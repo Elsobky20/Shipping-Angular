@@ -14,7 +14,6 @@ export interface DeliveryGet {
   id: number;
   name: string;
 }
-
 export interface OrderReportGetDTO {
   serialNumber: string;
   orderStatus: string;
@@ -25,8 +24,16 @@ export interface OrderReportGetDTO {
   city: string;
   orderCost: number;
   shippingCost: number;
-  companyRights?: number; // لأنها nullable في C#
+  deliveryRight?: number;
+  companyRight?: number;
   createdDate: string;
+}
+
+export interface OrderReportResponseData {
+  totalOrders: number;
+  page: number;
+  pageSize: number;
+  orders: OrderReportGetDTO[];
 }
 
 

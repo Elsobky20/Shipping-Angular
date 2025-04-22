@@ -1,10 +1,8 @@
 import { Routes } from '@angular/router';
 
-import { DashboardComponent } from './Dashboard/dashboard.component';
 import { NotFoundComponent } from './NotFound/not-found.component';
 import { LoginComponent } from './Login/components/login/login.component';
-
-// City
+imp// City
 import { CitiesComponent } from './City/components/cities/cities.component';
 import { CityFormComponent } from './City/components/city-form/city-form.component';
 import { WieghPriceFormComponent } from './WeightPricing/components/wiegh-price-form/wiegh-price-form.component';
@@ -100,8 +98,9 @@ export const routes: Routes = [
 
   // Orders
   {path: 'order', component: OrdersComponent},
-  {path: 'order/:id', component: OrderDetailsComponent},
+  {path: 'ordersReports', component: OrderReportComponent},
   {path: 'order/:id/edit', component: OrderFormComponent},
+  {path: 'order/:id', component: OrderDetailsComponent},
 
   // Delivery
   { path: 'deliveries', component: AllDeliveryComponent },

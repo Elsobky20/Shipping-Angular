@@ -1,6 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { OrderReportGetDTO, OrderReportResponseData } from '../Interfaces/iorder-get-dto';
+import { APIResponse } from '../../AllModel/api-response';
 
 @Injectable({
   providedIn: 'root'
@@ -224,25 +226,52 @@ export class OrderService {
     const params = new HttpParams().set('Role', role);
     return this.http.get<Observable<any>>(`http://localhost:5050/api/user/${id}`, { params });
   }
-  /* ===================== Start Get User Method ================================ */
-  getOrderReports(
-    searchTxt?: string,
-    startDate?: string,
-    endDate?: string,
-    orderStatus: string = 'New',
-    page: number = 1,
-    pageSize: number = 10
-  ): Observable<any> {
+  /* ===================== Start Order Reports Method ================================ */
+  getOrderReports(paramsObj: any): Observable<APIResponse<OrderReportResponseData>> {
     let params = new HttpParams()
-      .set('orderStatus', orderStatus)
-      .set('page', page.toString())
-      .set('pageSize', pageSize.toString());
+      .set('orderStatus', paramsObj.orderStatus || 'New')
+      .set('page', (paramsObj.page || 1).toString())
+      .set('pageSize', (paramsObj.pageSize || 10).toString());
 
-    if (searchTxt) params = params.set('searchTxt', searchTxt);
-    if (startDate) params = params.set('startDate', startDate);
-    if (endDate) params = params.set('endDate', endDate);
+    if (paramsObj.searchTxt) params = params.set('searchTxt', paramsObj.searchTxt);
+    if (paramsObj.startDate) params = params.set('startDate', paramsObj.startDate);
+    if (paramsObj.endDate) params = params.set('endDate', paramsObj.endDate);
 
-    return this.http.get<Observable<any>>(`http://localhost:5050/api/orderReport`, { params });
+    return this.http.get<APIResponse<OrderReportResponseData>>(`http://localhost:5050/api/orderReport`, { params });
   }
+  /* ===================== End Order Reports Method ================================== */
+
+
+  /* ===================== Start Order's Count Method ================================== */
+  getOrdersCountByStatus(role: string = '', id: number | null, orderStatus: string = 'New'): Observable<any> {
+    const params = new HttpParams()
+    .set('role', role)
+    .set('id', id !== null ? id.toString() : '');
+
+    return this.http.get<any>(`${this.baseUrl}/${orderStatus}`, { params });
+  }
+  /* ===================== End Order's Count Method ==================================== */
+
+  /* ===================== Start Get Merchants Method ================================== */
+  getExistingMerchants():Observable<any> {
+    return this.http.get<Observable<any>>('http://localhost:5050/api/merchant/exist', {
+      params: new HttpParams()
+        .set('page', '1')
+        .set('pageSize', '10000')
+    });
+  }
+  /* ===================== End Get Merchants Method ==================================== */
+
+  /* ===================== Start Get Merchants Method ================================== */
+  getOrderById(id:number):Observable<any> {
+    return this.http.get<Observable<any>>(`${this.baseUrl}/${id}`);
+  }
+  /* ===================== End Get Merchants Method ==================================== */
+
+  /* ===================== Start Get Order Details Method ============================== */
+  getOrderDetails(id:number):Observable<any>{
+    return this.http.get<Observable<any>>(`${this.baseUrl}/details/${id}`);
+  }
+  /* ===================== End Get Order Details Method ================================ */
 }
 

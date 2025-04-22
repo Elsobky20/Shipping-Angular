@@ -50,7 +50,6 @@ export class MerchantsComponent implements OnInit {
       .subscribe({
         next: (response) => {
           this.handleSuccessResponse(response)
-          console.log(response)
           this.totalMerchantsNumber = response.data.totalMerchants;
           this.numberOfPages = this.totalMerchantsNumber / this.selectedPageSize;
         },
