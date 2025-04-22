@@ -15,8 +15,6 @@ import { forkJoin } from 'rxjs';
   styleUrl: './order-form.component.css'
 })
 export class OrderFormComponent implements OnInit{
-  //tableForm!: FormGroup;
-
   newEditParam:any;
   userId!:any;
   userRole!:any;
