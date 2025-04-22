@@ -244,22 +244,19 @@
                 }
               </div>
               <div
-                class="col-sm-9 table-responsive table-bordered rounded px-2"
+                class="col-sm-12 table-responsive table-bordered rounded px-2"
               >
                 <div class="my-2">
-                  <label for="exampleInputStore" class="me-3"
-                    >Add Special Shipping Cost</label
-                  >
                   <button
                     type="button"
                     class="btn btn-gradient-info"
-                    (click)="addSpecialPrice()"
+                    (click)="addSpecialShippingRate()"
                   >
-                    Add
+                    Add Special Pricicng
                   </button>
                 </div>
                 <table class="table text-center table-hover">
-                  <thead>
+                  <thead id="tableBody">
                     <tr id="tableHead">
                       <th scope="col" style="background-color: #bdb8b8">#</th>
                       <th scope="col" style="background-color: #bdb8b8">
@@ -269,37 +266,97 @@
                         City
                       </th>
                       <th scope="col" style="background-color: #bdb8b8">
+                        Standard Shipping Cost
+                      </th>
+                      <th scope="col" style="background-color: #bdb8b8">
                         Special Shipping Cost
                       </th>
                       <th scope="col" style="background-color: #bdb8b8">
-                        Action
+                        Delete
                       </th>
                     </tr>
                   </thead>
-                  <tbody id="tableBody"></tbody>
+                  <tbody formArrayName="specialShippingRates">
+                    <tr
+                      *ngFor="
+                        let group of getSpecialShippingRates.controls;
+                        let i = index
+                      "
+                      [formGroupName]="i"
+                    >
+                      <th scope="row">{{ i + 1 }}</th>
+                      <td>
+                        <select
+                          class="form-select"
+                          formControlName="governrateId"
+                        >
+                          <option value="">Select Governrate ..</option>
+                          <option
+                            *ngFor="let gov of allGovernrates"
+                            [value]="gov.name"
+                          >
+                            {{ gov.name }}
+                          </option>
+                        </select>
+                      </td>
+                      <td>
+                        <select class="form-select" formControlName="city_Id">
+                          <option value="">Select City ..</option>
+                          <option
+                            *ngFor="let city of filteredCitiesList[i]"
+                            [value]="city.id"
+                          >
+                            {{ city.name }}
+                          </option>
+                        </select>
+                      </td>
+                      <td>
+                        <input
+                          type="number"
+                          class="form-control"
+                          formControlName="standardShipping"
+                          readonly
+                        />
+                      </td>
+                      <td>
+                        <input
+                          type="number"
+                          formControlName="specialRate"
+                          class="form-control"
+                          min="0"
+                          max="10000"
+                        />
+                      </td>
+                      <td>
+                        <button
+                          type="button"
+                          class="btn btn-danger"
+                          (click)="removeProduct(i)"
+                        >
+                          <i class="fa fa-trash"></i>
+                        </button>
+                      </td>
+                    </tr>
+                  </tbody>
                 </table>
-
-                <div class="row mt-3 px-3">
-                  <button
-                    type="submit"
-                    class="btn btn-gradient-primary me-2 col-sm-3 px-0"
-                    style="letter-spacing: 0.8px"
-                  >
-                    {{ merchantId == 0 ? "Add New Merchant" : "Edit Merchant" }}
-                  </button>
-                  <button
-                    class="btn btn-light col-sm-3 px-0"
-                    style="color: rgb(95, 95, 95); letter-spacing: 0.8px"
-                    (click)="cancelHandeler()"
-                  >
-                    {{ merchantId == 0 ? "Reset" : "Cancel" }}
-                  </button>
-                </div>
               </div>
-
-
+              <div class="row mt-3 px-3 col-sm-12">
+                <button
+                  type="submit"
+                  class="btn btn-gradient-primary me-2 col-sm-3 px-0"
+                  style="letter-spacing: 0.8px"
+                >
+                  {{ merchantId == 0 ? "Add New Merchant" : "Edit Merchant" }}
+                </button>
+                <button
+                  class="btn btn-light col-sm-3 px-0"
+                  style="color: rgb(95, 95, 95); letter-spacing: 0.8px"
+                  (click)="cancelHandeler()"
+                >
+                  {{ merchantId == 0 ? "Reset" : "Cancel" }}
+                </button>
+              </div>
             </form>
-
           </div>
         </div>
       </div>
