@@ -248,14 +248,11 @@
             <i class="mdi mdi-home menu-icon"></i>
           </a>
         </li>
-<<<<<<< HEAD
+
          <!-- ( Admin ,merchant ,employee,delivery) -->
       <!--delivery -->
         <li class="nav-item" *ngIf="role === 'admin' || role==='employee'" >
-=======
-        <!-- *ngIf="role === 'admin'" -->
-        <li class="nav-item">
->>>>>>> ded4a603d3f9b075bdd1170aa904417ced41ef13
+
           <a
             class="nav-link"
             (click)="toggleDropdown('delivery')"
@@ -285,13 +282,9 @@
             </ul>
           </div>
         </li>
-<<<<<<< HEAD
+
          <!-- mercient -->
         <li class="nav-item" *ngIf="role === 'admin' || role==='employee'"  >
-=======
-
-        <li class="nav-item">
->>>>>>> ded4a603d3f9b075bdd1170aa904417ced41ef13
           <a
             class="nav-link"
             (click)="toggleDropdown('merchant')"
@@ -313,45 +306,16 @@
                 >
               </li>
               <li class="nav-item">
-<<<<<<< HEAD
-                <a class="nav-link" [routerLink]="['/merchant/add']">Add Merchant</a>
+                <a class="nav-link" [routerLink]="['/merchant/0/edit']">Add Merchant</a>
               </li>
             </ul>
           </div>
         </li> 
-         <!-- employee -->
-        <li class="nav-item" *ngIf="role === 'admin'">
-          <a
-          class="nav-link"
-          (click)="toggleDropdown('employee')"
-          [attr.aria-expanded]="isDropdownOpen('employee')"
-          >
-            <span class="menu-title">Employee</span>
-            <i class="menu-arrow" [ngClass]="{ 'rotate-arrow': isDropdownOpen('employee') }"></i>
-            <i class="mdi mdi-account-multiple menu-icon"></i>
-          </a>
-          <div *ngIf="isDropdownOpen('employee')">
-            <ul class="nav flex-column sub-menu">
-              <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/employee']">All Employee</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/employee/add']">Add Employee</a>
-=======
-                <a class="nav-link" [routerLink]="['/merchant/add']"
-                  >Add Merchant</a
-                >
->>>>>>> ded4a603d3f9b075bdd1170aa904417ced41ef13
-              </li>
-            </ul>
-          </div>
-        </li>
-<<<<<<< HEAD
-        <!-- order -->
-        <li class="nav-item" *ngIf="role === 'admin' || role==='employee' || role==='merchant' ">
-=======
 
-        <li class="nav-item">
+
+
+         <!-- employee -->
+         <li class="nav-item" *ngIf="role === 'admin'">
           <a
             class="nav-link"
             (click)="toggleDropdown('employee')"
@@ -367,21 +331,20 @@
           <div *ngIf="isDropdownOpen('employee')">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/employee']"
+                <a class="nav-link" [routerLink]="['/employees']"
                   >All Employee</a
                 >
               </li>
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/employee/add']"
+                <a class="nav-link" [routerLink]="['/employees/add']"
                   >Add Employee</a
                 >
               </li>
             </ul>
           </div>
         </li>
-
-        <li class="nav-item">
->>>>>>> ded4a603d3f9b075bdd1170aa904417ced41ef13
+             <!-- order -->
+             <li class="nav-item" *ngIf="role === 'admin' || role==='employee' || role==='merchant' ">
           <a
             class="nav-link"
             (click)="toggleDropdown('order')"
@@ -401,13 +364,7 @@
                 <a class="nav-link" [routerLink]="['/order']">All Order</a>
               </li>
               <li class="nav-item">
-<<<<<<< HEAD
                 <a class="nav-link" [routerLink]="['/order/0/edit']">Add Order</a>
-=======
-                <a class="nav-link" [routerLink]="['/order/0/edit']"
-                  >Add Order</a
-                >
->>>>>>> ded4a603d3f9b075bdd1170aa904417ced41ef13
               </li>
             </ul>
           </div>
@@ -454,10 +411,10 @@
           <div *ngIf="isDropdownOpen('role')">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/role']">All Role</a>
+                <a class="nav-link" [routerLink]="['/Roles']">All Role</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/role/add']">Add Role</a>
+                <a class="nav-link" [routerLink]="['/Roles/add']">Add Role</a>
               </li>
             </ul>
           </div>
@@ -550,7 +507,7 @@
           </div>
         </li>
          <!-- Government -->
-        <!-- <li class="nav-item" *ngIf="role === 'admin' || role==='employee'">
+        <li class="nav-item" *ngIf="role === 'admin' || role==='employee'">
           <a
             class="nav-link"
             (click)="toggleDropdown('government')"
@@ -577,7 +534,7 @@
               </li>
             </ul>
           </div>
-        </li> -->
+        </li> 
          <!-- setting-->
         <li class="nav-item" *ngIf="role === 'admin' || role==='employee'">
           <a
@@ -622,12 +579,7 @@
           <div *ngIf="isDropdownOpen('weight')">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/weight']">All Weight</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/weight/add']"
-                  >Add Weight</a
-                >
+                <a class="nav-link" [routerLink]="['/weight']">Add Weight</a>
               </li>
             </ul>
           </div>

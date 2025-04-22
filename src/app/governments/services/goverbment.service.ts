@@ -9,9 +9,11 @@ export class GovernmentService {
 
   constructor(private http: HttpClient) {}
 
-  getAll(page: number = 1, pageSize: number = 10): Observable<any> {
-    return this.http.get<any>(`${this.apiUrl}?page=${page}&pageSize=${pageSize}`);
+  getAll(page: number = 1, pageSize: number = 10, searchTerm: string = ''): Observable<any> {
+    // إضافة searchTerm إلى الـ URL إذا كانت موجودة
+    return this.http.get<any>(`${this.apiUrl}?page=${page}&pageSize=${pageSize}&searchTerm=${searchTerm}`);
   }
+  
 
   getById(id: number): Observable<Government> {
     return this.http.get<Government>(`${this.apiUrl}/${id}`);

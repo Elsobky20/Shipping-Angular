@@ -1,17 +1,44 @@
 <div class="container">
-    <h2 class="title">Weight Pricing Management</h2>
-  
-    <div class="form">
-      <label for="defaultWeight">Default Weight (KG):</label>
-      <input type="number" [(ngModel)]="formData.defaultWeight" id="defaultWeight" class="form-control" placeholder="Enter default weight">
-  
-      <label for="additionalKgPrice">Additional KG Price (LE):</label>
-      <input type="number" [(ngModel)]="formData.additionalKgPrice" id="additionalKgPrice" class="form-control" placeholder="Enter additional KG price">
+  <h2 class="title text-center mb-4" style="color: #9c57ff; font-weight: bold;">Weight Pricing Management</h2>
+
+  <div class="form bg-light p-4 rounded shadow-sm">
+    <div class="form-group mb-3">
+      <label for="defaultWeight" class="form-label">Default Weight (KG):</label>
+      <input 
+        type="number" 
+        [(ngModel)]="formData.defaultWeight" 
+        id="defaultWeight" 
+        class="form-control" 
+        placeholder="Enter default weight" 
+        required
+      >
     </div>
-  
-    <div class="actions">
-      <button (click)="createWeightPricing()" class="btn btn-success">Create</button>
-      <button (click)="updateWeightPricing()" class="btn btn-primary">Update</button>
+
+    <div class="form-group mb-3">
+      <label for="additionalKgPrice" class="form-label">Additional KG Price (LE):</label>
+      <input 
+        type="number" 
+        [(ngModel)]="formData.additionalKgPrice" 
+        id="additionalKgPrice" 
+        class="form-control" 
+        placeholder="Enter additional KG price" 
+        required
+      >
     </div>
   </div>
-  
+
+  <div class="actions mt-4 text-center">
+    <button 
+      (click)="createWeightPricing()" 
+      class="btn btn-gradient-success me-3 px-4 py-2"
+      style="letter-spacing: 1px; font-weight: 600; transition: all 0.3s ease;">
+      Create
+    </button>
+    <button 
+      (click)="updateWeightPricing()" 
+      class="btn btn-gradient-primary px-4 py-2"
+      style="letter-spacing: 1px; font-weight: 600; transition: all 0.3s ease;">
+      Update
+    </button>
+  </div>
+</div>

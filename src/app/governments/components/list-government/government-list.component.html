@@ -1,93 +1,119 @@
-<h2 style="color: #9c57ff; font-weight: bold; letter-spacing: 1px;">Governments List</h2>
+<div class="row">
+  <div class="content-wrapper container-fluid p-0">
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card" style="max-height: 100vh !important">
+        <div class="card-body p-5 py-3" style="height: 80vh !important; max-height: 100vh !important">
+          <!-- Header Section -->
+          <div class="row d-flex justify-content-between mb-2">
+            <h4 class="card-title fs-3 col-sm-8" style="color: #9c57ff; font-weight: bold; letter-spacing: 1px">
+              Governments <span class="fs-5">[{{ governments.length }}]</span>
+            </h4>
+            <button
+              class="btn btn-light col-sm-1 px-0 d-flex align-items-center justify-content-center ms-auto me-2"
+              style="color: #9c57ff; letter-spacing: 0.8px; height: 42px; width: 42px; border-radius: 50%;"
+              title="Back to dashboard"
+              routerLink="/dashboard"
+            >
+              <i class="bi bi-skip-backward-circle fs-2"></i>
+            </button>
+          </div>
 
-<div class="mb-3">
-  <button (click)="onAdd()" class="btn btn-gradient-primary btn-fw">Add New Government</button>
-</div>
+          <!-- Add and Search Section -->
+          <div class="row mb-2 px-3">
+            <button type="button" class="btn btn-gradient-primary btn-fw col-sm-2" routerLink="/government/add">
+              Add Government
+            </button>
+            <form class="d-flex align-items-center h-100 col-sm-2 ms-auto" style="background-image: linear-gradient(to right, rgb(217 139 255), #9c57ff);" action="#">
+              <div class="input-group">
+                <div class="input-group-prepend bg-transparent" style="background-color: rgb(217 139 255); display: flex; align-items: center;">
+                  <i class="input-group-text border-0 mdi mdi-magnify" style="color: white; background-color: rgb(217 139 255); transform: translateX(-20px);"></i>
+                </div>
+                <input type="search" class="form-control bg-transparent border-0" style="color: white !important; padding-left: 5px; font-size: 16px;" placeholder="Search .." [formControl]="searchControl" />
+              </div>
+            </form>
+          </div>
 
-<div class="table-responsive rounded border" style="box-shadow: 0 2px 8px rgba(0,0,0,0.1);">
-  <table class="table text-center table-hover">
-    <thead>
-      <tr style="background-color: #bdb8b8; color: #333;">
-        <th>#</th>
-        <th>Government Name</th>
-        <th>Branch ID</th>
-        <th>Status</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let gov of governments; let i = index" [ngStyle]="{ 'opacity': gov.isDeleted ? 0.5 : 1 }">
-        <td>{{ (pageIndex - 1) * pageSize + i + 1 }}</td>
-        <td>{{ gov.name }}</td>
-        <td>{{ gov.branch_Id }}</td>
-        <td>
-          <span
-            [ngStyle]="{
-              backgroundColor: gov.isDeleted ? '#f8d7da' : '#d4edda',
-              color: gov.isDeleted ? '#dc3545' : '#28a745',
-              borderRadius: '20px',
-              padding: '4px 12px',
-              fontWeight: 'bold',
-              fontSize: '14px',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.2)'
-            }"
-          >
-            {{ gov.isDeleted ? 'Inactive' : 'Active' }}
-          </span>
-        </td>
-        <td>
-          <button
-            *ngIf="!gov.isDeleted"
-            (click)="onEdit(gov.id)"
-            class="btn btn-light text-info me-1"
-            title="Edit"
-            style="border-radius: 50%; width: 36px; height: 36px;"
-          >
-            <i class="bi bi-pencil-square fs-5"></i>
-          </button>
-          <button
-            *ngIf="!gov.isDeleted"
-            (click)="onDelete(gov.id)"
-            class="btn btn-light text-danger"
-            title="Delete"
-            style="border-radius: 50%; width: 36px; height: 36px;"
-          >
-            <i class="bi bi-trash3 fs-5"></i>
-          </button>
-        </td>
-      </tr>
-      <tr *ngIf="!governments?.length">
-        <td colspan="5" class="text-muted">No governments found.</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
+          <!-- Table Section -->
+          <div class="row col-sm-12 table-responsive table-bordered rounded mx-auto" style="max-height: 72%; overflow-y: auto">
+            <table class="table text-center table-hover">
+              <thead>
+                <tr id="tableHead">
+                  <th scope="col" style="background-color: #bdb8b8">#</th>
+                  <th scope="col" style="background-color: #bdb8b8">Name</th>
+                  <th scope="col" style="background-color: #bdb8b8">Branch Name</th>
+                  <th scope="col" style="background-color: #bdb8b8">Status</th>
+                  <th scope="col" style="background-color: #bdb8b8">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let government of governments; let i = index">
+                  <th scope="row" class="py-0">{{ (pageIndex - 1) * pageSize + i + 1 }}</th>
+                  <td class="py-0">{{ government.name }}</td>
+                  <td class="py-0">{{ getBranchName(government.branch_Id) }}</td>
+                  <td class="d-flex justify-content-center py-0">
+                    <div class="form-check form-switch">
+                      <input
+                        class="form-check-input"
+                        [ngStyle]="{
+                          transform: 'translateX(80%)',
+                          backgroundColor: government.isDeleted ? 'rgba(203, 195, 195, 0.45)' : 'green',
+                          fontSize: '20px'
+                        }"
+                        type="checkbox"
+                        role="switch"
+                        [checked]="!government.isDeleted"
+                        disabled
+                      />
+                    </div>
+                  </td>
+                  <td class="py-0">
+                    <i class="bi bi-pencil-square fs-4 text-info btn p-2" data-bs-toggle="tooltip" title="Edit" (click)="onEdit(government.id)"></i>
+                    <i class="bi bi-eye fs-4 text-warning btn p-2" data-bs-toggle="tooltip" title="Details" [routerLink]="['/government/details', government.id]"></i>
+                    <i class="bi bi-trash3 fs-4 text-danger btn p-2" data-bs-toggle="tooltip" title="Delete" (click)="onDelete(government.id)"></i>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
 
-<!-- Pagination Section -->
-<div
-  *ngIf="totalCount > 0"
-  class="d-flex justify-content-between align-items-center mt-3"
->
-  <span style="color: #6c757d;">
-    Showing {{ (pageIndex - 1) * pageSize + 1 }} to
-    {{ pageIndex * pageSize > totalCount ? totalCount : pageIndex * pageSize }}
-    of {{ totalCount }} governments
-  </span>
-  <div>
-    <button
-      class="btn btn-outline-primary me-2"
-      (click)="previousPage()"
-      [disabled]="pageIndex === 1"
-    >
-      &laquo; Previous
-    </button>
-    <span style="color: #9c57ff; font-weight: bold">Page {{ pageIndex }} of {{ totalPages }}</span>
-    <button
-      class="btn btn-outline-primary ms-2"
-      (click)="nextPage()"
-      [disabled]="pageIndex === totalPages"
-    >
-      Next &raquo;
-    </button>
+          <!-- Pagination and Page Size Section -->
+          <div class="row mt-2 px-3" style="text-align: right">
+            <div class="col-sm-3 px-0">
+              <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                  <li class="page-item fw-bold" [class.disabled]="pageIndex === 1">
+                    <button class="page-link" aria-label="Previous" [disabled]="pageIndex <= 1" (click)="previousPage()">
+                      <span style="color: #9c57ff" aria-hidden="true">&laquo;</span>
+                    </button>
+                  </li>
+                  <li class="page-item" *ngFor="let page of [].constructor(totalPages > 3 ? 3 : totalPages); let i = index" [class.active]="pageIndex === i + 1">
+                    <button class="page-link fw-bold" style="color: #9c57ff" (click)="changePage(i + 1)">
+                      {{ i + 1 }}
+                    </button>
+                  </li>
+                  <li class="page-item fw-bold" [class.disabled]="pageIndex === totalPages">
+                    <button class="page-link" aria-label="Next" [disabled]="pageIndex >= totalPages" (click)="nextPage()">
+                      <span style="color: #9c57ff" aria-hidden="true">&raquo;</span>
+                    </button>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div class="dropdown dropup px-0 col-sm-3 ms-auto">
+              <button class="btn btn-outline-primary dropdown-toggle" type="button" id="dropdownMenuButton" data-bs-toggle="dropdown" aria-expanded="false" style="width: 120px !important">
+                {{ pageSize }}
+              </button>
+              <ul class="dropdown-menu" style="width: 120px !important; min-width: 100px !important" aria-labelledby="dropdownMenuButton">
+                <li *ngFor="let size of pageSizes">
+                  <button class="dropdown-item" (click)="changePageSize(size)">
+                    {{ size }}
+                  </button>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

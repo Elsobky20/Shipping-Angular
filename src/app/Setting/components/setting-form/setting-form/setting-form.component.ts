@@ -7,6 +7,7 @@ import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { ISettingCreateDTOS } from '../../../Interfaces/isetting-get';
 
 import { ActivatedRoute, Router ,RouterModule} from '@angular/router';
+import { Console } from 'console';
 @Component({
   selector: 'app-setting-form',
   imports: [CommonModule,ReactiveFormsModule, FormsModule,RouterModule],
@@ -132,7 +133,8 @@ export class SettingFormComponent implements OnInit {
             text: res?.message || 'Setting updated successfully!',
             confirmButtonText: 'OK'
           }).then(() => {
-            this.router.navigate(['/settings']);
+            
+            this.router.navigate(['/setting']);
           });
         },
         error: (err) => {
@@ -161,7 +163,7 @@ export class SettingFormComponent implements OnInit {
             text: res?.message || 'Setting added successfully!',
             confirmButtonText: 'OK'
           }).then(() => {
-            this.router.navigate(['/settings']);
+            this.router.navigate(['/setting']);
           });
         },
         error: (err) => {
