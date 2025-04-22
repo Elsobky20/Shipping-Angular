@@ -2,7 +2,7 @@ import { Routes } from '@angular/router';
 
 import { NotFoundComponent } from './NotFound/not-found.component';
 import { LoginComponent } from './Login/components/login/login.component';
-imp// City
+// City
 import { CitiesComponent } from './City/components/cities/cities.component';
 import { CityFormComponent } from './City/components/city-form/city-form.component';
 import { WieghPriceFormComponent } from './WeightPricing/components/wiegh-price-form/wiegh-price-form.component';
@@ -53,13 +53,15 @@ import { ProfileComponent } from './Profile/components/profile/profile.component
 import { UserOrderComponent } from './UserOrder/components/user-order/user-order.component';
 import { GovernmentListComponent } from './governments/components/list-government/government-list.component';
 import { GovernmentFormComponent } from './governments/components/form-government/government-form.component';
+import { MainDashboardComponent } from './Dashboard/main-dashboard/main-dashboard.component';
+import { OrderReportComponent } from './Orders/components/order-report/order-report.component';
 
 export const routes: Routes = [
 
   // Login & Dashboard
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
-  { path: 'dashboard', component: DashboardComponent },
+  { path: 'dashboard', component: MainDashboardComponent },
 
   // City
   { path: 'city', component: CitiesComponent },
