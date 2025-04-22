@@ -1,12 +1,13 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { ActivatedRoute, RouterLink,Router } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { catchError, debounceTime, distinctUntilChanged, EMPTY, Subject, switchMap, takeUntil } from 'rxjs';
 import { DeliveryGet, IOrderGetDTO } from '../../Interfaces/iorder-get-dto';
 import { OrderService } from '../../services/order.service';
 import Swal from 'sweetalert2';
 import { DeliveryService } from '../../../Delivery/services/delivery.service';
+
 
 @Component({
   selector: 'app-orders',
@@ -73,7 +74,7 @@ export class OrdersComponent {
     'RejectedWithPartialPayment',
     'RejectedWithPayment'];
 
-  constructor(private orderService:OrderService, private deliveryService:DeliveryService){
+  constructor(private orderService:OrderService, private deliveryService:DeliveryService, private router: Router) {
     this.searchForm = new FormGroup({
       search: new FormControl('')
     });
@@ -94,6 +95,7 @@ export class OrdersComponent {
   }
 
   ngOnInit(): void {
+
     this.userId = localStorage.getItem('userId');
     this.userRole = localStorage.getItem('userRoles');
     if(this.userRole !== 'delivery'){
@@ -254,15 +256,15 @@ export class OrdersComponent {
   }
 
 
-  ngOnDestroy(): void {
-    // تنظيف الاشتراكات
-    this.destroy$.next();
-    this.destroy$.complete();
+  // ngOnDestroy(): void {
+  //   // تنظيف الاشتراكات
+  //   this.destroy$.next();
+  //   this.destroy$.complete();
 
-    if (this.mySubscribe) {
-      this.mySubscribe.unsubscribe();
-    }
-  }
+  //   if (this.mySubscribe) {
+  //     this.mySubscribe.unsubscribe();
+  //   }
+  // }
   /* ============================================ Start Number Of Rows ======================================= */
   updateSelectedValue(value: number) {
     this.selectedPageSize = value;
@@ -473,4 +475,10 @@ export class OrdersComponent {
     });
   }
   /* ============================================ End Assign Order To Delivery Status ======================= */
+
+
+  editOrder(id: number): void {
+
+    this.router.navigate(['/order/', id,'edit']); // الانتقال لصفحة التعديل
+  }
 }
