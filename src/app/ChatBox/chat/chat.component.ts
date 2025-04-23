@@ -1,16 +1,16 @@
 import { Component, ElementRef, ViewChild, AfterViewChecked } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { FormsModule } from "@angular/forms";
-import { ChatService, ChatMessage } from "../../core/services/chat.service";
-import { AuthService } from "../../core/services/auth.service";
-import { Role } from "../../core/models/role.enum";
+import { ChatService, ChatMessage } from "./Services/chat.service";
+import { AuthService } from "../../Login/services/services/auth.service";
+import { Role } from "./Interface/role.enum";
 
 @Component({
   selector: "app-chat",
   standalone: true,
   imports: [CommonModule, FormsModule],
   template: `
-    <div class="chat-container" *ngIf="isAdmin">
+    <div class="chat-container">
       <div class="chat-icon" [class.active]="isChatOpen" (click)="toggleChat()">
         <i class="bi bi-chat-dots-fill"></i>
       </div>
@@ -211,10 +211,7 @@ export class ChatComponent implements AfterViewChecked {
     private chatService: ChatService,
     private authService: AuthService
   ) {
-    this.authService.currentUser$.subscribe(user => {
-      this.isAdmin = user?.roleId === Role.ADMIN;
-    });
-
+    this.authService.getUserId();
     this.chatService.messages$.subscribe(messages => {
       this.messages = messages;
     });
