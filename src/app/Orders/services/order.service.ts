@@ -186,7 +186,7 @@ export class OrderService {
 
   /* ===================== Start Get Exist Governments Method ========================= */
   getExistingGovernments():Observable<any> {
-    return this.http.get<Observable<any>>(`http://localhost:5050/api/government/exist`, {
+    return this.http.get<any>(`http://localhost:5050/api/government/exist`, {
       params: {
         pageSize:10000
       }

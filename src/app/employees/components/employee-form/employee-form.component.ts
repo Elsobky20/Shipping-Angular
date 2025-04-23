@@ -3,13 +3,13 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { EmployeeService } from '../../services/employee.service';
 import { ICreateEmployeeDTO } from '../../Interfaces/ICreateEmployeeDTO';
 import { IUpdateEmployeeDTO } from '../../Interfaces/IUpdateEmployeeDTO';
-import { FormsModule } from '@angular/forms';
+import { FormsModule ,ReactiveFormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RoleService } from '../../../Roles/services/role.service';
 import { IRoleDTO } from '../../../Roles/Interfaces/roles.model';
 import { BranchService } from '../../../Branch/services/branch.service';
 import { IBranchDTO } from '../../../Branch/Interfaces/model';
-import { HttpClientModule } from '@angular/common/http';
+// import { HttpClientModule } from '@angular/common/http';
 
 
 @Component({
@@ -17,7 +17,7 @@ import { HttpClientModule } from '@angular/common/http';
   templateUrl: './employee-form.component.html',
   styleUrls: ['./employee-form.component.css'],
   standalone: true,
-  imports: [FormsModule, CommonModule, HttpClientModule],
+  imports: [FormsModule, CommonModule,ReactiveFormsModule],
 })
 export class EmployeeFormComponent implements OnInit {
   employee: ICreateEmployeeDTO = {
@@ -97,6 +97,7 @@ export class EmployeeFormComponent implements OnInit {
       });
     }
   }
+  
 
   validateField(field: string): void {
     this.formErrors[field] = ''; // Reset error for this field

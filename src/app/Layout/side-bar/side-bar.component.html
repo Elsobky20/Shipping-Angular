@@ -344,7 +344,7 @@
           </div>
         </li>
              <!-- order -->
-             <li class="nav-item" *ngIf="role === 'admin' || role==='employee' || role==='merchant' ">
+             <li class="nav-item" *ngIf="role === 'admin' || role==='employee' || role==='merchant' || role==='delivery'">
           <a
             class="nav-link"
             (click)="toggleDropdown('order')"
@@ -363,7 +363,7 @@
               <li class="nav-item">
                 <a class="nav-link" [routerLink]="['/order']">All Order</a>
               </li>
-              <li class="nav-item">
+              <li class="nav-item" *ngIf="role === 'admin' || role==='employee' || role==='merchant'">
                 <a class="nav-link" [routerLink]="['/order/0/edit']">Add Order</a>
               </li>
             </ul>

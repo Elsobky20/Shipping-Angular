@@ -183,6 +183,7 @@ export class OrderFormComponent implements OnInit{
       merchants: this.orderService.getExistingMerchants(),
     }).subscribe({
       next: ({ governments, cities, shippingTypes, branches, merchants }) => {
+        console.log(this.allGovernrates);
         this.allGovernrates = governments.governments;
         this.allCities = cities.data.cities;
         this.allShippingTypes = shippingTypes;
@@ -192,6 +193,7 @@ export class OrderFormComponent implements OnInit{
         this.activatedRoute.paramMap.subscribe({
           next: (params) => {
             this.orderId = Number(params.get('id'));
+            console.log("id"+this.orderId);
 
             this.orderForm = new FormGroup({
               orderType: new FormControl('', [Validators.required]),
