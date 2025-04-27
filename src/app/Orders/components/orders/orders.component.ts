@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { RouterLink } from '@angular/router';
-
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterLink } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { catchError, debounceTime, distinctUntilChanged, EMPTY, Subject, switchMap, takeUntil } from 'rxjs';
 import { DeliveryGet, IOrderGetDTO } from '../../Interfaces/iorder-get-dto';
@@ -9,14 +8,13 @@ import { OrderService } from '../../services/order.service';
 import Swal from 'sweetalert2';
 import { DeliveryService } from '../../../Delivery/services/delivery.service';
 
-
 @Component({
   selector: 'app-orders',
   imports: [RouterLink, CommonModule, ReactiveFormsModule],
   templateUrl: './orders.component.html',
   styleUrl: './orders.component.css'
 })
-export class OrdersComponent implements OnInit, OnDestroy {
+export class OrdersComponent implements OnInit {
   orders!:IOrderGetDTO[];
   isLoading = false;
   errorMessage: string | null = null;
