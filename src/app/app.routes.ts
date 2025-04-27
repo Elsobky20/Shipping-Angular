@@ -22,7 +22,7 @@ import { ShippingTypeListComponent } from './ShippingType/components/shipping-ty
 import { ShippingTypeFormComponent } from './ShippingType/components/shipping-type-form/shipping-type-form.component';
 
 // Roles
-import { RoleListComponent } from './Roles/components/role-list/role-list.component'; 
+import { RoleListComponent } from './Roles/components/role-list/role-list.component';
 import { AddRoleComponent } from './Roles/components/add-role/add-role.component';
 
 // Permissions
@@ -56,9 +56,6 @@ import { SettingFormComponent } from './Setting/components/setting-form/setting-
 
 import { BranchFormComponent } from './Branch/components/branch-form/branch-form.component';
 import { ProfileComponent } from './Profile/components/profile/profile.component';
-import { UserOrderComponent } from './UserOrder/components/user-order/user-order.component';
-import { GovernmentListComponent } from './governments/components/list-government/government-list.component';
-import { GovernmentFormComponent } from './governments/components/form-government/government-form.component';
 import { MainDashboardComponent } from './Dashboard/main-dashboard/main-dashboard.component';
 import { OrderReportComponent } from './Orders/components/order-report/order-report.component';
 
@@ -74,8 +71,6 @@ export const routes: Routes = [
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: MainDashboardComponent },
 
-  { path: 'chat', component: ChatComponent },
-
   // Governrate
   {path:'governrate', component:GovernmentListComponent},
   {path:'governrate/:id/edit',component :GovernmentFormComponent},
@@ -84,7 +79,7 @@ export const routes: Routes = [
   // City
   { path: 'city', component: CitiesComponent },
   { path: 'city/:id', component: CityFormComponent },
-  
+
   { path: 'weight', component: WieghPriceFormComponent },
 
   // Employees

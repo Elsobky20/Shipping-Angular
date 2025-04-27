@@ -249,10 +249,9 @@
           </a>
         </li>
 
-         <!-- ( Admin ,merchant ,employee,delivery) -->
-      <!--delivery -->
-        <li class="nav-item" *ngIf="role === 'admin' || role==='employee'" >
-
+        <!-- ( Admin ,merchant ,employee,delivery) -->
+        <!--delivery -->
+        <li class="nav-item" *ngIf="role === 'admin' || role === 'employee'">
           <a
             class="nav-link"
             (click)="toggleDropdown('delivery')"
@@ -283,8 +282,8 @@
           </div>
         </li>
 
-         <!-- mercient -->
-        <li class="nav-item" *ngIf="role === 'admin' || role==='employee'"  >
+        <!-- mercient -->
+        <li class="nav-item" *ngIf="role === 'admin' || role === 'employee'">
           <a
             class="nav-link"
             (click)="toggleDropdown('merchant')"
@@ -306,16 +305,16 @@
                 >
               </li>
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/merchant/0/edit']">Add Merchant</a>
+                <a class="nav-link" [routerLink]="['/merchant/0/edit']"
+                  >Add Merchant</a
+                >
               </li>
             </ul>
           </div>
-        </li> 
+        </li>
 
-
-
-         <!-- employee -->
-         <li class="nav-item" *ngIf="role === 'admin'">
+        <!-- employee -->
+        <li class="nav-item" *ngIf="role === 'admin'">
           <a
             class="nav-link"
             (click)="toggleDropdown('employee')"
@@ -343,8 +342,16 @@
             </ul>
           </div>
         </li>
-             <!-- order -->
-             <li class="nav-item" *ngIf="role === 'admin' || role==='employee' || role==='merchant' || role==='delivery'">
+        <!-- order -->
+        <li
+          class="nav-item"
+          *ngIf="
+            role === 'admin' ||
+            role === 'employee' ||
+            role === 'merchant' ||
+            role === 'delivery'
+          "
+        >
           <a
             class="nav-link"
             (click)="toggleDropdown('order')"
@@ -363,14 +370,29 @@
               <li class="nav-item">
                 <a class="nav-link" [routerLink]="['/order']">All Order</a>
               </li>
-              <li class="nav-item" *ngIf="role === 'admin' || role==='employee' || role==='merchant'">
-                <a class="nav-link" [routerLink]="['/order/0/edit']">Add Order</a>
+              <li
+                class="nav-item"
+                *ngIf="role === 'admin' || role === 'employee'"
+              >
+                <a class="nav-link" [routerLink]="['/ordersReports']"
+                  >Orders Reports</a
+                >
+              </li>
+              <li
+                class="nav-item"
+                *ngIf="
+                  role === 'admin' || role === 'employee' || role === 'merchant'
+                "
+              >
+                <a class="nav-link" [routerLink]="['/order/0/edit']"
+                  >Add Order</a
+                >
               </li>
             </ul>
           </div>
         </li>
-         <!-- city -->
-        <li class="nav-item" *ngIf="role === 'admin'  || role==='employee'">
+        <!-- city -->
+        <li class="nav-item" *ngIf="role === 'admin' || role === 'employee'">
           <a
             class="nav-link"
             (click)="toggleDropdown('city')"
@@ -394,8 +416,8 @@
             </ul>
           </div>
         </li>
-         <!-- roles -->
-        <li class="nav-item" *ngIf="role === 'admin' ">
+        <!-- roles -->
+        <li class="nav-item" *ngIf="role === 'admin'">
           <a
             class="nav-link"
             (click)="toggleDropdown('role')"
@@ -420,7 +442,7 @@
           </div>
         </li>
         <!-- permition -->
-        <li class="nav-item" *ngIf="role === 'admin' ">
+        <li class="nav-item" *ngIf="role === 'admin'">
           <a
             class="nav-link"
             (click)="toggleDropdown('permission')"
@@ -448,7 +470,7 @@
             </ul>
           </div>
         </li>
-         <!-- role permition -->
+        <!-- role permition -->
         <li class="nav-item" *ngIf="role === 'admin'">
           <a
             class="nav-link"
@@ -479,8 +501,8 @@
             </ul>
           </div>
         </li>
-         <!-- branch-->
-        <li class="nav-item" *ngIf="role === 'admin' || role==='employee'">
+        <!-- branch-->
+        <li class="nav-item" *ngIf="role === 'admin' || role === 'employee'">
           <a
             class="nav-link"
             (click)="toggleDropdown('branch')"
@@ -506,8 +528,8 @@
             </ul>
           </div>
         </li>
-         <!-- Government -->
-        <li class="nav-item" *ngIf="role === 'admin' || role==='employee'">
+        <!-- Government -->
+        <li class="nav-item" *ngIf="role === 'admin' || role === 'employee'">
           <a
             class="nav-link"
             (click)="toggleDropdown('government')"
@@ -534,9 +556,9 @@
               </li>
             </ul>
           </div>
-        </li> 
-         <!-- setting-->
-        <li class="nav-item" *ngIf="role === 'admin' || role==='employee'">
+        </li>
+        <!-- setting-->
+        <li class="nav-item" *ngIf="role === 'admin' || role === 'employee'">
           <a
             class="nav-link"
             (click)="toggleDropdown('setting')"
@@ -562,8 +584,8 @@
             </ul>
           </div>
         </li>
-         <!-- weight -->
-        <li class="nav-item" *ngIf="role === 'admin' || role==='employee'">
+        <!-- weight -->
+        <li class="nav-item" *ngIf="role === 'admin' || role === 'employee'">
           <a
             class="nav-link"
             (click)="toggleDropdown('weight')"
