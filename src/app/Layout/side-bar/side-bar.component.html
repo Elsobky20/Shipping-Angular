@@ -248,8 +248,11 @@
             <i class="mdi mdi-home menu-icon"></i>
           </a>
         </li>
-        <!-- *ngIf="role === 'admin'" -->
-        <li class="nav-item">
+
+         <!-- ( Admin ,merchant ,employee,delivery) -->
+      <!--delivery -->
+        <li class="nav-item" *ngIf="role === 'admin' || role==='employee'" >
+
           <a
             class="nav-link"
             (click)="toggleDropdown('delivery')"
@@ -280,7 +283,8 @@
           </div>
         </li>
 
-        <li class="nav-item">
+         <!-- mercient -->
+        <li class="nav-item" *ngIf="role === 'admin' || role==='employee'"  >
           <a
             class="nav-link"
             (click)="toggleDropdown('merchant')"
@@ -302,15 +306,16 @@
                 >
               </li>
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/merchant/add']"
-                  >Add Merchant</a
-                >
+                <a class="nav-link" [routerLink]="['/merchant/0/edit']">Add Merchant</a>
               </li>
             </ul>
           </div>
-        </li>
+        </li> 
 
-        <li class="nav-item">
+
+
+         <!-- employee -->
+         <li class="nav-item" *ngIf="role === 'admin'">
           <a
             class="nav-link"
             (click)="toggleDropdown('employee')"
@@ -326,20 +331,20 @@
           <div *ngIf="isDropdownOpen('employee')">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/employee']"
+                <a class="nav-link" [routerLink]="['/employees']"
                   >All Employee</a
                 >
               </li>
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/employee/add']"
+                <a class="nav-link" [routerLink]="['/employees/add']"
                   >Add Employee</a
                 >
               </li>
             </ul>
           </div>
         </li>
-
-        <li class="nav-item">
+             <!-- order -->
+             <li class="nav-item" *ngIf="role === 'admin' || role==='employee' || role==='merchant' || role==='delivery'">
           <a
             class="nav-link"
             (click)="toggleDropdown('order')"
@@ -358,15 +363,14 @@
               <li class="nav-item">
                 <a class="nav-link" [routerLink]="['/order']">All Order</a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/order', 0, 'edit']"
-                  >Add Order</a
-                >
+              <li class="nav-item" *ngIf="role === 'admin' || role==='employee' || role==='merchant'">
+                <a class="nav-link" [routerLink]="['/order/0/edit']">Add Order</a>
               </li>
             </ul>
           </div>
         </li>
-        <li class="nav-item">
+         <!-- city -->
+        <li class="nav-item" *ngIf="role === 'admin'  || role==='employee'">
           <a
             class="nav-link"
             (click)="toggleDropdown('city')"
@@ -390,7 +394,8 @@
             </ul>
           </div>
         </li>
-        <li class="nav-item">
+         <!-- roles -->
+        <li class="nav-item" *ngIf="role === 'admin' ">
           <a
             class="nav-link"
             (click)="toggleDropdown('role')"
@@ -406,16 +411,16 @@
           <div *ngIf="isDropdownOpen('role')">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/role']">All Role</a>
+                <a class="nav-link" [routerLink]="['/Roles']">All Role</a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/role/add']">Add Role</a>
+                <a class="nav-link" [routerLink]="['/Roles/add']">Add Role</a>
               </li>
             </ul>
           </div>
         </li>
-
-        <li class="nav-item">
+        <!-- permition -->
+        <li class="nav-item" *ngIf="role === 'admin' ">
           <a
             class="nav-link"
             (click)="toggleDropdown('permission')"
@@ -443,8 +448,8 @@
             </ul>
           </div>
         </li>
-
-        <li class="nav-item">
+         <!-- role permition -->
+        <li class="nav-item" *ngIf="role === 'admin'">
           <a
             class="nav-link"
             (click)="toggleDropdown('rolepermission')"
@@ -474,7 +479,8 @@
             </ul>
           </div>
         </li>
-        <li class="nav-item">
+         <!-- branch-->
+        <li class="nav-item" *ngIf="role === 'admin' || role==='employee'">
           <a
             class="nav-link"
             (click)="toggleDropdown('branch')"
@@ -500,7 +506,8 @@
             </ul>
           </div>
         </li>
-        <li class="nav-item">
+         <!-- Government -->
+        <li class="nav-item" *ngIf="role === 'admin' || role==='employee'">
           <a
             class="nav-link"
             (click)="toggleDropdown('government')"
@@ -527,9 +534,9 @@
               </li>
             </ul>
           </div>
-        </li>
-
-        <li class="nav-item">
+        </li> 
+         <!-- setting-->
+        <li class="nav-item" *ngIf="role === 'admin' || role==='employee'">
           <a
             class="nav-link"
             (click)="toggleDropdown('setting')"
@@ -555,7 +562,8 @@
             </ul>
           </div>
         </li>
-        <li class="nav-item">
+         <!-- weight -->
+        <li class="nav-item" *ngIf="role === 'admin' || role==='employee'">
           <a
             class="nav-link"
             (click)="toggleDropdown('weight')"
@@ -571,12 +579,7 @@
           <div *ngIf="isDropdownOpen('weight')">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/weight']">All Weight</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/weight/add']"
-                  >Add Weight</a
-                >
+                <a class="nav-link" [routerLink]="['/weight']">Add Weight</a>
               </li>
             </ul>
           </div>

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router,RouterModule } from '@angular/router';
 import { RoleService } from '../../services/role.service';
 import { AppRoleDTO, CreateRoleDTO, UpdateRoleDTO, RolePermissionDTO } from '../../Interfaces/Role';
 import { FormsModule } from '@angular/forms';
@@ -10,7 +10,7 @@ type PermissionKey = 'canView' | 'canEdit' | 'canDelete' | 'canAdd' | 'isDeleted
 @Component({
   selector: 'app-role-form',
   standalone: true,
-  imports: [FormsModule, CommonModule],
+  imports: [FormsModule, CommonModule,RouterModule],
   templateUrl: './add-role.component.html',
   styleUrls: ['./add-role.component.css']
 })

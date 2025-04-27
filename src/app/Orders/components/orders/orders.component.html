@@ -192,7 +192,7 @@
                       class="bi bi-pencil-square fs-4 text-info btn p-2"
                       data-bs-toggle="tooltip"
                       title="Edit"
-                      [routerLink]="[order.id, 'edit']"
+                      (click)="editOrder(order.id)"
                     ></i>
                     <i
                       class="bi bi-trash3 fs-4 text-danger btn p-2"

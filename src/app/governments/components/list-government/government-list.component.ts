@@ -46,7 +46,7 @@ export class GovernmentListComponent implements OnInit {
     // المدن الموجودة في الخدمة
     this.loadExistGovernrates();
   }
-
+  
   loadAllGovernrates(size:number, pageNum?:number) {
     this.isLoading = true;
       this.mySubscribe = this.httpReqService.getAll('Government', 'all', {pageSize:size, page:pageNum})

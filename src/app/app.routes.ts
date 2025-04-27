@@ -22,7 +22,7 @@ import { ShippingTypeListComponent } from './ShippingType/components/shipping-ty
 import { ShippingTypeFormComponent } from './ShippingType/components/shipping-type-form/shipping-type-form.component';
 
 // Roles
-import { RoleListComponent } from './Roles/components/role-list/role-list.component';
+import { RoleListComponent } from './Roles/components/role-list/role-list.component'; 
 import { AddRoleComponent } from './Roles/components/add-role/add-role.component';
 
 // Permissions
@@ -40,30 +40,27 @@ import { MerchantDetailsComponent } from './Merchant/components/merchant-details
 
 // Orders
 import { OrdersComponent } from './Orders/components/orders/orders.component';
-
-
 import { OrderDetailsComponent } from './Orders/components/order-details/order-details.component';
 import { OrderFormComponent } from './Orders/components/order-form/order-form.component';
-
 
 // Delivery
 import { AllDeliveryComponent } from './Delivery/components/all-delivery/all-delivery.component';
 import { AddDeliveryComponent } from './Delivery/components/add-delivery/add-delivery.component';
 
+// Branch
+import { BranchesComponent } from './Branch/components/branches/branches.component';
+
 // Setting
 import { SettingComponent } from './Setting/components/setting/setting.component';
 import { SettingFormComponent } from './Setting/components/setting-form/setting-form/setting-form.component';
 
-// Branch
 import { BranchFormComponent } from './Branch/components/branch-form/branch-form.component';
-import {BranchesComponent} from './Branch/components/branches/branches.component'
-
 import { ProfileComponent } from './Profile/components/profile/profile.component';
-
-import {ChatComponent}from './chat/component/chat.component'
+import { UserOrderComponent } from './UserOrder/components/user-order/user-order.component';
+import { GovernmentListComponent } from './governments/components/list-government/government-list.component';
+import { GovernmentFormComponent } from './governments/components/form-government/government-form.component';
 import { MainDashboardComponent } from './Dashboard/main-dashboard/main-dashboard.component';
 import { OrderReportComponent } from './Orders/components/order-report/order-report.component';
-
 
 export const routes: Routes = [
   // Branch
@@ -76,11 +73,13 @@ export const routes: Routes = [
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: MainDashboardComponent },
+
   { path: 'chat', component: ChatComponent },
 
   // Governrate
   {path:'governrate', component:GovernmentListComponent},
   {path:'governrate/:id/edit',component :GovernmentFormComponent},
+
 
   // City
   { path: 'city', component: CitiesComponent },
@@ -89,8 +88,8 @@ export const routes: Routes = [
   { path: 'weight', component: WieghPriceFormComponent },
 
   // Employees
-  { path: 'employee', component: EmployeeListComponent },
-  { path: 'employee/add', component: EmployeeFormComponent },
+  { path: 'employees', component: EmployeeListComponent },
+  { path: 'employees/add', component: EmployeeFormComponent },
   { path: 'employees/edit/:id', component: EmployeeFormComponent },
 
   // Shipping Types
@@ -127,20 +126,21 @@ export const routes: Routes = [
   { path: 'deliveries', component: AllDeliveryComponent },
   { path: 'delivery/add', component: AddDeliveryComponent },
   { path: 'delivery/edit/:id', component: AddDeliveryComponent },
-  { path: 'delivery/details/:id', component: AddDeliveryComponent },
+  {path: 'delivery/details/:id', component: AddDeliveryComponent},
 
-  {path: 'role',component:RoleListComponent},
-  {path: 'role/add',component:AddRoleComponent},
-
-  {path: 'setting' , component: SettingComponent},
-  {path: 'setting/add' , component:SettingFormComponent},
-  {path: 'seting/edit/:id',component:SettingFormComponent},
-
+  {path:'profile',component:ProfileComponent},
+  // Branch
+  { path: 'branch', component: BranchesComponent },
+  { path: 'branch/add', component: BranchFormComponent },
+  { path: 'branch/:id', component: BranchFormComponent },
+  // Setting
   { path: 'setting', component: SettingComponent },
   { path: 'setting/add', component: SettingFormComponent },
-  { path: 'seting/edit/:id', component: SettingFormComponent },
-
+  { path: 'seting/edit/:id', component: SettingFormComponent }, // تم الإبقاء على "seting" زي ما هو
+  //Government
+  {path:'government', component: GovernmentListComponent},
+  {path:'government/add', component: GovernmentFormComponent},
+  {path:'government/edit/:id',component:GovernmentFormComponent},
   // Not Found
-  {path:'profile',component:ProfileComponent},
-  {path: '**', component: NotFoundComponent},
+  { path: '**', component: NotFoundComponent }
 ];

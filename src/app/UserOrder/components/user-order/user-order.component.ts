@@ -139,8 +139,5 @@ export class UserOrderComponent implements OnInit {
     this.getOrders();
   }
 
-  deleteCity(id: number): void {
-    // لو حابة أعملك الدالة دي قوليلي 🗑️
-  }
 }
 

@@ -82,10 +82,10 @@
 
       <!-- Action Buttons -->
       <div class="d-flex gap-2 mt-4">
-        <button type="submit" class="btn btn-primary py-2 fw-bold flex-grow-1" [disabled]="loading">
+        <button type="submit" class="btn btn-primary py-2 fw-bold flex-grow-1"  [disabled]="loading" >
           <i class="bi bi-save me-2"></i>{{ isEdit ? 'Update Setting' : 'Add Setting' }}
         </button>
-        <button type="button" class="btn btn-outline-secondary py-2 fw-bold" [routerLink]="['/settings']">
+        <button type="button" class="btn btn-outline-secondary py-2 fw-bold" [routerLink]="['/setting']">
           <i class="bi bi-x-circle me-2"></i>Cancel
         </button>
       </div>
