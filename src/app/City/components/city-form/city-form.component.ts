@@ -82,7 +82,6 @@ export class CityFormComponent implements OnInit {
   cityHandler():void {
     if (this.cityForm.status == 'VALID') {
       if (this.cityId == 0) {
-        console.log(this.cityForm)
         this.httpReqService.create('city', this.cityForm.value).subscribe({
           next: (response) => {
             Swal.fire({

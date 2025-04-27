@@ -3,9 +3,14 @@ import { Routes } from '@angular/router';
 import { NotFoundComponent } from './NotFound/not-found.component';
 import { LoginComponent } from './Login/components/login/login.component';
 
+// Governrate
+import {GovernmentFormComponent} from './governments/components/form-government/government-form.component';
+import {GovernmentListComponent}from './governments/components/list-government/government-list.component'
+
 // City
 import { CitiesComponent } from './City/components/cities/cities.component';
 import { CityFormComponent } from './City/components/city-form/city-form.component';
+
 import { WieghPriceFormComponent } from './WeightPricing/components/wiegh-price-form/wiegh-price-form.component';
 
 // Employees
@@ -40,9 +45,6 @@ import { OrdersComponent } from './Orders/components/orders/orders.component';
 import { OrderDetailsComponent } from './Orders/components/order-details/order-details.component';
 import { OrderFormComponent } from './Orders/components/order-form/order-form.component';
 
-//government
-import {GovernmentFormComponent} from './governments/components/form-government/government-form.component';
-import {GovernmentListComponent}from './governments/components/list-government/government-list.component'
 
 // Delivery
 import { AllDeliveryComponent } from './Delivery/components/all-delivery/all-delivery.component';
@@ -64,7 +66,7 @@ import { OrderReportComponent } from './Orders/components/order-report/order-rep
 
 
 export const routes: Routes = [
-  //
+  // Branch
   {path :'branch',component:BranchesComponent},
   {path:'branch/add',component : BranchFormComponent},
   {path:'branch/:id',component : BranchFormComponent},
@@ -76,15 +78,14 @@ export const routes: Routes = [
   { path: 'dashboard', component: MainDashboardComponent },
   { path: 'chat', component: ChatComponent },
 
-  //government
-  {path:'government', component:GovernmentListComponent},
-  {path:'governments/edit/:id',component :GovernmentFormComponent},
-  {path:'governments/add',component :GovernmentFormComponent},
-
+  // Governrate
+  {path:'governrate', component:GovernmentListComponent},
+  {path:'governrate/:id/edit',component :GovernmentFormComponent},
 
   // City
   { path: 'city', component: CitiesComponent },
   { path: 'city/:id', component: CityFormComponent },
+  
   { path: 'weight', component: WieghPriceFormComponent },
 
   // Employees

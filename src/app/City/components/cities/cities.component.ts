@@ -1,5 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
-import { CityService } from '../../services/city.service';
+import { Component, OnInit } from '@angular/core';
 import { ICityGetDTO } from '../../Interfaces/icity-get';
 import { HttpReqService } from '../../../GeneralSrevices/http-req.service';
 import { CommonModule } from '@angular/common';
@@ -131,16 +130,6 @@ export class CitiesComponent implements OnInit {
 
   get searchControl(): FormControl {
     return this.searchForm.get('search') as FormControl;
-  }
-
-  ngOnDestroy(): void {
-    // تنظيف الاشتراكات
-    this.destroy$.next();
-    this.destroy$.complete();
-
-    if (this.mySubscribe) {
-      this.mySubscribe.unsubscribe();
-    }
   }
   /* ============================================ Start Number Of Rows ======================================= */
   updateSelectedValue(value: number) {

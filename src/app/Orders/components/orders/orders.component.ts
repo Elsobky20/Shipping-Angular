@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { catchError, debounceTime, distinctUntilChanged, EMPTY, Subject, switchMap, takeUntil } from 'rxjs';
@@ -14,7 +14,7 @@ import { DeliveryService } from '../../../Delivery/services/delivery.service';
   templateUrl: './orders.component.html',
   styleUrl: './orders.component.css'
 })
-export class OrdersComponent {
+export class OrdersComponent implements OnInit, OnDestroy {
   orders!:IOrderGetDTO[];
   isLoading = false;
   errorMessage: string | null = null;
@@ -259,9 +259,9 @@ export class OrdersComponent {
     this.destroy$.next();
     this.destroy$.complete();
 
-    if (this.mySubscribe) {
-      this.mySubscribe.unsubscribe();
-    }
+    // if (this.mySubscribe) {
+    //   this.mySubscribe.unsubscribe();
+    // }
   }
   /* ============================================ Start Number Of Rows ======================================= */
   updateSelectedValue(value: number) {

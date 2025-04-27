@@ -2,7 +2,6 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import Swal from 'sweetalert2';
-import { ICityCreateDTO, ICityEditDTO } from '../City/Interfaces/icity-get';
 
 @Injectable({
   providedIn: 'root'

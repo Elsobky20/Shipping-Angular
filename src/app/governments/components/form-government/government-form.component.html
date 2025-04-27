@@ -1,28 +1,132 @@
-<h2 class="mb-4" style="color: #9c57ff; font-weight: bold;">{{ isEditMode ? 'Edit Government' : 'Add Government' }}</h2>
-
-<form [formGroup]="form" (ngSubmit)="onSubmit()">
-  <div class="mb-3">
-    <label class="form-label">Name</label>
-    <input type="text" class="form-control" formControlName="name" />
+<div class="row">
+  <div class="content-wrapper container-fluid p-0">
+    <div class="col-12 grid-margin stretch-card">
+      <div class="card" style="max-height: 100vh !important">
+        <div
+          class="card-body p-5 py-3"
+          style="height: 85vh !important; max-height: 100vh !important"
+        >
+          <div class="row mt-2 d-flex justify-content-between mb-2">
+            <h4
+              class="card-title fs-3 col-sm-8"
+              style="color: #9c57ff; font-weight: bold; letter-spacing: 1px"
+            >
+              {{ governrateId == 0 ? "Add New Governrate" : "Edit Governrate" }}
+            </h4>
+            <button
+              class="btn btn-light col-sm-1 px-0 d-flex align-items-center justify-content-center ms-auto me-2"
+              style="
+                color: #9c57ff;
+                letter-spacing: 0.8px;
+                height: 42px;
+                width: 42px;
+                border-radius: 50%;
+              "
+              title="Back to city"
+              [routerLink]="['/governrate']"
+            >
+              <i class="bi bi-skip-backward-circle fs-2"></i>
+            </button>
+          </div>
+          <div
+            class="row col-sm-12 table-responsive table-bordered rounded mx-auto"
+            style="max-height: 85%"
+          >
+            <form
+              [formGroup]="governrateForm"
+              class="forms-sample"
+              (submit)="governrateHandler()"
+            >
+              <div class="form-group my-3 col-sm-6">
+                <label for="exampleInputName1">Name</label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="exampleInputName1"
+                  placeholder="Name"
+                  formControlName="name"
+                />
+                @if(getName.touched){ @if (getName.hasError('required')) {
+                <div id="emailHelp" class="form-text text-danger">
+                  Governrate Name is required
+                </div>
+                } @if (getName.hasError('minlength')) {
+                <div id="emailHelp" class="form-text text-danger">
+                  Governrate Name length must be greater than 3
+                </div>
+                } }
+              </div>
+              <div class="form-group my-3 col-sm-6">
+                <label for="exampleSelectBranch">Branch</label>
+                <select
+                  class="form-select"
+                  id="exampleSelectBranch"
+                  formControlName="branch_Id"
+                >
+                  <option value="">Select Branch ..</option>
+                  @for (branch of allBranches; track branch.id) {
+                  <option value="{{ branch.id }}">{{ branch.name }}</option>
+                  }
+                </select>
+                @if(getBranch.touched){ @if (getBranch.hasError('required')) {
+                <div id="emailHelp" class="form-text text-danger">
+                  Branch is required
+                </div>
+                }}
+              </div>
+              @if (governrateId != 0) {
+              <div class="form-group my-3 row justify-content-sm-start mt-3">
+                <label for="switchCheck" class="col-sm-2 me-3"
+                  >ِAvailable</label
+                >
+                @if (getIsDeleted.value) {
+                <div class="form-check form-switch col-sm-1">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id="switchCheck"
+                    style="transform: translate(20%, -95%); font-size: 20px"
+                    formControlName="isDeleted"
+                  />
+                </div>
+                } @else {
+                <div class="form-check form-switch col-sm-1">
+                  <input
+                    class="form-check-input"
+                    type="checkbox"
+                    role="switch"
+                    id="switchCheck"
+                    style="transform: translate(20%, -95%); font-size: 20px"
+                    formControlName="isDeleted"
+                    checked
+                  />
+                </div>
+                }
+              </div>
+              }
+              <div class="row mt-3 px-3">
+                <button
+                  type="submit"
+                  class="btn btn-gradient-primary me-2 col-sm-3 px-0"
+                  style="letter-spacing: 0.8px"
+                >
+                  {{
+                    governrateId == 0 ? "Add New Governrate" : "Edit Governrate"
+                  }}
+                </button>
+                <button
+                  class="btn btn-light col-sm-3 px-0"
+                  style="color: rgb(95, 95, 95); letter-spacing: 0.8px"
+                  (click)="cancelHandeler()"
+                >
+                  {{ governrateId == 0 ? "Reset" : "Cancel" }}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <div class="mb-3">
-    <label class="form-label">Branch</label>
-    <select class="form-control" formControlName="branch_Id">
-      <option [value]="1">Branch 1</option>
-      <option [value]="2">Branch 2</option>
-    </select>
-  </div>
-
- 
-  <div class="form-actions">
-    <button type="submit" [disabled]="form.invalid">
-      {{ isEditMode ? 'Update' : 'Create' }}
-    </button>
-  
-    <button type="button" (click)="onCancel()">
-      Cancel
-    </button>
-  </div>
-  
-</form>
+</div>
