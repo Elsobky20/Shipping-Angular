@@ -523,13 +523,13 @@
           <div *ngIf="isDropdownOpen('government')">
             <ul class="nav flex-column sub-menu">
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/government']"
-                  >All Government</a
+                <a class="nav-link" [routerLink]="['/governrate']"
+                  >All Governrates</a
                 >
               </li>
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/government/add']"
-                  >Add Government</a
+                <a class="nav-link" [routerLink]="['/governrate/0/edit']"
+                  >Add Governrate</a
                 >
               </li>
             </ul>
@@ -588,7 +588,7 @@
     </nav>
     <!-- partial -->
     <div class="main-panel">
-      <div class="content-wrapper">
+      <div class="content-wrapper py-4">
         <ng-content></ng-content>
       </div>
     </div>

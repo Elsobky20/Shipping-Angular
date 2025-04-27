@@ -2,9 +2,15 @@ import { Routes } from '@angular/router';
 
 import { NotFoundComponent } from './NotFound/not-found.component';
 import { LoginComponent } from './Login/components/login/login.component';
+
+// Governrate
+import {GovernmentFormComponent} from './governments/components/form-government/government-form.component';
+import {GovernmentListComponent}from './governments/components/list-government/government-list.component'
+
 // City
 import { CitiesComponent } from './City/components/cities/cities.component';
 import { CityFormComponent } from './City/components/city-form/city-form.component';
+
 import { WieghPriceFormComponent } from './WeightPricing/components/wiegh-price-form/wiegh-price-form.component';
 
 // Employees
@@ -57,11 +63,23 @@ import { MainDashboardComponent } from './Dashboard/main-dashboard/main-dashboar
 import { OrderReportComponent } from './Orders/components/order-report/order-report.component';
 
 export const routes: Routes = [
+  // Branch
+  {path :'branch',component:BranchesComponent},
+  {path:'branch/add',component : BranchFormComponent},
+  {path:'branch/:id',component : BranchFormComponent},
+
 
   // Login & Dashboard
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
   { path: 'dashboard', component: MainDashboardComponent },
+
+  { path: 'chat', component: ChatComponent },
+
+  // Governrate
+  {path:'governrate', component:GovernmentListComponent},
+  {path:'governrate/:id/edit',component :GovernmentFormComponent},
+
 
   // City
   { path: 'city', component: CitiesComponent },
