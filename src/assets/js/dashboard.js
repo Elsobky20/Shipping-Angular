@@ -217,19 +217,26 @@
       todayHighlight: true,
     });
   }
-  if ($.cookie('purple-pro-banner') != "true") {
-    document.querySelector('.navbar').classList.remove('fixed-top');
-  } else {
-    document.querySelector('.navbar').classList.add('fixed-top');
+
+  const navbar = document.querySelector('.navbar');
+  const pageBodyWrapper = document.querySelector('.page-body-wrapper');
+
+  if (navbar) {
+    if ($.cookie('purple-pro-banner') != "true") {
+      navbar.classList.remove('fixed-top');
+    } else {
+      navbar.classList.add('fixed-top');
+    }
   }
 
-  if ($(".navbar").hasClass("fixed-top")) {
-    document.querySelector('.page-body-wrapper').classList.remove('pt-0');
-    document.querySelector('.navbar').classList.remove('pt-5');
-  } else {
-    document.querySelector('.page-body-wrapper').classList.add('pt-0');
-    document.querySelector('.navbar').classList.add('pt-5');
-    document.querySelector('.navbar').classList.add('mt-3');
-
+  if (navbar && pageBodyWrapper) {
+    if (navbar.classList.contains("fixed-top")) {
+      pageBodyWrapper.classList.remove('pt-0');
+      navbar.classList.remove('pt-5');
+    } else {
+      pageBodyWrapper.classList.add('pt-0');
+      navbar.classList.add('pt-5');
+      navbar.classList.add('mt-3');
+    }
   }
 })(jQuery);

@@ -59,7 +59,7 @@ export class WieghPriceFormComponent implements OnInit {
           Swal.fire({
             icon: 'error',
             title: 'Error',
-            text: 'Something went wrong while updating the weight setting.',
+            text: 'Something went wrong while updating the weight setting❌.',
             confirmButtonColor: '#dc3545'
           });
         }
@@ -67,7 +67,14 @@ export class WieghPriceFormComponent implements OnInit {
   }
 
   cancelHandeler():void {
-    this.getDefaultWeight.setValue(this.weightObject.defaultWeight);
-    this.getAdditionalKgPrice.setValue(this.weightObject.additionalKgPrice);
+    this.wieghPriceService.edit(this.weightObject).subscribe({
+      next: (response) => {
+        this.getDefaultWeight.setValue(this.weightObject.defaultWeight);
+        this.getAdditionalKgPrice.setValue(this.weightObject.additionalKgPrice);
+      },
+      error: (error) => {
+          console.log(error)
+        }
+    });
   }
 }
