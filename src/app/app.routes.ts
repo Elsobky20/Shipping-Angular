@@ -51,8 +51,7 @@ import { AddDeliveryComponent } from './Delivery/components/add-delivery/add-del
 import { BranchesComponent } from './Branch/components/branches/branches.component';
 
 // Setting
-import { SettingComponent } from './Setting/components/setting/setting.component';
-import { SettingFormComponent } from './Setting/components/setting-form/setting-form/setting-form.component';
+import { SettingFormComponent } from './Setting/components/setting-form.component';
 
 import { BranchFormComponent } from './Branch/components/branch-form/branch-form.component';
 import { ProfileComponent } from './Profile/components/profile/profile.component';
@@ -79,8 +78,6 @@ export const routes: Routes = [
   // City
   { path: 'city', component: CitiesComponent },
   { path: 'city/:id', component: CityFormComponent },
-
-  { path: 'weight', component: WieghPriceFormComponent },
 
   // Employees
   { path: 'employees', component: EmployeeListComponent },
@@ -128,10 +125,11 @@ export const routes: Routes = [
   { path: 'branch', component: BranchesComponent },
   { path: 'branch/add', component: BranchFormComponent },
   { path: 'branch/:id', component: BranchFormComponent },
-  // Setting
-  { path: 'setting', component: SettingComponent },
-  { path: 'setting/add', component: SettingFormComponent },
-  { path: 'seting/edit/:id', component: SettingFormComponent }, // تم الإبقاء على "seting" زي ما هو
+
+  // General Setting
+  { path: 'shippingSetting', component: SettingFormComponent },
+  { path: 'weightSetting', component: WieghPriceFormComponent },
+
   //Government
   {path:'government', component: GovernmentListComponent},
   {path:'government/add', component: GovernmentFormComponent},

@@ -4,7 +4,7 @@ export interface ISettingDTO {
     deliveryAutoAccept: boolean;
     isDeleted: boolean;
   }
- 
+
   export interface ISettingResponseData {
     shippingToVillageCost: any;
     deliveryAutoAccept: any;
