@@ -143,7 +143,7 @@ export class CitiesComponent implements OnInit {
     this.setupSearch(this.selectedPageSize, value);
   }
   /* ============================================ End Number Of Rows ========================================= */
-
+  
   /* ============================================ Start Delete =============================================== */
   deleteCity(id:number):void{
     const city = this.cities.find(c => c.id === id);
