@@ -6,10 +6,8 @@ import { IUpdateEmployeeDTO } from '../../Interfaces/IUpdateEmployeeDTO';
 import { FormsModule ,ReactiveFormsModule} from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { RoleService } from '../../../Roles/services/role.service';
-import { IRoleDTO } from '../../../Roles/Interfaces/roles.model';
 import { BranchService } from '../../../Branch/services/branch.service';
 import { IBranchDTO } from '../../../Branch/Interfaces/model';
-// import { HttpClientModule } from '@angular/common/http';
 
 
 @Component({
@@ -30,7 +28,7 @@ export class EmployeeFormComponent implements OnInit {
     role: '',
     branchId: 0,
   };
-  roles: IRoleDTO[] = [];
+  roles: any[] = [];
   branches: IBranchDTO[] = [];
   id: number | null = null;
   isEditMode: boolean = false;
@@ -47,19 +45,19 @@ export class EmployeeFormComponent implements OnInit {
 
   ngOnInit(): void {
     // Fetch roles
-    this.roleService.getAllRoles().subscribe({
-      next: (roles) => {
-        this.roles = roles.filter(role => 
-          !role.isDeleted && 
-          role.name.toLowerCase().startsWith('employee')
-        );
-        console.log('Filtered roles:', this.roles);
-      },
-      error: (err) => {
-        console.error('Error fetching roles:', err);
-        this.errorMessage = 'Failed to load roles.';
-      }
-    });
+    // this.roleService.getAllRoles().subscribe({
+    //   next: (roles) => {
+    //     this.roles = roles.filter(role =>
+    //       !role.isDeleted &&
+    //       role.name.toLowerCase().startsWith('employee')
+    //     );
+    //     console.log('Filtered roles:', this.roles);
+    //   },
+    //   error: (err) => {
+    //     console.error('Error fetching roles:', err);
+    //     this.errorMessage = 'Failed to load roles.';
+    //   }
+    // });
 
     // Fetch branches
     this.employeeService.getAllBranchesEmp().subscribe({
@@ -97,7 +95,7 @@ export class EmployeeFormComponent implements OnInit {
       });
     }
   }
-  
+
 
   validateField(field: string): void {
     this.formErrors[field] = ''; // Reset error for this field

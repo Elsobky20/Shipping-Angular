@@ -314,7 +314,7 @@
         </li>
 
         <!-- employee -->
-        <li class="nav-item" *ngIf="role === 'admin'">
+        <li class="nav-item" *ngIf="role === 'admin' || role === 'employee'">
           <a
             class="nav-link"
             (click)="toggleDropdown('employee')"
@@ -412,31 +412,6 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link" [routerLink]="['/city/0']">Add City</a>
-              </li>
-            </ul>
-          </div>
-        </li>
-        <!-- roles -->
-        <li class="nav-item" *ngIf="role === 'admin'">
-          <a
-            class="nav-link"
-            (click)="toggleDropdown('role')"
-            [attr.aria-expanded]="isDropdownOpen('role')"
-          >
-            <span class="menu-title">Role</span>
-            <i
-              class="menu-arrow"
-              [ngClass]="{ 'rotate-arrow': isDropdownOpen('role') }"
-            ></i>
-            <i class="mdi mdi-shield-account menu-icon"></i>
-          </a>
-          <div *ngIf="isDropdownOpen('role')">
-            <ul class="nav flex-column sub-menu">
-              <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/Roles']">All Role</a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/Roles/add']">Add Role</a>
               </li>
             </ul>
           </div>
@@ -588,6 +563,31 @@
                   [routerLink]="['/weightSetting']"
                   >Weight Setting</a
                 >
+              </li>
+            </ul>
+          </div>
+        </li>
+        <!-- roles -->
+        <li class="nav-item" *ngIf="role === 'admin' || role === 'employee'">
+          <a
+            class="nav-link"
+            (click)="toggleDropdown('role')"
+            [attr.aria-expanded]="isDropdownOpen('role')"
+          >
+            <span class="menu-title">Role</span>
+            <i
+              class="menu-arrow"
+              [ngClass]="{ 'rotate-arrow': isDropdownOpen('role') }"
+            ></i>
+            <i class="mdi mdi-shield-account menu-icon"></i>
+          </a>
+          <div *ngIf="isDropdownOpen('role')">
+            <ul class="nav flex-column sub-menu">
+              <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/Role']">All Role</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" [routerLink]="['/Role/0/edit']">Add Role</a>
               </li>
             </ul>
           </div>

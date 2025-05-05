@@ -117,7 +117,8 @@
                   <th scope="col" style="background-color: #bdb8b8">
                     Shipping Cost
                   </th>
-                  @if (selectedStatus !== 'All') {
+                  @if (userRole !== 'merchant') { @if (selectedStatus !== 'All')
+                  {
                   <th scope="col" style="background-color: #bdb8b8">
                     State Change
                   </th>
@@ -125,7 +126,7 @@
                   <th scope="col" style="background-color: #bdb8b8">
                     Assign To Delivery
                   </th>
-                  } @if (selectedStatus !== 'New') {
+                  } } @if (selectedStatus !== 'New') {
                   <th scope="col" style="background-color: #bdb8b8">
                     View Order
                   </th>
@@ -146,7 +147,7 @@
                   <td class="py-0">{{ order.governrate }}</td>
                   <td class="py-0">{{ order.city }}</td>
                   <td class="py-0">{{ order.orderCost | currency }}</td>
-                  @if (selectedStatus !== 'All'){
+                  @if (userRole != 'merchant') { @if (selectedStatus !== 'All'){
                   <td class="py-0">
                     <button
                       type="button"
@@ -168,7 +169,7 @@
                       Assign
                     </button>
                   </td>
-                  } @if (selectedStatus !== 'New') {
+                  } } @if (selectedStatus !== 'New') {
                   <td class="py-0">
                     <i
                       class="bi bi-eye-fill fs-4 btn p-2"

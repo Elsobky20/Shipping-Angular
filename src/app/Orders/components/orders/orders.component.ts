@@ -7,6 +7,7 @@ import { DeliveryGet, IOrderGetDTO } from '../../Interfaces/iorder-get-dto';
 import { OrderService } from '../../services/order.service';
 import Swal from 'sweetalert2';
 import { DeliveryService } from '../../../Delivery/services/delivery.service';
+import { SignalRService } from '../../../SignalR-Service/signal-r.service';
 
 @Component({
   selector: 'app-orders',
@@ -73,7 +74,8 @@ export class OrdersComponent implements OnInit {
     'RejectedWithPartialPayment',
     'RejectedWithPayment'];
 
-  constructor(private orderService:OrderService, private deliveryService:DeliveryService, private router: Router) {
+  constructor(private orderService:OrderService, private deliveryService:DeliveryService,
+    private router: Router, private signalRService:SignalRService) {
     this.searchForm = new FormGroup({
       search: new FormControl('')
     });
@@ -94,21 +96,94 @@ export class OrdersComponent implements OnInit {
   }
 
   ngOnInit(): void {
-
     this.userId = localStorage.getItem('userId');
     this.userRole = localStorage.getItem('userRoles');
-    if(this.userRole !== 'delivery'){
-      this.selectedStatus = 'New';
-    } else {
-      this.selectedStatus = 'DeliveredToAgent';
-    }
+
+    this.selectedStatus = this.userRole !== 'delivery' ? 'New' : 'DeliveredToAgent';
+
     this.mySubscribe = this.orderService.getUserByRole(this.userId, this.userRole).subscribe({
       next: (response) => {
         this.specialId = response.userId;
-        // جلب جميع المدن عند التهيئة
+
+        // تحميل الطلبات الموجودة
         this.loadExistOrders(this.selectedPageSize, this.pageNumber);
-        // إعداد البحث التفاعلي
+
+        // تفعيل البحث التفاعلي
         this.setupSearch(this.selectedPageSize, this.pageNumber);
+
+        // تشغيل SignalR
+        this.signalRService.startConnection();
+
+        // استلام الطلب الجديد
+        this.signalRService.orderCreated$.subscribe((order) => {
+          if (order) {
+            // تأكد من عدم تكرار الطلب
+            const exists = this.orders.some(o => o.id === order.id);
+            if (!exists) {
+              this.orders.unshift(order); // إضافة الطلب في أول القائمة
+              this.orders = [...this.orders]; // تحفيز change detection
+            }
+          }
+        });
+
+        // استلام التخصيص
+        this.signalRService.orderAssigned$.subscribe((order) => {
+          if (order) {
+            const index = this.orders.findIndex(o => o.id === order.id);
+            if (index !== -1) {
+              this.orders[index] = order; // تحديث الطلب الحالي
+            } else {
+              this.orders.unshift(order); // أو إضافته لو مش موجود
+            }
+            this.orders = [...this.orders];
+          }
+        });
+
+        // Change Order Status
+        this.signalRService.statusChange$.subscribe((order) => {
+          if (order) {
+            const index = this.orders.findIndex(o => o.id === order.id);
+            if (index !== -1) {
+              this.orders[index] = order; // تحديث الطلب الحالي
+            } else {
+              this.orders.unshift(order); // أو إضافته لو مش موجود
+            }
+            this.orders = [...this.orders];
+          }
+        });
+
+        // Cancel Assign Order
+        this.signalRService.cancelAssignOrder$.subscribe((order) => {
+          if (order) {
+            const index = this.orders.findIndex(o => o.id === order.id);
+            if (index !== -1) {
+              this.orders[index] = order; // تحديث الطلب الحالي
+            } else {
+              this.orders.unshift(order); // أو إضافته لو مش موجود
+            }
+            this.orders = [...this.orders];
+          }
+        });
+
+        // Edit Order
+        this.signalRService.editOrder$.subscribe((order) => {
+          if (order) {
+            const index = this.orders.findIndex(o => o.id === order.id);
+            if (index !== -1) {
+              this.orders[index] = order; // تحديث الطلب الحالي
+            } else {
+              this.orders.unshift(order); // أو إضافته لو مش موجود
+            }
+            this.orders = [...this.orders];
+          }
+        });
+
+        // Delete Order
+        this.signalRService.deleteOrder$.subscribe((order) => {
+          if (order) {
+            this.orders = this.orders.filter(o => o.id !== order.id);
+          }
+        });
       },
       error: (error) => {
         console.log(error);

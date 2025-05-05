@@ -12,16 +12,22 @@ export interface AppRoleDTO {
   id: string;
   name: string;
   isDeleted: boolean;
-  rolePermissions: RolePermissionDTO[];
+  createdDate: string;
+  rolePermissions: RolePermissionDTO[]
+}
+
+export interface RoleResponseData {
+  totalOrders: number;
+  page: number;
+  pageSize: number;
+  roles: AppRoleDTO[];
 }
 
 export interface CreateRoleDTO {
-  id: string;
-  name: string;
-  isDeleted: boolean;
-  normalizedName: string;
+  name: string
 }
 
 export interface UpdateRoleDTO {
   name: string;
+  isDeleted: boolean
 }

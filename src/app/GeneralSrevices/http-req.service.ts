@@ -47,7 +47,7 @@ export class HttpReqService {
   /* ===================== End Create Method =================================== */
 
   /* ===================== Start Edit Method =================================== */
-  editById(endPoint:string, id:number, Dto:object):Observable<any> {
+  editById(endPoint:string, id:number | string, Dto:object):Observable<any> {
     return this.http.put<any>(`${this.baseUrl}/${endPoint}/${id}`, Dto);
   }
   /* ===================== End Edit Method ===================================== */

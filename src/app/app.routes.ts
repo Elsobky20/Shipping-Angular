@@ -23,7 +23,7 @@ import { ShippingTypeFormComponent } from './ShippingType/components/shipping-ty
 
 // Roles
 import { RoleListComponent } from './Roles/components/role-list/role-list.component';
-import { AddRoleComponent } from './Roles/components/add-role/add-role.component';
+import { RoleFormComponent } from './Roles/components/role-form/role-form';
 
 // Permissions
 import { PermissionFormComponent } from './permissions/componnent/permissions-form/permission-form.component';
@@ -64,7 +64,6 @@ export const routes: Routes = [
   {path:'branch/add',component : BranchFormComponent},
   {path:'branch/:id',component : BranchFormComponent},
 
-
   // Login & Dashboard
   { path: '', redirectTo: 'login', pathMatch: 'full' },
   { path: 'login', component: LoginComponent },
@@ -73,7 +72,6 @@ export const routes: Routes = [
   // Governrate
   {path:'governrate', component:GovernmentListComponent},
   {path:'governrate/:id/edit',component :GovernmentFormComponent},
-
 
   // City
   { path: 'city', component: CitiesComponent },
@@ -90,9 +88,8 @@ export const routes: Routes = [
   { path: 'shipping-types/edit/:id', component: ShippingTypeFormComponent },
 
   // Roles
-  { path: 'Roles', component: RoleListComponent },
-  { path: 'Roles/add', component: AddRoleComponent },
-  { path: 'Roles/edit/:id', component: AddRoleComponent },
+  { path: 'Role', component: RoleListComponent },
+  { path: 'Role/:id/edit', component: RoleFormComponent },
 
   // Permissions
   { path: 'permissions', component: PermissionListComponent },
