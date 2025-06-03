@@ -79,8 +79,7 @@ export const routes: Routes = [
 
   // Employees
   { path: 'employees', component: EmployeeListComponent },
-  { path: 'employees/add', component: EmployeeFormComponent },
-  { path: 'employees/edit/:id', component: EmployeeFormComponent },
+  { path: 'employees/:id/edit', component: EmployeeFormComponent },
 
   // Shipping Types
   { path: 'shipping-types', component: ShippingTypeListComponent },

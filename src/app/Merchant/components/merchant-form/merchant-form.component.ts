@@ -201,7 +201,6 @@ export class MerchantFormComponent implements OnInit {
               this.mySubscribe = this.httpReqService.getById('merchant', this.merchantId).subscribe({
                 next: (response) => {
                   const data = response.data;
-                  console.log(data);
 
                   // Set main form values
                   this.getName.setValue(data.name);
@@ -358,7 +357,6 @@ export class MerchantFormComponent implements OnInit {
           })
         }
       }
-      console.log(this.merchantForm)
     }
 
   cancelHandeler():void {

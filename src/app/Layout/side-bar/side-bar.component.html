@@ -251,7 +251,10 @@
 
         <!-- ( Admin ,merchant ,employee,delivery) -->
         <!--delivery -->
-        <li class="nav-item" *ngIf="role === 'admin' || role === 'employee'">
+        <li
+          class="nav-item"
+          *ngIf="role?.includes('admin') || role?.includes('employee')"
+        >
           <a
             class="nav-link"
             (click)="toggleDropdown('delivery')"
@@ -283,7 +286,10 @@
         </li>
 
         <!-- mercient -->
-        <li class="nav-item" *ngIf="role === 'admin' || role === 'employee'">
+        <li
+          class="nav-item"
+          *ngIf="role?.includes('admin') || role?.includes('employee')"
+        >
           <a
             class="nav-link"
             (click)="toggleDropdown('merchant')"
@@ -314,7 +320,10 @@
         </li>
 
         <!-- employee -->
-        <li class="nav-item" *ngIf="role === 'admin' || role === 'employee'">
+        <li
+          class="nav-item"
+          *ngIf="role?.includes('admin') || role?.includes('employee')"
+        >
           <a
             class="nav-link"
             (click)="toggleDropdown('employee')"
@@ -335,7 +344,7 @@
                 >
               </li>
               <li class="nav-item">
-                <a class="nav-link" [routerLink]="['/employees/add']"
+                <a class="nav-link" [routerLink]="['/employees/0/edit']"
                   >Add Employee</a
                 >
               </li>
@@ -346,10 +355,10 @@
         <li
           class="nav-item"
           *ngIf="
-            role === 'admin' ||
-            role === 'employee' ||
-            role === 'merchant' ||
-            role === 'delivery'
+            role?.includes('admin') ||
+            role?.includes('employee') ||
+            role?.includes('merchant') ||
+            role?.includes('delivery')
           "
         >
           <a
@@ -392,7 +401,10 @@
           </div>
         </li>
         <!-- city -->
-        <li class="nav-item" *ngIf="role === 'admin' || role === 'employee'">
+        <li
+          class="nav-item"
+          *ngIf="role?.includes('admin') || role?.includes('employee')"
+        >
           <a
             class="nav-link"
             (click)="toggleDropdown('city')"
@@ -417,7 +429,7 @@
           </div>
         </li>
         <!-- permition -->
-        <li class="nav-item" *ngIf="role === 'admin'">
+        <li class="nav-item" *ngIf="role?.includes('admin')">
           <a
             class="nav-link"
             (click)="toggleDropdown('permission')"
@@ -446,7 +458,7 @@
           </div>
         </li>
         <!-- role permition -->
-        <li class="nav-item" *ngIf="role === 'admin'">
+        <li class="nav-item" *ngIf="role?.includes('admin')">
           <a
             class="nav-link"
             (click)="toggleDropdown('rolepermission')"
@@ -477,7 +489,10 @@
           </div>
         </li>
         <!-- branch-->
-        <li class="nav-item" *ngIf="role === 'admin' || role === 'employee'">
+        <li
+          class="nav-item"
+          *ngIf="role?.includes('admin') || role?.includes('employee')"
+        >
           <a
             class="nav-link"
             (click)="toggleDropdown('branch')"
@@ -504,7 +519,10 @@
           </div>
         </li>
         <!-- Government -->
-        <li class="nav-item" *ngIf="role === 'admin' || role === 'employee'">
+        <li
+          class="nav-item"
+          *ngIf="role?.includes('admin') || role?.includes('employee')"
+        >
           <a
             class="nav-link"
             (click)="toggleDropdown('government')"
@@ -535,7 +553,11 @@
         <!-- setting-->
         <li
           class="nav-item"
-          *ngIf="role === 'admin' || role === 'employee' || role === 'delivery'"
+          *ngIf="
+            role?.includes('admin') ||
+            role?.includes('employee') ||
+            role?.includes('delivery')
+          "
         >
           <a
             class="nav-link"
@@ -568,7 +590,10 @@
           </div>
         </li>
         <!-- roles -->
-        <li class="nav-item" *ngIf="role === 'admin' || role === 'employee'">
+        <li
+          class="nav-item"
+          *ngIf="role?.includes('admin') || role?.includes('employee')"
+        >
           <a
             class="nav-link"
             (click)="toggleDropdown('role')"

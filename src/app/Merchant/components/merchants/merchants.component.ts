@@ -14,7 +14,7 @@ import { CommonModule } from '@angular/common';
   styleUrl: './merchants.component.css'
 })
 export class MerchantsComponent implements OnInit {
-   /* ============================================ Start Properties & Constructor ============================== */
+  /* ============================================ Start Properties & Constructor ============================== */
   searchForm: FormGroup;
   merchants!:IMerchntGetInTableDTO[];
   isLoading = false;
@@ -59,11 +59,11 @@ export class MerchantsComponent implements OnInit {
 
     loadExistMerchants():void {
       this.isLoading = true;
-      this.mySubscribe = this.httpReqService.getAll('city', 'exist')
+      this.mySubscribe = this.httpReqService.getAll('merchant', 'exist')
       .pipe(takeUntil(this.destroy$))
       .subscribe({
         next: (response) => {
-          this.ExistMerchantsNumber = response.data.totalCitiess;
+          this.ExistMerchantsNumber = response.data.totalMerchants;
         },
         error: (error) => this.handleError(error)
       });
@@ -104,7 +104,7 @@ export class MerchantsComponent implements OnInit {
           return;
         }
         this.merchants = response.data?.merchants || [];
-        this.sortCities();
+        this.sortMerchants();
       }
 
       handleCustomError(response: any): void {
@@ -124,7 +124,7 @@ export class MerchantsComponent implements OnInit {
         }
       }
 
-      sortCities(): void {
+      sortMerchants(): void {
         this.merchants = this.merchants.sort((a, b) =>
           a.government.localeCompare(b.government));
       }
@@ -157,8 +157,8 @@ export class MerchantsComponent implements OnInit {
 
       /* ============================================ Start Delete =============================================== */
         deleteMerchant(id:number):void{
-          const city = this.merchants.find(c => c.id === id);
-          if (city?.isDeleted) {
+          const merch = this.merchants.find(c => c.id === id);
+          if (merch?.isDeleted) {
             Swal.fire({
               title: "Can't delete merchant.",
               text: 'This merchant is already deleted!',
