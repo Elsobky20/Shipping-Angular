@@ -33,17 +33,3 @@ export interface AllBranches {
   id: number;
   name: string;
 }
-// export interface ICityCreateDTO {
-//   government_Id: number;
-//   name: string;
-//   pickupShipping: number;
-//   standardShipping: number
-// }
-
-// export interface ICityEditDTO {
-//   government_Id: number;
-//   name: string;
-//   isDeleted:boolean;
-//   pickupShipping: number;
-//   standardShipping: number
-// }

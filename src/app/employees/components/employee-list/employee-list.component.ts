@@ -1,146 +1,205 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
-import { EmployeeService } from '../../services/employee.service';
-import { IEmployeeDTO } from '../../Interfaces/IEmployeeDTO';
-import { FormsModule } from '@angular/forms';
+import { RouterLink } from '@angular/router';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
+import { Subject, takeUntil, debounceTime, distinctUntilChanged, switchMap, catchError, EMPTY } from 'rxjs';
+import Swal from 'sweetalert2';
+import { HttpReqService } from '../../../GeneralSrevices/http-req.service';
+import { IEmployeeGetInTableDTO } from '../../Interfaces/employee-interfaces';
 
 @Component({
   selector: 'app-employee-list',
   templateUrl: './employee-list.component.html',
   styleUrls: ['./employee-list.component.css'],
   standalone: true,
-  imports: [FormsModule, CommonModule]
+  imports: [ReactiveFormsModule, CommonModule, RouterLink]
 })
 export class EmployeeListComponent implements OnInit {
-  employees: IEmployeeDTO[] = [];
-  errorMessage: string = '';
-  searchTerm: string = '';
-  roleName: string = '';
-  pageIndex: number = 1;
-  pageSize: number = 10;
-  totalCount: number = 0;
-  totalPages: number = 0;
-  includeDeleted: boolean = true; 
-
-  constructor(private employeeService: EmployeeService, private router: Router) {}
+ /* ============================================ Start Properties & Constructor ============================== */
+  searchForm: FormGroup;
+  employees!:IEmployeeGetInTableDTO[];
+  isLoading = false;
+  errorMessage: string | null = null;
+  destroy$ = new Subject<void>();
+  mySubscribe: any;
+  ExistEmployeesNumber:number = 0;
+  totalEmployeesNumber:number = 0;
+  pageNumber:number = 1;
+  selectedPageSize: number = 10;
+  numberOfPages!:number;
+  values: number[] = [5, 10, 25, 50];
+  constructor(private httpReqService:HttpReqService){
+    this.searchForm = new FormGroup({
+      search: new FormControl('')
+    });
+  }
+ /* ============================================ End Properties & Constructor ================================ */
 
   ngOnInit(): void {
-    this.searchTerm = '';
-    this.roleName = '';
-    this.getAllEmployees();
+    // جلب جميع المدن عند التهيئة
+    this.loadAllEmployees(this.selectedPageSize, this.pageNumber);
+    // إعداد البحث التفاعلي
+    this.setupSearch(this.selectedPageSize, this.pageNumber);
+    // المدن الموجودة في الخدمة
+    this.loadExistEmployees();
   }
-  toggleDeleted(): void {
-    this.includeDeleted = !this.includeDeleted;
-    console.log(`${this.includeDeleted} changedeeeeeeeee`);
-  
-    if (this.searchTerm) {
-      this.searchEmployees();
-    } else if (this.roleName) {
-      this.getEmployeesByRole();
-    } else {
-      this.getAllEmployees();
-    }
+
+  loadAllEmployees(size:number, pageNum?:number): void {
+    this.isLoading = true;
+    this.mySubscribe = this.httpReqService.getAll('employee', 'all', {pageSize:size, page:pageNum})
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (response) => {
+        this.handleSuccessResponse(response)
+        this.totalEmployeesNumber = response.data.items;
+        this.numberOfPages = this.totalEmployeesNumber / this.selectedPageSize;
+      },
+      error: (error) => this.handleError(error)
+    });
   }
-  
-  getAllEmployees(): void {
-    this.errorMessage = '';
-    if (this.searchTerm || this.roleName) {
-      this.employees = [];
-      this.totalCount = 0;
-      this.totalPages = 0;
+
+  loadExistEmployees():void {
+    this.isLoading = true;
+    this.mySubscribe = this.httpReqService.getAll('employee', 'exist')
+    .pipe(takeUntil(this.destroy$))
+    .subscribe({
+      next: (response) => {
+        this.ExistEmployeesNumber = response.data.totalCount;
+      },
+      error: (error) => this.handleError(error)
+    });
+  }
+
+  setupSearch(size:number, pageNum?:number): void {
+    this.searchForm.get('search')?.valueChanges
+      .pipe(
+        debounceTime(300),
+        distinctUntilChanged(),
+        switchMap(query => {
+          this.isLoading = true;
+          this.errorMessage = null;
+          if (query && query.trim()) {
+            return this.httpReqService.getAll('employee', 'all', { searchTxt: query, pageSize: size, page: pageNum }).pipe(
+              catchError(error => {
+                this.handleError(error);
+                return EMPTY;
+              })
+            );
+          } else {
+            return this.httpReqService.getAll('employee', 'all', {pageSize: size, page: pageNum});
+          }
+        }),
+        takeUntil(this.destroy$)
+      )
+    .subscribe({
+      next: (response) => this.handleSuccessResponse(response),
+      error: (error) => this.handleError(error)
+    });
+  }
+
+  handleSuccessResponse(response: any): void {
+    this.isLoading = false;
+    this.errorMessage = null;
+    if (response.isSuccess === false) {
+      this.handleCustomError(response);
       return;
     }
-    console.log(`${this.includeDeleted} 2 changedeeeeeeeee`)
-
-    this.employeeService.getAllEmployees(this.includeDeleted, this.pageIndex, this.pageSize).subscribe(
-      (data) => {
-        console.log(`${this.includeDeleted}  changedeeeeeeeee`)
-
-        this.employees = data.items || [];
-        this.totalCount = data.totalCount || 0;
-        this.pageIndex = data.pageIndex || 1;
-        this.pageSize = data.pageSize || 10;
-        this.totalPages = Math.ceil(this.totalCount / this.pageSize);
-        if (!this.employees.length) {
-          this.errorMessage = 'No employees found.';
-        }
-      },
-      (error) => {
-        console.error('Error fetching employees:', error);
-        this.employees = [];
-        this.totalCount = 0;
-        this.errorMessage = 'Failed to fetch employees. Please try again later.';
-      }
-    );
-  }
-  searchEmployees(): void {
-    this.errorMessage = '';
-    this.employeeService.searchByName(this.searchTerm).subscribe(
-      (data) => {
-        this.employees = data || [];
-        if (!this.employees.length) {
-          this.errorMessage = 'No employees found with this name.';
-        }
-      },
-      (error) => {
-        console.error('Error searching employees:', error);
-        this.employees = [];
-        this.errorMessage = 'Failed to search employees. Please try again later.';
-      }
-    );
+    this.employees = response.data?.items || [];
+    this.sortEmployees();
   }
 
-  getEmployeesByRole(): void {
-    this.errorMessage = '';
-    this.employeeService.getEmployeesByRole(this.roleName).subscribe(
-      (data) => {
-        this.employees = data || [];
-        if (!this.employees.length) {
-          this.errorMessage = 'No employees found with this role.';
-        }
-      },
-      (error) => {
-        console.error('Error fetching employees by role:', error);
-        this.employees = [];
-        this.errorMessage = 'Failed to fetch employees by role. Please try again later.';
-      }
-    );
+  handleCustomError(response: any): void {
+    this.isLoading = false;
+    this.employees = []; // إفراغ القائمة عند الخطأ
+    this.errorMessage = response.message || 'Error on geting data!';
   }
 
-  previousPage(): void {
-    if (this.pageIndex > 1) {
-      this.pageIndex--;
-      this.getAllEmployees();
+  handleError(error: any): void {
+    this.isLoading = false;
+    this.employees = []; // إفراغ القائمة عند الخطأ
+
+    if (error.status === 404) {
+      this.errorMessage = 'Not Found';
+    } else {
+      this.errorMessage = 'Error on server!';
     }
   }
 
-  nextPage(): void {
-    if (this.pageIndex < this.totalPages) {
-      this.pageIndex++;
-      this.getAllEmployees();
+  sortEmployees(): void {
+    this.employees = this.employees.sort((a, b) =>
+      a.branchName.localeCompare(b.branchName));
+  }
+
+  get searchControl(): FormControl {
+    return this.searchForm.get('search') as FormControl;
+  }
+
+  getRolesAsString(emp: IEmployeeGetInTableDTO): string {
+    return Object.values(emp.roles).join(' & ');
+  }
+
+  ngOnDestroy(): void {
+    // تنظيف الاشتراكات
+    this.destroy$.next();
+    this.destroy$.complete();
+
+    if (this.mySubscribe) {
+      this.mySubscribe.unsubscribe();
     }
   }
-
-  addEmployee(): void {
-    this.router.navigate(['/employees/add']);
+  /* ============================================ Start Number Of Rows ======================================= */
+  updateSelectedValue(value: number) {
+    this.selectedPageSize = value;
+    this.loadAllEmployees(value);
   }
-
-  editEmployee(id: number): void {
-    this.router.navigate(['/employees/edit', id]);
+  updatePageNumber(value:number){
+    this.pageNumber = value;
+    this.loadAllEmployees(this.selectedPageSize, value);
   }
+  /* ============================================ End Number Of Rows ========================================= */
 
-  deleteEmployee(id: number): void {
-    if (confirm('Are you sure you want to delete this employee?')) {
-      this.employeeService.deleteEmployee(id).subscribe(
-        () => {
-          this.getAllEmployees();
-        },
-        (error) => {
-          console.error('Error deleting employee:', error);
-          this.errorMessage = 'Failed to delete employee. Please try again later.';
+  /* ============================================ Start Delete =============================================== */
+  deleteMerchant(id:number):void{
+    const emps = this.employees.find(c => c.id === id);
+    if (emps?.isDeleted) {
+      Swal.fire({
+        title: "Can't delete employee.",
+        text: 'This employee is already deleted!',
+        icon: 'error',
+        confirmButtonText: 'Ok'
+      });
+      return;
+    }
+    // تأكيد الحذف للمدينة النشطة
+    this.httpReqService.confirmAndDelete('employee', id).subscribe({
+      next: () => {
+        // عند نجاح الحذف
+        Swal.fire({
+          title: 'Deleted successfully!',
+          text: 'Employee deleted successfully!',
+          icon: 'success',
+          confirmButtonText: 'Ok'
+        });
+
+        const index = this.employees.findIndex(c => c.id === id);
+        if (index !== -1) {
+          // 2. إنشاء نسخة جديدة من المصفوفة
+          this.employees = [...this.employees];
+          this.employees[index].isDeleted = true;
+          this.employees.sort((a, b) => a.branchName.localeCompare(b.branchName));
+          this.loadExistEmployees();
         }
-      );
-    }
+      },
+      error: (error) => {
+        console.log(error);
+        Swal.fire({
+          title: 'Error!',
+          text: 'Failed deleting merchant.',
+          icon: 'error',
+          confirmButtonText: 'Ok'
+        });
+      }
+    });
   }
+  /* ============================================ End Delete ================================================= */
 }

@@ -1,141 +1,274 @@
-<h2 style="color: #9c57ff; font-weight: bold; letter-spacing: 1px;">Employees List</h2>
-
-<div class="mb-3">
-  <button (click)="addEmployee()" class="btn btn-gradient-primary btn-fw">Add Employee</button>
-</div>
-
-<div class="row" style="margin-bottom: 2rem;">
-  <div class="col-md-6 mb-4" style="padding-right: 10px;">
-    <label class="form-label" style="font-weight: bold; color: #222;">Search by Name:</label>
-    <input
-      type="text"
-      class="form-control"
-      [(ngModel)]="searchTerm"
-      (input)="searchTerm ? searchEmployees() : getAllEmployees()"
-      placeholder="Enter name to search"
-      style="border: 1px solid #9c57ff; color: #333; border-radius: 5px; max-width: 100%; font-size: 0.9rem;"
-    />
-    <style>
-      input::placeholder { color: #555; }
-    </style>
-  </div>
-  <div class="col-md-6 mb-4" style="padding-left: 10px;">
-    <label class="form-label" style="font-weight: bold; color: #222;">Filter by Role:</label>
-    <input
-      type="text"
-      class="form-control"
-      [(ngModel)]="roleName"
-      (input)="roleName ? getEmployeesByRole() : getAllEmployees()"
-      placeholder="Enter role to filter"
-      style="border: 1px solid #9c57ff; color: #333; border-radius: 5px; max-width: 100%; font-size: 0.9rem;"
-    />
-    <style>
-      input::placeholder { color: #555; }
-    </style>
-  </div>
-</div>
-<button
-  class="btn"
-  [ngClass]="includeDeleted ? 'btn-secondary' : 'btn-outline-secondary'"
-  (click)="toggleDeleted()">
-  {{ includeDeleted ? ' Active Only':' All (Including Deleted)'  }}
-</button>
-
-<div class="table-responsive rounded border" 
-     style="box-shadow: 0 2px 8px rgba(0,0,0,0.1); 
-            max-height: 500px; 
-            overflow-y: auto;
-            position: relative;">
-  <table class="table text-center table-hover" style="min-width: 1000px; margin-bottom: 0;">
-    <thead>
-      <tr style="background-color: #bdb8b8; color: #333; position: sticky; top: 0; z-index: 10;">
-        <th>No</th>
-        <th>Name</th>
-        <th>Email</th>
-        <th>Phone</th>
-        <th>Address</th>
-        <th>Branch</th>
-        <th>Role</th>
-        <th>Status</th>
-        <th>Actions</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr *ngFor="let employee of employees; let i = index" [ngStyle]="{'opacity': employee.isDeleted ? 0.5 : 1}">
-        <td>{{ (pageIndex - 1) * pageSize + i + 1 }}</td>
-        <td>{{ employee.name }}</td>
-        <td>{{ employee.email }}</td>
-        <td>{{ employee.phone }}</td>
-        <td>{{ employee.address }}</td>
-        <td>{{ employee.branchName }}</td>
-        <td>{{ employee.role }}</td>
-        <td>
-          <span
-            [ngStyle]="{
-              backgroundColor: employee.isDeleted ? '#f8d7da' : '#d4edda',
-              color: employee.isDeleted ? '#dc3545' : '#28a745',
-              borderRadius: '20px',
-              padding: '4px 12px',
-              fontWeight: 'bold',
-              fontSize: '14px',
-              boxShadow: '0 1px 3px rgba(0,0,0,0.2)'
-            }"
+<div class="row">
+  <div class="content-wrapper container-fluid p-0">
+    <div class="col-lg-12 grid-margin stretch-card">
+      <div class="card" style="max-height: 100vh !important">
+        <div
+          class="card-body p-5 py-3"
+          style="height: 85vh !important; max-height: 100vh !important"
+        >
+          <div class="row d-flex justify-content-between mb-2">
+            <h4
+              class="card-title fs-3 col-sm-8"
+              style="color: #9c57ff; font-weight: bold; letter-spacing: 1px"
+            >
+              Employees <span class="fs-5">[{{ ExistEmployeesNumber }}]</span>
+            </h4>
+            <button
+              class="btn btn-light col-sm-1 px-0 d-flex align-items-center justify-content-center ms-auto me-2"
+              style="
+                color: #9c57ff;
+                letter-spacing: 0.8px;
+                height: 42px;
+                width: 42px;
+                border-radius: 50%;
+              "
+              title="Back to dashboard"
+              [routerLink]="['/dashboard']"
+            >
+              <i class="bi bi-skip-backward-circle fs-2"></i>
+            </button>
+          </div>
+          <div class="row mb-2 px-3">
+            <button
+              type="button"
+              class="btn btn-gradient-primary btn-fw col-sm-2"
+              [routerLink]="[0, 'edit']"
+            >
+              Add Employee
+            </button>
+            <form
+              class="d-flex align-items-center h-100 col-sm-2 ms-auto"
+              style="
+                background-image: linear-gradient(
+                  to right,
+                  rgb(217 139 255),
+                  #9c57ff
+                );
+              "
+              action="#"
+              [formGroup]="searchForm"
+            >
+              <div class="input-group">
+                <div
+                  class="input-group-prepend bg-transparent"
+                  style="
+                    background-color: rgb(217 139 255);
+                    display: flex;
+                    align-items: center;
+                  "
+                >
+                  <i
+                    class="input-group-text border-0 mdi mdi-magnify"
+                    style="
+                      color: white;
+                      background-color: rgb(217 139 255);
+                      transform: translateX(-20px);
+                    "
+                  ></i>
+                </div>
+                <input
+                  type="search"
+                  class="form-control bg-transparent border-0"
+                  style="
+                    color: white !important;
+                    padding-left: 5px;
+                    font-size: 16px;
+                  "
+                  placeholder="Search .."
+                  formControlName="search"
+                />
+              </div>
+            </form>
+          </div>
+          <div
+            class="row col-sm-12 table-responsive table-bordered rounded mx-auto"
+            style="max-height: 72%; overflow-y: auto"
           >
-            {{ employee.isDeleted ? 'Deleted' : 'Active' }}
-          </span>
-        </td>
-        <td>
-          <button
-            *ngIf="!employee.isDeleted"
-            (click)="editEmployee(employee.id)"
-            class="btn btn-light text-info me-1"
-            title="Edit"
-            style="border-radius: 50%; width: 36px; height: 36px;"
-          >
-            <i class="bi bi-pencil-square fs-5"></i>
-          </button>
-          <button
-            *ngIf="!employee.isDeleted"
-            (click)="deleteEmployee(employee.id)"
-            class="btn btn-light text-danger"
-            title="Delete"
-            style="border-radius: 50%; width: 36px; height: 36px;"
-          >
-            <i class="bi bi-trash3 fs-5"></i>
-          </button>
-        </td>
-      </tr>
-      <tr *ngIf="!(employees?.length)">
-        <td colspan="9" class="text-muted">{{ errorMessage || 'No employees found.' }}</td>
-      </tr>
-    </tbody>
-  </table>
-</div>
-
-<div
-  *ngIf="!searchTerm && !roleName && totalCount > 0"
-  class="d-flex justify-content-between align-items-center mt-3"
->
-  <span style="color: #6c757d;">
-    Showing {{ (pageIndex - 1) * pageSize + 1 }} to
-    {{ pageIndex * pageSize > totalCount ? totalCount : pageIndex * pageSize }}
-    of {{ totalCount }} employees
-  </span>
-  <div>
-    <button
-      class="btn btn-outline-primary me-2"
-      (click)="previousPage()"
-      [disabled]="pageIndex === 1"
-    >
-      &laquo; Previous
-    </button>
-    <span style="color: #9c57ff; font-weight: bold">Page {{ pageIndex }} of {{ totalPages }}</span>
-    <button
-      class="btn btn-outline-primary ms-2"
-      (click)="nextPage()"
-      [disabled]="pageIndex === totalPages"
-    >
-      Next &raquo;
-    </button>
+            <table class="table text-center table-hover">
+              <thead>
+                <tr id="tableHead">
+                  <th scope="col" style="background-color: #bdb8b8">#</th>
+                  <th scope="col" style="background-color: #bdb8b8">Name</th>
+                  <th scope="col" style="background-color: #bdb8b8">Email</th>
+                  <th scope="col" style="background-color: #bdb8b8">Phone</th>
+                  <th scope="col" style="background-color: #bdb8b8">Address</th>
+                  <th scope="col" style="background-color: #bdb8b8">Branch</th>
+                  <th scope="col" style="background-color: #bdb8b8">Roles</th>
+                  <th scope="col" style="background-color: #bdb8b8">Date</th>
+                  <th scope="col" style="background-color: #bdb8b8">Status</th>
+                  <th scope="col" style="background-color: #bdb8b8">Action</th>
+                </tr>
+              </thead>
+              <tbody>
+                @for (emp of employees; track emp.id; let i = $index) {
+                <tr>
+                  <th scope="row" class="py-0">{{ i + 1 }}</th>
+                  <td class="py-0">{{ emp.name }}</td>
+                  <td class="py-0">{{ emp.email }}</td>
+                  <td class="py-0">{{ emp.phone }}</td>
+                  <td class="py-0">{{ emp.address }}</td>
+                  <td class="py-0">{{ emp.branchName }}</td>
+                  <td class="py-0">{{ getRolesAsString(emp) }}</td>
+                  <td class="py-0">{{ emp.createdDate }}</td>
+                  @if(emp.isDeleted){
+                  <td class="d-flex justify-content-center py-0">
+                    <div class="form-check form-switch">
+                      <input
+                        class="form-check-input"
+                        style="
+                          transform: translateX(80%);
+                          background-color: rgb(203, 195, 195, 0.45);
+                          font-size: 20px;
+                        "
+                        type="checkbox"
+                        role="switch"
+                        id="switchCheckDisabled"
+                        value="{{ emp.isDeleted }}"
+                        disabled
+                      />
+                    </div>
+                  </td>
+                  }@else {
+                  <td class="d-flex justify-content-center py-0">
+                    <div class="form-check form-switch">
+                      <input
+                        class="form-check-input"
+                        style="
+                          transform: translateX(80%);
+                          background-color: green;
+                          font-size: 20px;
+                        "
+                        type="checkbox"
+                        role="switch"
+                        id="switchCheckCheckedDisabled"
+                        value="{{ emp.isDeleted }}"
+                        checked
+                        disabled
+                      />
+                    </div>
+                  </td>
+                  }
+                  <td class="py-0">
+                    <i
+                      class="bi bi-pencil-square fs-4 text-info btn p-2"
+                      data-bs-toggle="tooltip"
+                      title="Edit"
+                      [routerLink]="[emp.id, 'edit']"
+                    ></i>
+                    <i
+                      class="bi bi-trash3 fs-4 text-danger btn p-2"
+                      data-bs-toggle="tooltip"
+                      title="Delete"
+                      (click)="deleteMerchant(emp.id)"
+                    ></i>
+                  </td>
+                </tr>
+                }
+              </tbody>
+            </table>
+            @if(errorMessage?.trim()){
+            <div class="row mx-auto">
+              <div class="alert alert-danger col-sm-3 mx-auto my-2 text-center">
+                {{ errorMessage }}
+              </div>
+            </div>
+            }
+          </div>
+          <div class="row mt-2 px-3" style="text-align: right">
+            <div class="col-sm-3 px-0">
+              <nav aria-label="Page navigation example">
+                <ul class="pagination">
+                  <li class="page-item fw-bold">
+                    <button
+                      class="page-link"
+                      aria-label="Previous"
+                      [disabled]="pageNumber <= 1"
+                      (click)="updatePageNumber(pageNumber - 1)"
+                    >
+                      <span
+                        style="color: #9c57ff"
+                        aria-hidden="true"
+                        class="page-link-next"
+                        >&laquo;</span
+                      >
+                    </button>
+                  </li>
+                  <li class="page-item">
+                    <button
+                      class="page-link fw-bold"
+                      style="color: #9c57ff"
+                      (click)="updatePageNumber(1)"
+                    >
+                      1
+                    </button>
+                  </li>
+                  <li class="page-item">
+                    <button
+                      class="page-link fw-bold"
+                      style="color: #9c57ff"
+                      (click)="updatePageNumber(2)"
+                    >
+                      2
+                    </button>
+                  </li>
+                  <li class="page-item">
+                    <button
+                      class="page-link fw-bold"
+                      style="color: #9c57ff"
+                      (click)="updatePageNumber(3)"
+                    >
+                      3
+                    </button>
+                  </li>
+                  <li class="page-item">
+                    <button
+                      class="page-link fw-bold"
+                      aria-label="Next"
+                      [disabled]="pageNumber >= numberOfPages"
+                      (click)="updatePageNumber(pageNumber + 1)"
+                    >
+                      <span
+                        style="color: #9c57ff"
+                        aria-hidden="true"
+                        class="page-link-next"
+                        >&raquo;</span
+                      >
+                    </button>
+                  </li>
+                </ul>
+              </nav>
+            </div>
+            <div class="dropdown dropup px-0 col-sm-3 ms-auto">
+              <button
+                class="btn btn-outline-primary dropdown-toggle"
+                type="button"
+                id="dropdownMenuButton"
+                data-bs-toggle="dropdown"
+                aria-expanded="false"
+                style="width: 120px !important"
+              >
+                {{ selectedPageSize }}
+              </button>
+              <ul
+                class="dropdown-menu"
+                style="width: 120px !important; min-width: 100px !important"
+                aria-labelledby="dropdownMenuButton"
+              >
+                @for (val of values; track $index) {
+                <li>
+                  <button
+                    class="dropdown-item"
+                    (click)="updateSelectedValue(val)"
+                  >
+                    {{ val }}
+                  </button>
+                </li>
+                }
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
